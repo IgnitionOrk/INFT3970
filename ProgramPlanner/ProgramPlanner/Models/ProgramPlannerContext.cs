@@ -30,7 +30,6 @@ namespace ProgramPlanner.Models
         public DbSet<Degree> Degrees { get; set; }
         public DbSet<Major> Majors { get; set; }
         public DbSet<University> Universities { get; set; }
-        public DbSet<OptionalDirected> Directeds { get; set; }
         public DbSet<MajorCore> MajorCores { get; set; }
         public DbSet<DegreeCore> DegreeCores { get; set; }
         public DbSet<User> Users { get; set; }
@@ -75,7 +74,7 @@ namespace ProgramPlanner.Models
             ModelSemesterCourse(modelbuilder);
             ModelTrimesterCourse(modelbuilder);
             ModelReplacement(modelbuilder);
-            ModelOptionalDirected(modelbuilder);
+            ModelDirecteds(modelbuilder);
             ModelProgramMajor(modelbuilder);
             ModelProgramElective(modelbuilder);
             ModelProgramDirected(modelbuilder);
@@ -231,10 +230,9 @@ namespace ProgramPlanner.Models
         /// Constructs all constraints (not relationships) associcated with the entity OptionalDirected.
         /// </summary>
         /// <param name="modelbuilder"></param>
-        private void ModelOptionalDirected(DbModelBuilder modelbuilder)
+        private void ModelDirecteds(DbModelBuilder modelbuilder)
         {
-            modelbuilder.Entity<OptionalDirected>().HasKey(y => new { y.OptionalDirectedID });
-            modelbuilder.Entity<OptionalDirected>().ToTable("OptionalDirecteds");
+            modelbuilder.Entity<DirectedSlot>().HasKey(y => new { y.DirectedSlotID });
         }
         /// <summary>
         /// Constructs all constraints (not relationships) associcated with the entity ProgramMajor.
@@ -252,7 +250,7 @@ namespace ProgramPlanner.Models
         private void ModelProgramDirected(DbModelBuilder modelbuilder)
         {
             modelbuilder.Entity<ProgramDirected>()
-                .HasKey(y => new { y.ProgramStructureID, y.OptionalDirectedID });
+                .HasKey(y => new { y.ProgramStructureID, y.DirectedSlotID });
         }
         /// <summary>
         /// Constructs all constraints (not relationships) associcated with the entity University.
@@ -328,6 +326,11 @@ namespace ProgramPlanner.Models
                 .Property(y => y.StudyAreaName)
                 .IsRequired();
         }
+
+        private void ModelMajorSlot(DbModelBuilder modelbuilder) {
+            modelbuilder.Entity<MajorSlot>()
+                .HasKey(y => y.MajorSlotID);
+        }
         /// <summary>
         /// Constructs all constraints (not relationships) associcated with the entity DirectedSlot.
         /// </summary>
@@ -360,7 +363,7 @@ namespace ProgramPlanner.Models
             RelationshipsForAbbreviation(modelbuilder);
             RelationshipsForStudyArea(modelbuilder);
             RelationshipsForUniversity(modelbuilder);
-            RelationshipsForDirected(modelbuilder);
+            RelationshipsForMajorSlots(modelbuilder);
             RelationshipsForDegreeCoreSlot(modelbuilder);
         }
         /// <summary>
@@ -400,7 +403,7 @@ namespace ProgramPlanner.Models
                 .WithRequired(y => y.ReplacementCourse);
 
             modelbuilder.Entity<Course>()
-                .HasMany(y => y.OptionalDirecteds)
+                .HasMany(y => y.Directeds)
                 .WithRequired(y => y.Course)
                 .HasForeignKey(y => y.CourseID)
                 .WillCascadeOnDelete(false);
@@ -506,9 +509,9 @@ namespace ProgramPlanner.Models
         private void RelationshipsForProgramDirected(DbModelBuilder modelbuilder)
         {
             modelbuilder.Entity<ProgramDirected>()
-                .HasRequired(y => y.OptionalDirected)
+                .HasRequired(y => y.DirectedSlot)
                 .WithMany(y => y.ProgramDirecteds)
-                .HasForeignKey(y => y.OptionalDirectedID)
+                .HasForeignKey(y => y.DirectedSlotID)
                 .WillCascadeOnDelete(false);
 
             modelbuilder.Entity<ProgramDirected>()
@@ -620,7 +623,7 @@ namespace ProgramPlanner.Models
                 .WillCascadeOnDelete(false);
 
             modelbuilder.Entity<Major>()
-                .HasMany(y => y.DirectedSlots)
+                .HasMany(y => y.MajorSlots)
                 .WithRequired(y => y.Major)
                 .HasForeignKey(y => y.MajorID)
                 .WillCascadeOnDelete(false);
@@ -632,17 +635,22 @@ namespace ProgramPlanner.Models
         private void RelationshipsForDirectedSlots(DbModelBuilder modelbuilder)
         {
             modelbuilder.Entity<DirectedSlot>()
-                .HasRequired(y => y.Major)
-                .WithMany(y => y.DirectedSlots)
-                .HasForeignKey(y => y.MajorID)
+                .HasRequired(y => y.MajorSlot)
+                .WithMany(y => y.Directeds)
+                .HasForeignKey(y => y.MajorSlotID)
                 .WillCascadeOnDelete(false);
 
             modelbuilder.Entity<DirectedSlot>()
-                .HasMany(y => y.OptionalDirecteds)
+                .HasMany(y => y.ProgramDirecteds)
                 .WithRequired(y => y.DirectedSlot)
                 .HasForeignKey(y => y.DirectedSlotID)
                 .WillCascadeOnDelete(false);
 
+            modelbuilder.Entity<DirectedSlot>()
+                .HasRequired(y => y.Course)
+                .WithMany(y => y.Directeds)
+                .HasForeignKey(y => y.CourseID)
+                .WillCascadeOnDelete(false);
         }
         /// <summary>
         /// Defines the associations for the entity Trimester.
@@ -807,27 +815,20 @@ namespace ProgramPlanner.Models
                 .WillCascadeOnDelete(false);
         }
         /// <summary>
-        /// Defines the associations for the entity OptionalDirected.  
+        /// 
         /// </summary>
         /// <param name="modelbuilder"></param>
-        private void RelationshipsForDirected(DbModelBuilder modelbuilder)
-        {
-            modelbuilder.Entity<OptionalDirected>()
-                .HasRequired(y => y.Course)
-                .WithMany(y => y.OptionalDirecteds)
-                .HasForeignKey(y => y.CourseID)
+        private void RelationshipsForMajorSlots(DbModelBuilder modelbuilder) {
+            modelbuilder.Entity<MajorSlot>()
+                .HasRequired(y => y.Major)
+                .WithMany(y => y.MajorSlots)
+                .HasForeignKey(y => y.MajorID)
                 .WillCascadeOnDelete(false);
 
-            modelbuilder.Entity<OptionalDirected>()
-                .HasMany(y => y.ProgramDirecteds)
-                .WithRequired(y => y.OptionalDirected)
-                .HasForeignKey(y => y.OptionalDirectedID)
-                .WillCascadeOnDelete(false);
-
-            modelbuilder.Entity<OptionalDirected>()
-                .HasRequired(y => y.DirectedSlot)
-                .WithMany(y => y.OptionalDirecteds)
-                .HasForeignKey(y => y.DirectedSlotID)
+            modelbuilder.Entity<MajorSlot>()
+                .HasMany(y => y.Directeds)
+                .WithRequired(y => y.MajorSlot)
+                .HasForeignKey(y => y.MajorSlotID)
                 .WillCascadeOnDelete(false);
         }
         /// <summary>
@@ -848,5 +849,7 @@ namespace ProgramPlanner.Models
                .HasForeignKey(y => y.YearDegreeID)
                .WillCascadeOnDelete(false);
         }
+
+        public System.Data.Entity.DbSet<ProgramPlanner.Models.MajorSlot> MajorSlots { get; set; }
     }   
 }

@@ -1,4 +1,4 @@
-﻿@model ProgramPlanner.Models.OptionalDirected
+﻿@model ProgramPlanner.Models.MajorSlot
 
 @{
     Layout = null;
@@ -13,29 +13,29 @@
 </head>
 <body>
     <div>
-        <h4>OptionalDirected</h4>
+        <h4>MajorSlot</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
-                @Html.DisplayNameFor(model => model.Course.CourseName)
+                @Html.DisplayNameFor(model => model.Major.MajorName)
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.Course.CourseName)
+                @Html.DisplayFor(model => model.Major.MajorName)
             </dd>
     
             <dt>
-                @Html.DisplayNameFor(model => model.DirectedSlot.rule)
+                @Html.DisplayNameFor(model => model.Rule)
             </dt>
     
             <dd>
-                @Html.DisplayFor(model => model.DirectedSlot.rule)
+                @Html.DisplayFor(model => model.Rule)
             </dd>
     
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.OptionalDirectedID }) |
+        @Html.ActionLink("Edit", "Edit", new { id = Model.MajorSlotID }) |
         @Html.ActionLink("Back to List", "Index")
     </p>
 </body>

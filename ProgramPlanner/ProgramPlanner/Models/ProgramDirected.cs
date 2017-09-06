@@ -13,8 +13,8 @@ namespace ProgramPlanner.Models
     {
         public int ProgramStructureID { get; set; }
         public virtual ProgramStructure ProgramStructure { get; set; }
-        public int OptionalDirectedID { get; set; }
-        public virtual OptionalDirected OptionalDirected { get; set; }
+        public int DirectedSlotID { get; set; }
+        public virtual DirectedSlot DirectedSlot{get;set;}
         public int Completed { get; set; }
     }
 }

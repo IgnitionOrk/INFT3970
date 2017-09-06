@@ -22,7 +22,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(model => model.ProgramStructureID)
     
-            @Html.HiddenFor(model => model.OptionalDirectedID)
+            @Html.HiddenFor(model => model.DirectedSlotID)
     
             <div class="form-group">
                 @Html.LabelFor(model => model.Completed, htmlAttributes: new { @class = "control-label col-md-2" })
