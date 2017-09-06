@@ -32,6 +32,6 @@ namespace ProgramPlanner.Models
         public virtual ICollection<TrimesterCourse> TrimesterCourses { get; set; }
         public virtual ICollection<SemesterCourse> SemesterCourses { get; set; }
         public virtual ICollection<OptionalCoreCourse> OptionalCoreCourses { get; set; }
-        public virtual ICollection<OptionalDirected> OptionalDirecteds { get; set; }
+        public virtual ICollection<DirectedSlot> Directeds { get; set; }
     }
 }

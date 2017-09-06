@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<ProgramPlanner.Models.DirectedSlot>
 
 @{
-
 }
 
 <!DOCTYPE html>
@@ -18,10 +17,10 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Major.MajorName)
+                @Html.DisplayNameFor(model => model.Course.CourseName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.rule)
+                @Html.DisplayNameFor(model => model.MajorSlot.Rule)
             </th>
             <th></th>
         </tr>
@@ -29,10 +28,10 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Major.MajorName)
+                @Html.DisplayFor(modelItem => item.Course.CourseName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.rule)
+                @Html.DisplayFor(modelItem => item.MajorSlot.Rule)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.DirectedSlotID }) |
