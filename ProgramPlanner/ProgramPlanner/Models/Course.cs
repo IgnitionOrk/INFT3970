@@ -13,6 +13,8 @@ namespace ProgramPlanner.Models
         public string CourseCode{ get; set; }
         public string CourseName { get; set; }
         public int Units { get; set; }
+        // The recommended year the course should be take First, Second, Third, Fourth, etc. 
+        public int RecommendedYear { get; set; } 
         public string Information { get; set; }
         public int UniversityID { get; set; }
         public virtual University University { get; set; }
