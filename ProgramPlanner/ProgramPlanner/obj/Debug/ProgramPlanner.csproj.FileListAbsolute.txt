@@ -91,8 +91,9 @@ C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\bin\Micro
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\bin\Microsoft.AI.Web.xml
+C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.csprojResolveAssemblyReference.cache
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.Migrations._050917Update1.resources
+C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.Migrations._06Sep2017Update1.resources
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.csproj.GenerateResource.Cache
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.dll
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.pdb
-C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.Migrations._06Sep2017Update1.resources

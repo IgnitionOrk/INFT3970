@@ -41,5 +41,15 @@ namespace ProgramPlanner.Controllers
             }
             return temp;
         }
+
+        // Returns a unique list of years. 
+        public static HashSet<int> uniqueYearList(ProgramPlannerContext db) { 
+            HashSet<int> years = new HashSet<int>();
+            foreach (YearDegree yd in db.YearDegrees)
+            {
+                years.Add(yd.Year);
+            }
+            return years;
+        }
     }
 }

@@ -197,6 +197,7 @@
     <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\DirectedSlotsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainMenuController.cs" />
     <Compile Include="Controllers\MajorCoresController.cs" />
     <Compile Include="Controllers\MajorsController.cs" />
     <Compile Include="Controllers\MajorSlotsController.cs" />
@@ -242,6 +243,7 @@
     <Compile Include="Models\Major.cs" />
     <Compile Include="Models\MajorCore.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\OptionalCoreCourse.cs" />
     <Compile Include="Models\Plan.cs" />
     <Compile Include="Models\ProgramDirected.cs" />
@@ -264,6 +266,7 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Authenication.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -467,6 +470,9 @@
     <Content Include="Views\MajorSlots\Details.cshtml" />
     <Content Include="Views\MajorSlots\Edit.cshtml" />
     <Content Include="Views\MajorSlots\Index.cshtml" />
+    <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\MainMenu\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessLogic\" />
