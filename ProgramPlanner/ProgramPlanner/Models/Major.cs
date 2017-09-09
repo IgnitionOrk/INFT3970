@@ -14,6 +14,6 @@ namespace ProgramPlanner.Models
         public virtual YearDegree YearDegree { get; set; }
         public virtual ICollection<MajorCore> MajorCores { get; set; }
         public virtual ICollection<ProgramMajor> ProgramMajors { get; set; }
-        public virtual ICollection<DirectedSlot> DirectedSlots { get; set; }
+        public virtual ICollection<MajorSlot> MajorSlots { get; set; }
     }
 }

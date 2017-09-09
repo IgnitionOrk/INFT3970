@@ -197,11 +197,12 @@
     <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\DirectedSlotsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainMenuController.cs" />
     <Compile Include="Controllers\MajorCoresController.cs" />
     <Compile Include="Controllers\MajorsController.cs" />
+    <Compile Include="Controllers\MajorSlotsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OptionalCoreCoursesController.cs" />
-    <Compile Include="Controllers\OptionalDirectedsController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\ProgramDirectedsController.cs" />
     <Compile Include="Controllers\ProgramElectivesController.cs" />
@@ -225,6 +226,10 @@
     <Compile Include="Migrations\201709050057054_05-09-17Update1.Designer.cs">
       <DependentUpon>201709050057054_05-09-17Update1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709060200514_06-Sep-2017Update1.cs" />
+    <Compile Include="Migrations\201709060200514_06-Sep-2017Update1.Designer.cs">
+      <DependentUpon>201709060200514_06-Sep-2017Update1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Abbreviation.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -232,12 +237,13 @@
     <Compile Include="Models\Degree.cs" />
     <Compile Include="Models\DegreeCore.cs" />
     <Compile Include="Models\DegreeCoreSlot.cs" />
-    <Compile Include="Models\OptionalDirected.cs" />
+    <Compile Include="Models\MajorSlot.cs" />
     <Compile Include="Models\DirectedSlot.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Major.cs" />
     <Compile Include="Models\MajorCore.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\OptionalCoreCourse.cs" />
     <Compile Include="Models\Plan.cs" />
     <Compile Include="Models\ProgramDirected.cs" />
@@ -260,6 +266,7 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Authenication.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -448,21 +455,24 @@
     <Content Include="Views\DegreeCoreSlots\Details.cshtml" />
     <Content Include="Views\DegreeCoreSlots\Edit.cshtml" />
     <Content Include="Views\DegreeCoreSlots\Index.cshtml" />
-    <Content Include="Views\DirectedSlots\Create.cshtml" />
-    <Content Include="Views\DirectedSlots\Delete.cshtml" />
-    <Content Include="Views\DirectedSlots\Details.cshtml" />
-    <Content Include="Views\DirectedSlots\Edit.cshtml" />
-    <Content Include="Views\DirectedSlots\Index.cshtml" />
     <Content Include="Views\ProgramDirecteds\Create.cshtml" />
     <Content Include="Views\ProgramDirecteds\Delete.cshtml" />
     <Content Include="Views\ProgramDirecteds\Details.cshtml" />
     <Content Include="Views\ProgramDirecteds\Edit.cshtml" />
     <Content Include="Views\ProgramDirecteds\Index.cshtml" />
-    <Content Include="Views\OptionalDirecteds\Create.cshtml" />
-    <Content Include="Views\OptionalDirecteds\Delete.cshtml" />
-    <Content Include="Views\OptionalDirecteds\Details.cshtml" />
-    <Content Include="Views\OptionalDirecteds\Edit.cshtml" />
-    <Content Include="Views\OptionalDirecteds\Index.cshtml" />
+    <Content Include="Views\DirectedSlots\Create.cshtml" />
+    <Content Include="Views\DirectedSlots\Delete.cshtml" />
+    <Content Include="Views\DirectedSlots\Details.cshtml" />
+    <Content Include="Views\DirectedSlots\Edit.cshtml" />
+    <Content Include="Views\DirectedSlots\Index.cshtml" />
+    <Content Include="Views\MajorSlots\Create.cshtml" />
+    <Content Include="Views\MajorSlots\Delete.cshtml" />
+    <Content Include="Views\MajorSlots\Details.cshtml" />
+    <Content Include="Views\MajorSlots\Edit.cshtml" />
+    <Content Include="Views\MajorSlots\Index.cshtml" />
+    <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\MainMenu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessLogic\" />
@@ -477,6 +487,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709050057054_05-09-17Update1.resx">
       <DependentUpon>201709050057054_05-09-17Update1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709060200514_06-Sep-2017Update1.resx">
+      <DependentUpon>201709060200514_06-Sep-2017Update1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

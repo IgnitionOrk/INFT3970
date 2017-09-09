@@ -17,7 +17,7 @@
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OptionalDirected.OptionalDirectedID)
+                @Html.DisplayNameFor(model => model.DirectedSlot.DirectedSlotID)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ProgramStructure.Email)
@@ -31,7 +31,7 @@
     @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OptionalDirected.OptionalDirectedID)
+                @Html.DisplayFor(modelItem => item.DirectedSlot.DirectedSlotID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ProgramStructure.Email)

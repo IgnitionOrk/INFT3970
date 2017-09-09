@@ -17,7 +17,7 @@ namespace ProgramPlanner.Controllers
         // GET: DirectedSlots
         public ActionResult Index()
         {
-            var directedSlots = db.DirectedSlots.Include(d => d.Major);
+            var directedSlots = db.DirectedSlots.Include(d => d.Course).Include(d => d.MajorSlot);
             return View(directedSlots.ToList());
         }
 
@@ -39,7 +39,8 @@ namespace ProgramPlanner.Controllers
         // GET: DirectedSlots/Create
         public ActionResult Create()
         {
-            ViewBag.MajorID = new SelectList(db.Majors, "MajorID", "MajorName");
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "CourseName");
+            ViewBag.MajorSlotID = new SelectList(db.MajorSlots, "MajorSlotID", "Rule");
             return View();
         }
 
@@ -48,7 +49,7 @@ namespace ProgramPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DirectedSlotID,rule,MajorID")] DirectedSlot directedSlot)
+        public ActionResult Create([Bind(Include = "DirectedSlotID,CourseID,MajorSlotID")] DirectedSlot directedSlot)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +58,8 @@ namespace ProgramPlanner.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MajorID = new SelectList(db.Majors, "MajorID", "MajorName", directedSlot.MajorID);
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "CourseName", directedSlot.CourseID);
+            ViewBag.MajorSlotID = new SelectList(db.MajorSlots, "MajorSlotID", "Rule", directedSlot.MajorSlotID);
             return View(directedSlot);
         }
 
@@ -73,7 +75,8 @@ namespace ProgramPlanner.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.MajorID = new SelectList(db.Majors, "MajorID", "MajorName", directedSlot.MajorID);
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "CourseName", directedSlot.CourseID);
+            ViewBag.MajorSlotID = new SelectList(db.MajorSlots, "MajorSlotID", "Rule", directedSlot.MajorSlotID);
             return View(directedSlot);
         }
 
@@ -82,7 +85,7 @@ namespace ProgramPlanner.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DirectedSlotID,rule,MajorID")] DirectedSlot directedSlot)
+        public ActionResult Edit([Bind(Include = "DirectedSlotID,CourseID,MajorSlotID")] DirectedSlot directedSlot)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +93,8 @@ namespace ProgramPlanner.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.MajorID = new SelectList(db.Majors, "MajorID", "MajorName", directedSlot.MajorID);
+            ViewBag.CourseID = new SelectList(db.Courses, "CourseID", "CourseName", directedSlot.CourseID);
+            ViewBag.MajorSlotID = new SelectList(db.MajorSlots, "MajorSlotID", "Rule", directedSlot.MajorSlotID);
             return View(directedSlot);
         }
 
