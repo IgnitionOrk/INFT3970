@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProgramPlanner.Models;
+using System.Diagnostics;
 
 namespace ProgramPlanner.Controllers
 {
@@ -44,6 +45,20 @@ namespace ProgramPlanner.Controllers
             //ViewBag.DegreeCoreCourses = 
 
 
+            return View(db.StudyAreas.ToList());
+        }
+        // GET: Plan
+        public ActionResult Create([Bind(Include ="yearDegreeID, majorID")] int yearDegreeID, int majorID)
+        {
+            Debug.WriteLine("YEARDEGREEID: "+ yearDegreeID);
+            Debug.WriteLine("MAJORID: " + majorID);
+            Setup.InitializeCourseCode(db);
+            ViewBag.UnitsPerDegree = 240;
+            ViewBag.SubjectsPerSemester = 4;
+            getCourseCodes();
+            getDegreeCores(); //doesn't include optional cores yet
+            getMajorCores();
+            getDegreeOptionalSlots();    
             return View(db.StudyAreas.ToList());
         }
 
@@ -175,7 +190,7 @@ namespace ProgramPlanner.Controllers
             var myMajor = db.Majors.Find(majorID);
 
             List<String> directedSlots = new List<String>();
-
+            /*
             foreach (var directedSlot in myMajor.DirectedSlots)
             {
                 string temp = "";
@@ -185,7 +200,7 @@ namespace ProgramPlanner.Controllers
                 }
                 directedSlots.Add(temp);
             }
-
+            */
             ViewBag.DegreeSlots = directedSlots;
         }
 
