@@ -289,6 +289,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery-ProgramPlannerDegreeOptions.js" />
+    <Content Include="Scripts\jquery-MainMenu.js" />
     <Content Include="Views\ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -472,8 +474,8 @@
     <Content Include="Views\MajorSlots\Index.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
-    <Content Include="Views\MainMenu\Index.cshtml" />
     <Content Include="Views\Plan\Create.cshtml" />
+    <Content Include="Views\MainMenu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessLogic\" />

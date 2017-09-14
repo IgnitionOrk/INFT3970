@@ -30,7 +30,6 @@ namespace ProgramPlanner.Controllers
         // GET: Plan
         public ActionResult Create([Bind(Include ="yearDegreeID, majorID")] int yearDegreeID, int majorID)
         {
-            Debug.WriteLine("HERERERERE"+majorID);
             Setup.InitializeCourseCode(db);
             ViewBag.UnitsPerDegree = 240;
             ViewBag.SubjectsPerSemester = 4;

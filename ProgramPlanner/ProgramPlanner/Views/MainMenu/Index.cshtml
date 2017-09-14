@@ -1,9 +1,4 @@
-﻿@model ProgramPlanner.Models.Menu
-
-@{
-    ViewBag.Title = "Menu";
-}
-<h2>Menu</h2>
+﻿<h2>Menu</h2>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,6 +6,14 @@
     <title>Create</title>
 </head>
 <body>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jQuery.min.js"></script>
+    <script src="~/Scripts/jquery-ProgramPlannerDegreeOptions.js"></script>
+    @section Scripts{
+        @Scripts.Render("~/bundles/jquery-MainMenu")
+    }
+
+
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -21,19 +24,19 @@
             <div class="form-group">
                 <div class="control-label col-md-2"> <b>University</b> </div>
                 <div class="col-md-10">
-                    @Html.DropDownList("Universities", null, htmlAttributes: new { @class = "form-control ", @onchange = "javascript:getDegrees(this.value); " })
+                    @Html.DropDownList("Universities", null, htmlAttributes: new { @class = "form-control ", @id = "ddlUniversities", @onchange = "javascript:DegreeOptions(); " })
                 </div>
             </div>
             <div class="form-group">
                 <div class="control-label col-md-2"> <b>Degree</b> </div>
                 <div class="col-md-10">
-                    @Html.DropDownList("Degrees", null, htmlAttributes: new { @class = "form-control", @id = "ddlDegrees", @onchange = "javascript:getYears(this.value);" })
+                    @Html.DropDownList("Degrees", null, htmlAttributes: new { @class = "form-control", @id = "ddlDegrees", @onchange = "javascript:YearDegreeOptions();" })
                 </div>
             </div>
             <div class="form-group">
                 <div class="control-label col-md-2"> <b>Year</b> </div>
                 <div class="col-md-10">
-                    @Html.DropDownList("Years", null, htmlAttributes: new { @class = "form-control", @id = "ddlYears", @onchange = "javascript:getMajors(this.value);" })
+                    @Html.DropDownList("YearDegrees", null, htmlAttributes: new { @class = "form-control", @id = "ddlYearDegrees", @onchange = "javascript:MajorOptions();" })
                 </div>
             </div>
             <div class="form-group">
@@ -44,114 +47,11 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input id="btnPlanner" type="button" value="Program Planner" class="btn btn-default"/>
+                    <input id="btnPlanner" type="button"value="Program Planner" class="btn btn-default" />
                 </div>
             </div>
         </div>
     }
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-    <script src="~/Scripts/jQuery.min.js"></script>
-    <script type="text/javascript">
-        // Event listener:
-        document.getElementById("btnPlanner").addEventListener("click", moveToPlanner);
-
-        // Populates the dropdown list 'ddlDegrees' with all Degrees associated with the First university in 'ddlUniverities'
-        // param: universityID: Will be associated with a particular University selected by the user.
-        function getDegrees(universityID) {
-            $("#ddlDegrees").html("");  // Remove the contents from the dropdown list associated with Degrees.
-            $("#ddlYears").html("");       // Remove the contents from the dropdown list associated with Years.
-            $("#ddlMajors").html("");    // Remove the contents from the dropdown list associated with Majors.
-            $.ajax(
-                {
-                    url: "/MainMenu/GetDegrees",
-                    data: { universityID: universityID },
-                    cache: false,
-                    type: "POST",
-                    success: function (data) {
-                        // Populate the dropdown list with the values extracted from the database.
-                        var selection = "<option value = " + data[0].Value + " selected=" + "selected" + ">" + data[0].Text + "</option>";
-                        for (var x = 1; x < data.length; x++) {
-                            selection += "<option value = " + data[x].Value + ">" + data[x].Text + "</option>";
-                        }
-                        $("#ddlDegrees").html(selection).show();
-
-                        // Being to populate the Years associated with the first degree.
-                        getYears($("#ddlDegrees").val());
-                    },
-                    error: function () {
-                        alert();
-                    }
-                }
-            )
-        }
-        // Populates the dropdown list 'ddlYears' with all Degrees associated with the First Degree in 'ddlDegrees'
-        // param: degreeID: Will be associated with a particular Degree selected by the user.
-        function getYears(degreeID) {
-            $("#ddlYears").html("");       // Remove the contents from the dropdown list associated with Years.
-            $("#ddlMajors").html("");    // Remove the contents from the dropdown list associated with Majors.
-            $.ajax(
-                {
-                    url: "/MainMenu/GetYears",
-                    data: { degreeID: degreeID },
-                    cache: false,
-                    type: "POST",
-                    success: function (data) {
-                        var selection = "<option value = " + data[0].Value + " selected=" + "selected" + ">" + data[0].Text + "</option>";
-                        for (var x = 1; x < data.length; x++) {
-                            selection += "<option value = " + data[x].Value + ">" + data[x].Text + "</option>";
-                        }
-                        $("#ddlYears").html(selection).show();
-
-                        // Being to populate the Majors associated with the first Year.
-                        getMajors($("#ddlYears").val());
-                    },
-                    error: function () {
-                        alert();
-                    }
-                }
-            )
-        }
-        // Populates the dropdown list 'ddlMajors' with all Degrees associated with the First Year in 'ddlYears'
-        // param: yearDegreeID: Will be associated with a particular Year selected by the user.
-        function getMajors(yearDegreeID) {
-            $("#ddlMajors").html("");    // Remove the contents from the dropdown list associated with Majors.
-            $.ajax(
-                {
-                    url: "/MainMenu/GetMajors",
-                    data: { yearDegreeID: yearDegreeID },
-                    cache: false,
-                    type: "POST",
-                    success: function (data) {
-                        var selection = "<option value = " + data[0].Value + " selected=" + "selected" + ">" + data[0].Text + "</option>";
-                        for (var x = 1; x < data.length; x++) {
-                            selection += "<option value = " + data[x].Value + ">" + data[x].Text + "</option>";
-                        }
-                        $("#ddlMajors").html(selection).show();
-                    },
-                    error: function () {
-                        alert();
-                    }
-                }
-            )
-        }
-
-        // Determines if the selected values are not null, as well as moves to the Program Planner if they are correct values.
-        function moveToPlanner() {
-            try {
-                var yearDegreeID = $("#ddlYears").val();
-                var majorID = $("#ddlMajors").val();
-                if (yearDegreeID == null || majorID == null) {
-                    alert("Select the appropriate values for degree or major.");
-                }
-                else {
-                    window.location.href = "@Url.Action("Create", "Plan")?yearDegreeID=" + yearDegreeID + "&majorID=" + majorID;
-                }
-            }
-            catch(exception){
-                alert("Could not connect to requested page.");
-            }
-        }
-    </script>
-</body >
-</html >
+</body>
+</html>
 
