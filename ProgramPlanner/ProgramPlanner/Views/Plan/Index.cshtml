@@ -103,8 +103,7 @@
                         </div>
 
                         <div id="editOptionDegreeOptional">
-                            <div id="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div>
-                            <div id="degreeOptionalSlot"></div>
+                            <div id="degreeOptionalSlots"></div>
                         </div>
                         
                     </div>
@@ -115,7 +114,7 @@
                         @Html.AntiForgeryToken()
                         <form class="form-group">
                             <input type="hidden" name="InputData" id="courseInput" />
-                            <input type="submit" value="Index" class="btn btn-default" id="btnPicker" />
+                            <!--<input type="submit" value="Index" class="btn btn-default" id="btnPicker" />-->
                         </form>
                     }
 
@@ -191,7 +190,7 @@
 
             //tabbed menu
             $(function () {
-                $("#tabs").tabs();
+                $("#tabs").tabs({ heightStyle: "fill", });
             });
 
         });
@@ -406,12 +405,32 @@
     </script>
 
     <script>
-        //when a courseBox is clicked, send focus to the search box
+        //when a courseBox is clicked, send focus to the search box (unless the box is a slot, in which case direct to the appropriate section)
         $(".courseBox").click(function () {
-            $("#tabs").tabs({
-                active: 1
-            });
-            $('#searchBox').focus();
+
+            //if has children, it's a slot, so do stuff, else just go to search bar
+            if ($(this).children().length > 0) {
+                $("#tabs").tabs({
+                    active: 2
+                });
+
+                $("#degreeOptionalSlots").children().css("background", "white");
+
+
+                //find matching section, highlight it
+                var childButton = $(this).children().first();                
+                var tempID = childButton.attr('id').substring(0, 1); //first char is the ID we need
+                var slotContainer = $('#' + tempID + 'optionalDegreeSlotContainer');
+                slotContainer.css("background", "yellow");
+
+            }
+            else {
+                $("#tabs").tabs({
+                    active: 1
+                });
+                $('#searchBox').focus();
+            }
+            
 
         });
     </script>
@@ -437,6 +456,7 @@
 
         //remove a course on click
         $("#btnRemoveCourse").click(function () {
+
             //only remove a subject if the result will not be less than the min required number of subjects for the course
             if ($("#unitsPerDegreeOriginal").val() < $("#unitsPerDegree").val()) {
                 $(".courseBox").last().remove();
@@ -543,6 +563,11 @@
             var totalOutput = "";
             //input is loaded in this form: "courseCode1 courseCode2, semesterNumber" and that is looped for each optionalDegreeSlot
             for (i = 0; i < degreeSlots.length; i++) {  //at most usually is 1, more often isn't even triggered
+
+                $("#degreeOptionalSlots").html($("#degreeOptionalSlots").html() +
+                    '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
+
+
                 var courseCodes = degreeSlots[i][0];
                 var semester = degreeSlots[i][1];
 
@@ -559,7 +584,7 @@
                 }
 
                 var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html('<input type="button" class="btnSelectCore" value="Select Core" />');
+                targetBox.html('<input type="button" id="' + i + 'btnGridDegreeSlot" class="btnGridDegreeSlot" value="Select Core" />');
 
                 //find which box it should be
                 //add a button to that box
@@ -567,7 +592,7 @@
                 while (true) {
 
                     nextCourseCode = courseCodes.substring(0, 8);
-                    $("#degreeOptionalSlot").html($("#degreeOptionalSlot").html() + '<input type="button" class="btnDegreeSlot" id="option' + nextCourseCode + '" value="' + nextCourseCode + '" />');
+                    $("#degreeOptionalSlot" + i).html($("#degreeOptionalSlot" + i).html() + '<input type="button" class="btnDegreeSlot" id="' + i + nextCourseCode + '" value="' + nextCourseCode + '" />');
                     
                     courseCodes = courseCodes.substring(8);
                     //if courseCodes only contains an empty string, no more courses are remaining to print, so break
@@ -579,14 +604,18 @@
                     }
 
                 }
-
-                
-
             }            
 
+        });        
+
+        //when button is clicked, the courseCode is sent to its corresponding box
+        $('#degreeOptionalSlots').on('click', '.btnDegreeSlot', function () {
+            var buttonID = $(this).attr('id');
+            buttonID = buttonID.substring(0, 1); //get first char of id from button, this will enable us to find the matching grid box we need
+            var targetBox = $('#' + buttonID + "btnGridDegreeSlot"); //get grid box that matches to this button
+            targetBox = targetBox.parent().html($(this).val()); //set grid box text to the value of the button clicked and remove button from target so that only box remains
+            $(this).parent().parent().remove(); //remove this from the menu
         });
-
-
 
 
     </script>

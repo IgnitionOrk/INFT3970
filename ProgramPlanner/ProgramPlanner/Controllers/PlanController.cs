@@ -266,23 +266,34 @@ namespace ProgramPlanner.Controllers
 
         private void getDirectedSlots()
         {
+            /*
             //pass in list of directeds
             int majorID = 2;   //will be passed in from main menu
             var myMajor = db.Majors.Find(majorID);
 
             List<String> directedSlots = new List<String>();
+<<<<<<< HEAD
+
+            foreach (var directedSlot in myMajor.MajorSlots)
+=======
             /*
             foreach (var directedSlot in myMajor.DirectedSlots)
+>>>>>>> c013479a59419258f441ec7b1c3e23ae9847bf0b
             {
                 string temp = "";
-                foreach (var optionalDirected in directedSlot.OptionalDirecteds)
+                foreach (var optionalDirected in directedSlot.)
                 {
                     temp += optionalDirected.Course.CourseCode + " ";
                 }
                 directedSlots.Add(temp);
             }
+<<<<<<< HEAD
+
+            ViewBag.DegreeSlots = directedSlots;*/
+=======
             */
             ViewBag.DegreeSlots = directedSlots;
+>>>>>>> c013479a59419258f441ec7b1c3e23ae9847bf0b
         }
 
         [HttpPost]
