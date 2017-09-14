@@ -5,7 +5,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-
+/// <summary>
+/// Student number: 3179234
+/// Author: Ryan Cunneen.
+/// </summary>
 namespace ProgramPlanner.Controllers
 {
     public class MainMenuController : Controller

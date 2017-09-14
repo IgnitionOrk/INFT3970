@@ -1,4 +1,18 @@
-﻿// Populates the dropdown list 'ddlDegrees' with all Degrees associated with the First university in 'ddlUniverities'
+﻿
+// JQuery Event Listeners:
+$(document).on("change", "#ddlUniversities", function () {
+    DegreeOptions();
+});
+
+$(document).on("change", "#ddlDegrees", function () {
+    YearDegreeOptions();
+});
+
+$(document).on("change", "#ddlYearDegrees", function () {
+    MajorOptions();
+});
+
+// Populates the dropdown list 'ddlDegrees' with all Degrees associated with the First university in 'ddlUniverities'
 // param: universityID: Will be associated with a particular University selected by the user.
 function DegreeOptions() {
     $("#ddlDegrees").html("");  // Remove the contents from the dropdown list associated with Degrees.
@@ -23,8 +37,7 @@ function DegreeOptions() {
         error: function () {
             alert("Could not connect to requested page.");
         }
-    }
-    )
+    })
 }
 // Populates the dropdown list 'ddlYears' with all Degrees associated with the First Degree in 'ddlDegrees'
 // param: degreeID: Will be associated with a particular Degree selected by the user.
@@ -49,8 +62,7 @@ function YearDegreeOptions() {
         error: function () {
             alert("Could not connect to requested page.");
         }
-    }
-    )
+    })
 }
 // Populates the dropdown list 'ddlMajors' with all Degrees associated with the First Year in 'ddlYears'
 // param: yearDegreeID: Will be associated with a particular Year selected by the user.
@@ -73,6 +85,5 @@ function MajorOptions() {
         error: function () {
             alert("Could not connect to requested page.");
         }
-    }
-    )
+    })
 }
