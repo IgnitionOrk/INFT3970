@@ -504,6 +504,10 @@
 
         //get names for appropriate course boxes - major cores
         $(function () {
+
+             var test1 = @Html.Raw(Json.Encode(ViewBag.Test1));
+             $("#courseInput").val(test1);
+
             var semester1MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem1MajorCores));
             var semester2MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem2MajorCores));
 
