@@ -140,7 +140,8 @@ h1 {
 }
 
 #tabs-3 {
-    height: 100%;
+    overflow-y: scroll;
+    
 }
 
 #accordion {
@@ -179,9 +180,9 @@ h4 {
     background: #b4f776;
 }
 
-.btnSelectCore{
-    height:100%;
-    width:100%;
+.btnGridDegreeSlot {
+    height: 100%;
+    width: 100%;
 }
 
 #editOption1 {
@@ -199,16 +200,22 @@ h4 {
 }
 
 #editOptionDegreeOptional {
-    position: relative;
-    top:80px;
+    position:relative;
+    top:50px;
 }
 
-#lblEditOptionDegreeOptional {
+.optionalDegreeSlotContainer {
+    position: relative;
+    padding-bottom: 50px;
+    padding-top: 30px;
+    border-bottom: dashed 1px;
+}
+
+.lblEditOptionDegreeOptional {
     text-align:center;
 }
 
-
-#degreeOptionalSlot {
+.degreeOptionalSlot {
     position:relative;
     top:10px;
     margin: 0 auto;
@@ -244,9 +251,12 @@ h4 {
 }
 
 #btnAddCourse{
-    width:150px;
+    width:140px;
 }
 
 #btnRemoveCourse {
-    width: 150px;
+    width: 140px;
+    text-align: center;
+    padding-left:0px;
+    padding-right:0px;
 }
