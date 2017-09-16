@@ -478,83 +478,39 @@
 
     <script>
         //set coursebox names
-
         //each index stores how many course spaces are free at each year row
         var coursesInserted1 = [8, 8, 8, 8, 8, 8];
         var coursesInserted2 = [4, 4, 4, 4, 4, 4];
-
 
          //get names for appropriate course boxes - degree cores
         $(function () {
             var semester1Cores = @Html.Raw(Json.Encode(ViewBag.Sem1Cores));
             var semester2Cores = @Html.Raw(Json.Encode(ViewBag.Sem2Cores));
-
-            //loop through all the core courses for the semester, set the correct box to that course
-            for (i = 0; i < semester1Cores.length; i++) {
-
-                var tempCode = semester1Cores[i];               //get the corresponding course
-                var yearLevelWaiting = tempCode.substring(4, 5); //year level we will insert at (row in grid)
-                coursesInserted1[yearLevelWaiting]--;           //so that the next course inserted will be the next box along
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted1[yearLevelWaiting]; //set the correct box set
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                 //change html to new course code
-                targetBox.addClass("degreeCore");
-            }
-
-            //same but for semester 2
-            for (i = 0; i < semester2Cores.length; i++) {
-
-                var tempCode = semester2Cores[i];
-                var yearLevelWaiting = tempCode.substring(4, 5);
-                coursesInserted2[yearLevelWaiting]--;
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted2[yearLevelWaiting];
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                 //change html to new course code
-                targetBox.addClass("degreeCore");
-
-            }
+            addSemesterCourses(semester1Cores, "degreeCore", coursesInserted1);
+            addSemesterCourses(semester2Cores, "degreeCore", coursesInserted2);
         });
-
-
-
-
 
         //get names for appropriate course boxes - major cores
         $(function () {
             var semester1MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem1MajorCores));
             var semester2MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem2MajorCores));
-
-            //loop through all the core courses for the semester, set the correct box to that course
-            for (i = 0; i < semester1MajorCores.length; i++) {
-
-                var tempCode = semester1MajorCores[i];                                          //get the corresponding course
-                var yearLevelWaiting = tempCode.substring(4, 5);                                //year level we will insert at (row in grid)
-                coursesInserted1[yearLevelWaiting]--;                                           //so that the next course inserted will be the next box along
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted1[yearLevelWaiting];     //set the correct box set
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                                                       //change html to new course code
-                targetBox.addClass("majorCore");
-            }
-
-            //same but for semester 2
-            for (i = 0; i < semester2MajorCores.length; i++) {
-
-                var tempCode = semester2MajorCores[i];
-                var yearLevelWaiting = tempCode.substring(4, 5);
-                coursesInserted2[yearLevelWaiting]--;
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted2[yearLevelWaiting];
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                                                       //change html to new course code
-                targetBox.addClass("majorCore");
-
-            }
+            addSemesterCourses(semester1MajorCores, "majorCore", coursesInserted1);
+            addSemesterCourses(semester2MajorCores, "majorCore", coursesInserted2);
         });
 
-
+        // 
+        function addSemesterCourses(semesterCourses, targetClass, coursesInserted){
+            //loop through all the core courses for the semester, set the correct box to that course
+            for (i = 0; i < semesterCourses.length; i++) {
+                var tempCode = semesterCourses[i];                                                                         //get the corresponding course
+                var yearLevelWaiting = tempCode.substring(4, 5);                                                  //year level we will insert at (row in grid)
+                coursesInserted[yearLevelWaiting]--;                                                                        //so that the next course inserted will be the next box along
+                var boxIndex = (yearLevelWaiting * 8) - coursesInserted[yearLevelWaiting];     //set the correct box set
+                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
+                targetBox.html(tempCode);                                                                                       //change html to new course code
+                targetBox.addClass(targetClass);
+            }
+        }
 
         //optional core courses
         $(function () {
@@ -562,10 +518,8 @@
             var totalOutput = "";
             //input is loaded in this form: "courseCode1 courseCode2, semesterNumber" and that is looped for each optionalDegreeSlot
             for (i = 0; i < degreeSlots.length; i++) {  //at most usually is 1, more often isn't even triggered
-
                 $("#degreeOptionalSlots").html($("#degreeOptionalSlots").html() +
                     '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
-
 
                 var courseCodes = degreeSlots[i][0];
                 var semester = degreeSlots[i][1];
@@ -589,10 +543,9 @@
                 //add a button to that box
                 var nextCourseCode = "";               
                 while (true) {
-
                     nextCourseCode = courseCodes.substring(0, 8);
                     $("#degreeOptionalSlot" + i).html($("#degreeOptionalSlot" + i).html() + '<input type="button" class="btnDegreeSlot" id="' + i + nextCourseCode + '" value="' + nextCourseCode + '" />');
-                    
+                
                     courseCodes = courseCodes.substring(8);
                     //if courseCodes only contains an empty string, no more courses are remaining to print, so break
                     if (courseCodes.localeCompare(" ") == 0) {
@@ -601,7 +554,6 @@
                     else {
                         courseCodes = courseCodes.substring(1); //remove delimiting space character
                     }
-
                 }
             }            
 
@@ -616,8 +568,6 @@
             $(this).parent().parent().remove(); //remove this from the menu
         });
 
-
     </script>
-
 </body>
 </html>

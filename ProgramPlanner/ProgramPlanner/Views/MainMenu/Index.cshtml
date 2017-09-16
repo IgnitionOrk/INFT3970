@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 ﻿
 @{
 
 }
 <h2>Menu</h2>
+=======
+﻿<h2>Menu</h2>
+>>>>>>> c1e473caadf41082a476a803872484a1315e1f02
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +14,11 @@
     <title>Create</title>
 </head>
 <body>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jQuery.min.js"></script>
+    @section Scripts{
+        @Scripts.Render("~/bundles/jquery-MainMenu")
+    }
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
@@ -20,19 +29,19 @@
             <div class="form-group">
                 <div class="control-label col-md-2"> <b>University</b> </div>
                 <div class="col-md-10">
-                    @Html.DropDownList("Universities", null, htmlAttributes: new { @class = "form-control ", @onchange = "javascript:getDegrees(this.value); " })
+                    @Html.DropDownList("Universities", null, htmlAttributes: new { @class = "form-control ", @id = "ddlUniversities" })
                 </div>
             </div>
             <div class="form-group">
                 <div class="control-label col-md-2"> <b>Degree</b> </div>
                 <div class="col-md-10">
-                    @Html.DropDownList("Degrees", null, htmlAttributes: new { @class = "form-control", @id = "ddlDegrees", @onchange = "javascript:getYears(this.value);" })
+                    @Html.DropDownList("Degrees", null, htmlAttributes: new { @class = "form-control", @id = "ddlDegrees"})
                 </div>
             </div>
             <div class="form-group">
                 <div class="control-label col-md-2"> <b>Year</b> </div>
                 <div class="col-md-10">
-                    @Html.DropDownList("Years", null, htmlAttributes: new { @class = "form-control", @id = "ddlYears", @onchange = "javascript:getMajors(this.value);" })
+                    @Html.DropDownList("YearDegrees", null, htmlAttributes: new { @class = "form-control", @id = "ddlYearDegrees"})
                 </div>
             </div>
             <div class="form-group">
@@ -43,11 +52,18 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
+<<<<<<< HEAD
                     <input id="btnPlanner" type="button" value="Program Planner" class="btn btn-default" />
+=======
+                    <input id="btnPlanner" type="button"value="Program Planner" class="btn btn-default" />
+>>>>>>> c1e473caadf41082a476a803872484a1315e1f02
                 </div>
             </div>
         </div>
+        // Leave keyword async: A script that will be run asynchronously as soon as it is available.
+        <script src="~/Scripts/jquery-ProgramPlannerDegreeOptions.js" async></script>
     }
+<<<<<<< HEAD
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
     <script src="~/Scripts/jQuery.min.js"></script>
     <script type="text/javascript">
@@ -151,6 +167,8 @@
             }
         }
     </script>
+=======
+>>>>>>> c1e473caadf41082a476a803872484a1315e1f02
 </body>
 </html>
 
