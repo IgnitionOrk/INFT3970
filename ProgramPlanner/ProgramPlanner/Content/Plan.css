@@ -81,6 +81,8 @@ h1 {
     height: 96px;
     width: 96px;
     background-color: aliceblue;
+    text-align: center;
+    line-height: 96px;
 }
 
 #semester1Box {
@@ -125,8 +127,8 @@ h1 {
 
 .subAccordion {
     width: 80%;
-    float: right;
-    height:100%;
+    float: left;
+    height: 100%;
 }
 
 #tabs {
@@ -138,7 +140,8 @@ h1 {
 }
 
 #tabs-3 {
-    height: 100%;
+    overflow-y: scroll;
+    
 }
 
 #accordion {
@@ -154,9 +157,106 @@ h1 {
 
 h4 {
     width: 80%;
-    float: right;
+    float: left;
 }
 
 #optionsMenu {
     height: 100%;
+}
+
+.degreeCore {
+    background: #ffe175;
+}
+
+.majorCore {
+    background: #1da5e1;
+}
+
+.majorCourse {
+    background: #1da5e1;
+}
+
+.electiveCourse {
+    background: #b4f776;
+}
+
+.btnGridDegreeSlot {
+    height: 100%;
+    width: 100%;
+}
+
+#editOption1 {
+    position:relative;
+    top:15px;
+    border-bottom:dashed 1px;
+    height:80px;
+}
+
+#editOption2 {
+    position: relative;
+    top: 50px;
+    height:65px;
+    border-bottom: dashed 1px;
+}
+
+#editOptionDegreeOptional {
+    position:relative;
+    top:50px;
+}
+
+.optionalDegreeSlotContainer {
+    position: relative;
+    padding-bottom: 50px;
+    padding-top: 30px;
+    border-bottom: dashed 1px;
+}
+
+.lblEditOptionDegreeOptional {
+    text-align:center;
+}
+
+.degreeOptionalSlot {
+    position:relative;
+    top:10px;
+    margin: 0 auto;
+    width: 96px;
+    height:100%;
+}
+
+.btnDegreeSlot {
+    width:90px;
+    margin:2px;
+    position:relative;
+}
+
+#lblNewNumOfSubjects {
+    position: relative;
+    width: 224px;
+    text-align: left;
+    margin: 0 auto;
+}
+
+#newNumOfSubjects {
+    left: 90px;
+    top: 10px;
+    position: relative;
+    width: 60px;
+}
+
+#btnNewNumOfSubjects {
+    top: 10px;
+    left: 90px;
+    position: relative;
+    width: 60px;
+}
+
+#btnAddCourse{
+    width:140px;
+}
+
+#btnRemoveCourse {
+    width: 140px;
+    text-align: center;
+    padding-left:0px;
+    padding-right:0px;
 }

@@ -19,7 +19,6 @@ namespace ProgramPlanner.Controllers
         {
             return View(db.Users.ToList());
         }
-
         // GET: Users/Details/5
         public ActionResult Details(string id)
         {
@@ -52,10 +51,9 @@ namespace ProgramPlanner.Controllers
             {
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Plan");
             }
-
-            return View(user);
+            return View();
         }
 
         // GET: Users/Edit/5
@@ -104,6 +102,7 @@ namespace ProgramPlanner.Controllers
             return View(user);
         }
 
+
         // POST: Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -113,6 +112,14 @@ namespace ProgramPlanner.Controllers
             db.Users.Remove(user);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Register() {
+            return View();
+        }
+
+        public ActionResult Login() {
+            return View();
         }
 
         protected override void Dispose(bool disposing)
