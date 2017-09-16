@@ -367,7 +367,7 @@
     <Content Include="Views\Trimesters\Details.cshtml" />
     <Content Include="Views\Trimesters\Edit.cshtml" />
     <Content Include="Views\Trimesters\Index.cshtml" />
-    <Content Include="Views\Plan\Index.cshtml" />
+    <Content Include="Views\Plan\IndexOld.cshtml" />
     <Content Include="Views\Plan\Submit.cshtml" />
     <Content Include="Views\StudyAreas\Create.cshtml" />
     <Content Include="Views\StudyAreas\Delete.cshtml" />
@@ -472,8 +472,8 @@
     <Content Include="Views\MajorSlots\Index.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
-    <Content Include="Views\MainMenu\Index.cshtml" />
     <Content Include="Views\Plan\Create.cshtml" />
+    <Content Include="Views\MainMenu\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessLogic\" />
