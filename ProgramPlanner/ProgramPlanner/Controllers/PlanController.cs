@@ -21,7 +21,7 @@ namespace ProgramPlanner.Controllers
             ViewBag.UnitsPerDegree = 240;
             ViewBag.SubjectsPerSemester = 4;
             getCourseCodes();
-            getDegreeCores(); //doesn't include optional cores yet
+            getDegreeCores();
             getMajorCores();
             getDegreeOptionalSlots();
             return View(db.StudyAreas.ToList());
@@ -32,9 +32,10 @@ namespace ProgramPlanner.Controllers
             ViewBag.UnitsPerDegree = 240;
             ViewBag.SubjectsPerSemester = 4;
             getCourseCodes();
-            getDegreeCores(yearDegreeID); //doesn't include optional cores yet
+            getDegreeCores(yearDegreeID);
             getMajorCores(majorID);
-            getDegreeOptionalSlots(yearDegreeID);    
+            getDegreeOptionalSlots(yearDegreeID);
+            getMajorSlots(majorID);
             return View(db.StudyAreas.ToList());
         }
         /// <summary>
@@ -224,30 +225,70 @@ namespace ProgramPlanner.Controllers
             ViewBag.DegreeSlots = degreeSlots;
         }
 
-        private void getDirectedSlots()
+
+
+        private void getMajorSlots(int majorID)
         {
-            /*
-            //pass in list of directeds
-            int majorID = 2;   //will be passed in from main menu
             var myMajor = db.Majors.Find(majorID);
 
+<<<<<<< HEAD
+            //2d array - each stores an array containing 2 elements:
+            //1st dimension is the rule. 2nd is the list of courses that go in that slot
+            List<string[]> majorSlots = new List<string[]>();
+
+            //all directeds for this major
+            List<String> allDirecteds = new List<String>();
+
+            foreach (var majorSlot in myMajor.MajorSlots)
+=======
             List<String> directedSlots = new List<String>();
 
             foreach (var directedSlot in myMajor.MajorSlots)
 
             /*
             foreach (var directedSlot in myMajor.DirectedSlots)
+>>>>>>> c1e473caadf41082a476a803872484a1315e1f02
             {
-                string temp = "";
-                foreach (var optionalDirected in directedSlot.)
+                string[] strArr = new string[2];
+
+                strArr[0] = majorSlot.Rule; //store the rule
+
+                if (strArr[0].Equals("Any"))
                 {
-                    temp += optionalDirected.Course.CourseCode + " ";
+                    strArr[1] = ""; 
                 }
-                directedSlots.Add(temp);
+
+                //store all the directeds for this slot
+                foreach (var directed in majorSlot.Directeds)
+                {
+                    string CourseCode = directed.Course.CourseCode;
+
+                    if (!strArr[0].Equals("Any")) //only store in array if doesnt contain any, more efficient
+                    {
+                        strArr[1] += CourseCode + " "; //because of the way it's passed to javascript, need a non-space or comma delimiter
+                    }
+
+                    if (!allDirecteds.Contains(CourseCode)) //if course isn't already in the list of all directeds, add it
+                    {
+                        allDirecteds.Add(CourseCode);
+                    }
+
+                }
+
+                majorSlots.Add(strArr);
+
             }
 
+<<<<<<< HEAD
+            ViewBag.MajorSlots = majorSlots;
+            ViewBag.AllDirecteds = allDirecteds;
+
+=======
             ViewBag.DegreeSlots = directedSlots;*/
+>>>>>>> c1e473caadf41082a476a803872484a1315e1f02
         }
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
