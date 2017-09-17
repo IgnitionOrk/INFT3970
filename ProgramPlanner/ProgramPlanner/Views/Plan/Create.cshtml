@@ -314,13 +314,10 @@
     <script>
         //drag and drop electives/directeds
         $(function () {
-            
             $(".droppable").droppable({
                 accept: ".draggable",
                 drop: function (event, ui) {
-
                     var approval = true;
-
                     //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
                     if ($(this).hasClass("degreeCore")) {
                         if (!confirm("You are about to override a core course for your degree. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
@@ -334,38 +331,50 @@
                         }
                     }
 
-                    //otherwise continue on with the drop and drag
                     if (approval) {
+                        //otherwise continue on with the drop and drag
                         $(this).html($(ui.draggable).text());
 
-                        //if course dragged is an elective, set target box to green
-                        if (ui.draggable.hasClass("electives")) {
-                            $(this).removeClass("majorCourse");
-                            $(this).removeClass("degreeCore");
-                            $(this).removeClass("majorCore");
-                            $(this).removeClass("majorslot");                            
+                        // Determine what classes needs their backgrounds updated.
+                        var classes = determineClasses(ui);          
 
-                            $(this).addClass("electiveCourse");
-                        }
-                        //else course dragged is a directed, so set target box to blue
-                        else {
-                            $(this).removeClass("electiveCourse");
-                            $(this).removeClass("degreeCore");
-                            $(this).removeClass("majorCore");
-                            $(this).removeClass("majorslot"); 
-
-                            $(this).addClass("majorCourse");
-                        }
+                        // Update the background of the classes. 
+                        addBackgroundColour(this, classes);
                     }
                     else {
                         approval = true;
                     }
-
                 }
             });
         });
-    </script>
 
+        // Generates a list of classes (as strings) that will need to be updated when the user has dropped
+        // particular courses in particular grid spots.
+        function determineClasses(ui) {
+            var strClasses = [];
+            //if course dragged is an elective, set target box to green (as it will be the last element in the array);
+            if (ui.draggable.hasClass("electives")) {
+                strClasses = ["majorCourse", "degreeCore", "majorCore", "majorslot", "electiveCourse"];
+            }
+            else {
+                //else course dragged is a directed, so set target box to blue (as it will be the last element in the array);
+                strClasses = ["electiveCourse", "degreeCore", "majorCore", "majorslot", "majorCourse"];
+            }
+            return strClasses;
+        }
+
+        // Function to change the background colour of a (div).
+        function addBackgroundColour(selector, classes) {
+            // Changing the background colour  of the (divs) displaying course information. 
+            // The last str in classes will have the class that is added not removed
+            for (var i = 0; i < classes.length - 1; i++) {
+                $(selector).removeClass(classes[i]);
+            }
+            // The last str in the array list will be the added class
+            $(selector).addClass(classes[classes.length - 1]);
+        }
+     
+    </script>
     <script>
         //when a courseBox is clicked, send focus to the search box (unless the box is a slot, in which case direct to the appropriate section)
         $(".courseBox").click(function () {
@@ -375,16 +384,12 @@
                 $("#tabs").tabs({
                     active: 2
                 });
-
                 $("#degreeOptionalSlots").children().css("background", "white");
-
-
                 //find matching section, highlight it
                 var childButton = $(this).children().first();
                 var tempID = childButton.attr('id').substring(0, 1); //first char is the ID we need
                 var slotContainer = $('#' + tempID + 'optionalDegreeSlotContainer');
                 slotContainer.css("background", "yellow");
-
             }
             else if ($(this).hasClass("majorslot")) {   //if coursebox is for a majorslot, show directed tab
                 $("#tabs").tabs({
@@ -402,19 +407,24 @@
                 });
                 $('#searchBox').focus();
             }
-
-
         });
     </script>
 
+    
     <script>
+        /*
+        Can go in separate script
+
+        **/
         //add new course on click
         $("#btnAddCourse").click(function () {
             $("#innerPlan").append("<div class='courseBox droppable'>Empty Course</div>");
 
-            //fill in extra or less years on the side column
-            $(".yearNames").remove();
+            // +10 represents another course slot for the grid. We are assuming it is 10 not 20. 
             $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) + 10);
+
+            // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
+            $(".yearNames").remove();
             var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
             for (var i = 1; i <= newYears; i++) {
                 $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
@@ -423,7 +433,6 @@
             $('#innerPlan').shapeshift({
                 gutterX: 5,
             });
-
         });
 
         //remove a course on click
@@ -435,18 +444,23 @@
 
                 //fill in extra or less years on the side column
                 $(".yearNames").remove();
+
+                 // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
+                $(".yearNames").remove();
                 $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
+
+                // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
                 var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
                 for (var i = 1; i <= newYears; i++) {
                     $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
                 }
 
+                // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
                 $('#innerPlan').shapeshift({
                     gutterX: 5,
                 });
             }
         });
-
     </script>
 
     <script>
@@ -456,8 +470,8 @@
         var coursesInserted1 = [8, 8, 8, 8, 8, 8];
         var coursesInserted2 = [4, 4, 4, 4, 4, 4];
 
-         //get names for appropriate course boxes - degree cores
-                 //get names for appropriate course boxes - degree cores
+        //get names for appropriate course boxes - degree cores
+        //get names for appropriate course boxes - degree cores
         $(function () {
             var semester1Cores = @Html.Raw(Json.Encode(ViewBag.Sem1Cores));
             var semester2Cores = @Html.Raw(Json.Encode(ViewBag.Sem2Cores));
@@ -465,10 +479,7 @@
             addSemesterCourses(semester1Cores, "degreeCore", coursesInserted1);
             addSemesterCourses(semester2Cores, "degreeCore", coursesInserted2);
         });
-<<<<<<< HEAD
 
-=======
->>>>>>> c1e473caadf41082a476a803872484a1315e1f02
         //get names for appropriate course boxes - major cores
         $(function () {
             var semester1MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem1MajorCores));
@@ -613,11 +624,7 @@
                 }
                 spotFound = false;
             }
-
-
         });
-
     </script>
-
 </body>
 </html>
