@@ -2,7 +2,6 @@
 
 @{
     Layout = null;
-
 }
 
 <!DOCTYPE html>
@@ -11,7 +10,6 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Uni Plan</title>
-
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Plan.css")
     <link rel="stylesheet" href="~/Content/jquery-ui.min.css">
@@ -20,7 +18,6 @@
     <script src="~/Content/scripts/jquery.js"></script>
     <script src="~/Content/scripts/jquery-ui.min.js"></script>
     <script src="~/Content/scripts/jquery.shapeshift.js"></script>
-
     <div id="headerRow" class="row">
         <div id="imgHeaderContainer" class="col-md-2 col-md-offset-1">
             <img id="imgHeader" src="~/Content/images/adaymaycome.jpg" />
@@ -29,9 +26,7 @@
     </div>
     <!--Row at top that contains the semester heading names -->
     <div id="semesterRow" class="row">
-
     </div>
-
     <div id="mainRow" class="row">
         <!--Main row with most page items-->
         <!--Main menu on right of page -->
@@ -52,14 +47,11 @@
                 <div id="tabs-2">
                     <!--Electives tab -->
                     <div class="ui-widget">
-
                         <!--Search box under electives tab -->
                         <label for="searchBox">Search: </label>
                         <input id="searchBox">
-
                         <!--Enables interactive menu that drops down when clicks -->
                         <div id="accordion">
-
                             @foreach (var item in Model)
                             {
                                 <h3> @Html.DisplayFor(modelItem => item.StudyAreaName)</h3>
@@ -73,42 +65,33 @@
                                                 var courseCode = @Html.DisplayFor(modelItem => course.CourseCode);
                                                 <div id=@courseCode class="draggable electives">@courseCode</div>
                                             }
-
                                         </div>
                                     }
                                 </div>
                             }
                         </div>
-
                     </div>
                 </div>
-
                 <div id="tabs-3">
                     <!--Menu on left of page that has page options for the user -->
                     <div id="optionsMenu">
-
                         <div id="editOption1">
                             <p id="lblNewNumOfSubjects"><b>Number of courses per semester:</b></p>
                             <input type="number" min="1" max="5" value="4" id="newNumOfSubjects" />
                             <input type="button" id="btnNewNumOfSubjects" value="Update" />
                         </div>
-
                         <input type="hidden" name="oldNumOfSubjects" id="oldNumOfSubjects" value="@ViewBag.SubjectsPerSemester" />
                         <input type="hidden" name="unitsPerDegreeOriginal" id="unitsPerDegreeOriginal" value="@ViewBag.UnitsPerDegree" />
                         <input type="hidden" name="unitsPerDegree" id="unitsPerDegree" value="@ViewBag.UnitsPerDegree" />
-
                         <div id="editOption2">
                             <input type="button" id="btnAddCourse" value="Add Course" />
                             <input type="button" id="btnRemoveCourse" value="Remove Last Course" />
                         </div>
-
                         <div id="editOptionDegreeOptional">
                             <div id="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div>
                             <div id="degreeOptionalSlot"></div>
                         </div>
-
                     </div>
-
                     <!--Form for submitting page and saving grid to a user account -->
                     @using (Html.BeginForm())
                     {
@@ -118,23 +101,17 @@
                             <input type="submit" value="Index" class="btn btn-default" id="btnPicker" />
                         </form>
                     }
-
-
                 </div>
             </div>
         </div>
-
         <!--Main plan grid -->
         <div id="plan" class="col-md-9">
-
             <div id="semester1Name" class="semesterName col-md-offset-1">Semester 1</div>
             <div id="semester2Name" class="semesterName col-md-offset-1">Semester 2</div>
-
             <div class="row">
                 <div id="semester1Box" class="col-md-offset-1 semesterBox"></div>
                 <div id="semester2Box" class="col-md-offset-1 semesterBox"></div>
             </div>
-
             <div class="row" id="rowYearInnerPlan">
                 <ul id="yearNameColumn" class="col-md-1">
                     @for (var i = 1; i <= @ViewBag.UnitsPerDegree / 80; i++)
@@ -142,9 +119,8 @@
                         <li class="yearNames">Year @i</li>
                     }
                 </ul>
-
+                <!--Creates the course grid for user to drop courses into.-->
                 <div class="col-md-11" id="colInnerPlan">
-
                     <div id="innerPlan">
                         @for (var i = 1; i <= @ViewBag.UnitsPerDegree / 80; i++)
                         {
@@ -154,16 +130,10 @@
                             }
                         }
                     </div>
-
                 </div>
-
             </div>
         </div>
-
     </div>
-
-
-
     <script type="text/javascript">
         //set-up script
         $(function () {
@@ -177,13 +147,15 @@
 
             $(".semesterBox").css("width", planWidth / 2 + 3);
 
-            //enable grid to work
+            // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
             $('#innerPlan').shapeshift({
                 gutterX: 5,
             });
 
             //set initial values
             var courseText = "";
+
+            // For each course box
             $(".courseBox").each(function () {
                 courseText = courseText + $(this).text() + ",";
             });
@@ -197,11 +169,9 @@
         });
 
     </script>
-
     <script>
         //every time a box is dropped and dragged, loop through all the boxes and reset the value of the hidden field that stores the
         //html values of all the boxes. when submit button is clicked, that value is sent through to the plancontroller.
-
         $container = $("#innerPlan");
         $container.on("ss-rearranged", function (e, selected) {
             var courseText = "";
@@ -211,7 +181,6 @@
             $("#courseInput").val(courseText);
         });
     </script>
-
     <script>
         //on click to change number of subjects per semester
         $("#btnNewNumOfSubjects").click(function () {
@@ -220,8 +189,10 @@
             var newNumber = $("#newNumOfSubjects").val();
             var difference = newNumber - oldNumber;
 
-            if (difference != 0) {//if a change was actually made
-                //change width to fit new number of courseBoxes
+            // Determines if the input from the user is different from the old number of subjects per semester
+            // in the grid. If the difference is 0; then both the old number of subjects and input were the same and hence we do not 
+            // need to update the grid. 
+            if (difference != 0) {
                 var planWidth = 2 * newNumber * 103;
                 if (newNumber == 1 || newNumber == 2 || newNumber == 3) {
                     planWidth = planWidth + 11;
@@ -280,21 +251,17 @@
 
                 $("#oldNumOfSubjects").val(newNumber);
 
+                // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
                 $('#innerPlan').shapeshift({
                     gutterX: 5,
                 });
             }
-
         });
-
     </script>
-
-
     <script>
         //search box
         $(function () {
             var availableTags = @Html.Raw(Json.Encode(ViewBag.CourseCodeList));
-
             $("#searchBox").autocomplete({
                 source: availableTags
             });
@@ -311,7 +278,6 @@
             var studyAreaIndex = $('#accordion .accordions').index(studyArea);
             $("#accordion").accordion("option", "active", studyAreaIndex); //activate study area accordion (outside accordion)
 
-
             //inner accordion
             var abbr = $(courseSelected).parent();
             var abbrSelector = studyArea.find(".subAccordion");
@@ -327,25 +293,25 @@
             setTimeout(function () {
                 el.css("background", originalColor);
             }, x);
-
-
         });
     </script>
 
     <script>
         //accordian
+        // Study Area will contain a sub-collapsable list of Abbreviations.
         $(function () {
             $("#accordion").accordion({
                 heightStyle: "content",
                 collapsible: true,
                 active: false,
             });
+
+            // Each Abbrevation will contain a sub-list of Courses. 
             $(".accordions").accordion({
                 heightStyle: "content",
                 collapsible: true,
                 active: false,
             });
-
         });
     </script>
 
