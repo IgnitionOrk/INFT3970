@@ -254,10 +254,7 @@ namespace ProgramPlanner.Controllers
                 {
                     string CourseCode = directed.Course.CourseCode;
 
-                    if (!strArr[0].Equals("Any")) //only store in array if doesnt contain any, more efficient
-                    {
-                        strArr[1] += CourseCode + " "; //because of the way it's passed to javascript, need a non-space or comma delimiter
-                    }
+                    strArr[1] += CourseCode + " "; //because of the way it's passed to javascript, need a non-space or comma delimiter 
 
                     if (!allDirecteds.Contains(CourseCode)) //if course isn't already in the list of all directeds, add it
                     {
@@ -270,11 +267,17 @@ namespace ProgramPlanner.Controllers
 
             }
 
+<<<<<<< HEAD
 
             ViewBag.MajorSlots = majorSlots;
             ViewBag.AllDirecteds = allDirecteds;
 
 
+=======
+            ViewBag.MajorSlots = majorSlots;
+            ViewBag.AllDirecteds = allDirecteds;
+
+>>>>>>> 3be26a1b9a5c5131c271145dc32dde68600faa1c
         }
 
 

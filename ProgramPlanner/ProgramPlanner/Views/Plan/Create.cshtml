@@ -264,17 +264,21 @@
         });
 
         $("#searchBox").on("autocompleteselect", function (event, ui) {
-            //$(".accordions").accordion("active", '.accordions > div:has(#ARCH1001) > h3');
             var courseSelected = "#" + ui.item.value;   //select the course we want
             $("#courseInput").val(courseSelected);
 
-            //outside accordion
+            //outside accordion - search for the one we want and open it (study are accordion)
             var studyArea = $(courseSelected).parent().parent(); //get the study area div
             //get the index of the study area div so that the accordion can use it
             var studyAreaIndex = $('#accordion .accordions').index(studyArea);
             $("#accordion").accordion("option", "active", studyAreaIndex); //activate study area accordion (outside accordion)
 
+<<<<<<< HEAD
+
+            //inner accordion, search for the one we want and open it (abbreviation accordion)
+=======
             //inner accordion
+>>>>>>> 5f23e1fdc113c468aaefbcb1ad92a5c930da194f
             var abbr = $(courseSelected).parent();
             var abbrSelector = studyArea.find(".subAccordion");
             var abbrIndex = abbrSelector.index(abbr);
@@ -329,6 +333,16 @@
                         if (!confirm("You are about to override a core course for your major. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
                             approval = false;
                         }
+                    }
+                    //if box is a majorslot, check if there's a rule behind it and if the rule is being disobeyed, block transaction
+                    else if ($(this).hasClass("majorslot")) {
+                        //If this gridbox's attribute called 'rule' is merely a year level, we get the first char of it and compare it to the year level of the course that is being dragged 
+                        //onto this gridbox. If they match, the course matches this box's rule and we can continue. Else deny it.
+                        var courseYearLevel = $(ui.draggable).text().substring(4, 5);
+                        if (!$(this).attr("rule").substring(0, 1).localeCompare(courseYearLevel) == 0) {
+                            alert("That slot requires a " + i + "000 level course");
+                            approval = false;
+                        }  
                     }
 
                     if (approval) {
@@ -385,27 +399,53 @@
                     active: 2
                 });
                 $("#degreeOptionalSlots").children().css("background", "white");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3be26a1b9a5c5131c271145dc32dde68600faa1c
                 //find matching section, highlight it
                 var childButton = $(this).children().first();
                 var tempID = childButton.attr('id').substring(0, 1); //first char is the ID we need
                 var slotContainer = $('#' + tempID + 'optionalDegreeSlotContainer');
                 slotContainer.css("background", "yellow");
             }
-            else if ($(this).hasClass("majorslot")) {   //if coursebox is for a majorslot, show directed tab
+            else if ($(this).hasClass("majorslot")) {   //if coursebox is for a majorslot, show directed tab  
+
+                //show directed tab
                 $("#tabs").tabs({
                     active: 0
                 });
 
-                //if directed has a year level with it, display those year level courses
-                //if (){
+                //go through the directedOptions attribute and only display those in the directed tab
 
-                //}
+                //remove the currently displayed children of the headings of the directed tab
+                $($("#tabs-1").children()).each(function () {
+                    $(this).children().slice(1).remove();
+                });
+
+                var directedOptions = $(this).attr("directedOptions"); //list of directeds this slot can do
+
+                while (directedOptions.length > 0) {    //while there are still courses to be done
+                    var nextCourse = tempList.substring(0, 8);  //get course (8chars long)
+                    var parentDiv = $("#" + nextCourse.substring(4, 5) + "000LevelDirecteds");  //find it's parent, which is a year level heading
+                    parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + nextCourse + '</div>'); //add course to the heading
+                    directedOptions = directedOptions.substring(9); //get next course
+                }
+
+                //added new divs with draggable, so add that functionality to them
+                $(".draggable").draggable({
+                    appendTo: "body",
+                    helper: "clone"
+                });
+
             }
             else {  //else coursebox is for any other course, so just display electives when clicked
+
                 $("#tabs").tabs({
                     active: 1
                 });
                 $('#searchBox').focus();
+
             }
         });
     </script>
@@ -593,17 +633,20 @@
 
             //make spots for the majorslots
             for (i = 0; i < majorSlots.length; i++) {   //foreach majorslot
-                var spotFound = false; //when this majorslot has a spot in the grid, go to next majorslot
-                var tempCount = 1;  //start at year level 1
+
+                var spotFound = false;  //when this majorslot finds a spot in the grid, go to next majorslot
+                var yearLevel = 1;      //start at year level 1
 
                 //soon as a spot is found in the grid, go to next majorslot
                 while (!spotFound) {
-                    if (coursesInserted1[tempCount] > 4) {  //4 or less will push us into 2nd semester
-                        coursesInserted1[tempCount]--;
-                        var boxIndex = (tempCount * 8) - coursesInserted1[tempCount]; //set the correct box in the row
+
+                    if (coursesInserted1[yearLevel] > 4) {  //4 or less will push us into 2nd semester
+                        coursesInserted1[yearLevel]--;
+                        var boxIndex = (yearLevel * 8) - coursesInserted1[yearLevel]; //set the correct box in the row
                         var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
 
                         var rule = majorSlots[i][0];
+
                         if (rule.localeCompare("Any") == 0){    //if rule is Any, then let user choose any directed course
                             targetBox.html("Choose any directed course here");
                         }
@@ -613,17 +656,23 @@
                         else {  //rule is complicated, so just display the rule and let user pick the right course
                             targetBox.html("Directed - click for more details");
                         }
-                        //$("#courseInput").val($("#courseInput").val() + parseInt(rule));
+                        
                         targetBox.addClass("majorslot");
+                        targetBox.attr('rule', rule);
+                        targetBox.attr('directedOptions', majorSlots[i][1]);
                         spotFound = true;
 
                     }
                     else {
-                        tempCount++;
+                        yearLevel++;
                     }
                 }
                 spotFound = false;
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3be26a1b9a5c5131c271145dc32dde68600faa1c
         });
     </script>
 </body>
