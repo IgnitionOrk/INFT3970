@@ -231,7 +231,6 @@ namespace ProgramPlanner.Controllers
         {
             var myMajor = db.Majors.Find(majorID);
 
-<<<<<<< HEAD
             //2d array - each stores an array containing 2 elements:
             //1st dimension is the rule. 2nd is the list of courses that go in that slot
             List<string[]> majorSlots = new List<string[]>();
@@ -240,14 +239,6 @@ namespace ProgramPlanner.Controllers
             List<String> allDirecteds = new List<String>();
 
             foreach (var majorSlot in myMajor.MajorSlots)
-=======
-            List<String> directedSlots = new List<String>();
-
-            foreach (var directedSlot in myMajor.MajorSlots)
-
-            /*
-            foreach (var directedSlot in myMajor.DirectedSlots)
->>>>>>> c1e473caadf41082a476a803872484a1315e1f02
             {
                 string[] strArr = new string[2];
 
@@ -263,10 +254,7 @@ namespace ProgramPlanner.Controllers
                 {
                     string CourseCode = directed.Course.CourseCode;
 
-                    if (!strArr[0].Equals("Any")) //only store in array if doesnt contain any, more efficient
-                    {
-                        strArr[1] += CourseCode + " "; //because of the way it's passed to javascript, need a non-space or comma delimiter
-                    }
+                    strArr[1] += CourseCode + " "; //because of the way it's passed to javascript, need a non-space or comma delimiter 
 
                     if (!allDirecteds.Contains(CourseCode)) //if course isn't already in the list of all directeds, add it
                     {
@@ -279,13 +267,9 @@ namespace ProgramPlanner.Controllers
 
             }
 
-<<<<<<< HEAD
             ViewBag.MajorSlots = majorSlots;
             ViewBag.AllDirecteds = allDirecteds;
 
-=======
-            ViewBag.DegreeSlots = directedSlots;*/
->>>>>>> c1e473caadf41082a476a803872484a1315e1f02
         }
 
 
