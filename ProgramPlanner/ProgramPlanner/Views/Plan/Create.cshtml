@@ -131,10 +131,12 @@
         </div>
     </div>
     <script type="text/javascript">
-        //set-up script
+        // Sets up the grid
         $(function () {
             //sets grid width depending on how many items to be displayed
             var planWidth = 2 * $("#oldNumOfSubjects").val() * 103;
+
+            // Set the width attribute of the class innerPlan to planWidth; 
             $("#innerPlan").css("width", planWidth);
 
             //whole box that contains grid and year/column headings, set height depending on num of years in degree
@@ -156,7 +158,7 @@
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
-
+                
             //tabbed menu
             $(function () {
                 $("#tabs").tabs({ heightStyle: "fill", });
@@ -272,13 +274,8 @@
             //get the index of the study area div so that the accordion can use it
             var studyAreaIndex = $('#accordion .accordions').index(studyArea);
             $("#accordion").accordion("option", "active", studyAreaIndex); //activate study area accordion (outside accordion)
-
-<<<<<<< HEAD
-
             //inner accordion, search for the one we want and open it (abbreviation accordion)
-=======
             //inner accordion
->>>>>>> 5f23e1fdc113c468aaefbcb1ad92a5c930da194f
             var abbr = $(courseSelected).parent();
             var abbrSelector = studyArea.find(".subAccordion");
             var abbrIndex = abbrSelector.index(abbr);
@@ -322,8 +319,13 @@
                 accept: ".draggable",
                 drop: function (event, ui) {
                     var approval = true;
-                    //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
-                    if ($(this).hasClass("degreeCore")) {
+                    // Index for the divs starts at 1;
+                    if (!isRunningInSemester($(this).index() + 1, $(ui.draggable).text())) {
+                        alert("Course is not being held in that semester. ");
+                        approval = false;
+                    }
+                     //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
+                    else if ($(this).hasClass("degreeCore")) {
                         if (!confirm("You are about to override a core course for your degree. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
                             approval = false;
                         }
@@ -342,7 +344,7 @@
                         if (!$(this).attr("rule").substring(0, 1).localeCompare(courseYearLevel) == 0) {
                             alert("That slot requires a " + i + "000 level course");
                             approval = false;
-                        }  
+                        }
                     }
 
                     if (approval) {
@@ -361,6 +363,31 @@
                 }
             });
         });
+
+        //
+        function isRunningInSemester(index, courseCode) {
+            var semester;
+            if ((index >= 4 && index <= 8) || (index >= 13 && index <= 16) || (index >= 21 && index <=24)) {
+                semester = 2;
+            }
+            else {
+                semester = 1;
+            }
+
+            $.ajax({
+                url: "/Plan/isRunningInSemester",
+                cache: false,
+                type: "POST",
+                data: { semesterID: semester, courseCode: courseCode },
+                success: function (data) {
+                    count = parseInt(data.data);
+                },
+                error: function () {
+                    alert("Could not request the required information for that course");
+                }
+            });
+            return count > 0;
+        }
 
         // Generates a list of classes (as strings) that will need to be updated when the user has dropped
         // particular courses in particular grid spots.
@@ -399,10 +426,6 @@
                     active: 2
                 });
                 $("#degreeOptionalSlots").children().css("background", "white");
-<<<<<<< HEAD
-=======
-
->>>>>>> 3be26a1b9a5c5131c271145dc32dde68600faa1c
                 //find matching section, highlight it
                 var childButton = $(this).children().first();
                 var tempID = childButton.attr('id').substring(0, 1); //first char is the ID we need
@@ -529,7 +552,7 @@
             addSemesterCourses(semester2MajorCores, "majorCore", coursesInserted2);
         });
 
-        //semester courses
+        // Adds the semester courses into the grid for a particular semester.
         function addSemesterCourses(semesterCourses, targetClass, coursesInserted){
             //loop through all the core courses for the semester, set the correct box to that course
             for (i = 0; i < semesterCourses.length; i++) {
@@ -607,7 +630,6 @@
 
         //sort out directed courses
         $(function () {
-
             var majorSlots = @Html.Raw(Json.Encode(ViewBag.MajorSlots));
             var allDirecteds = @Html.Raw(Json.Encode(ViewBag.AllDirecteds));
             //$("#courseInput").val(majorSlots);
@@ -669,10 +691,6 @@
                 }
                 spotFound = false;
             }
-<<<<<<< HEAD
-=======
-
->>>>>>> 3be26a1b9a5c5131c271145dc32dde68600faa1c
         });
     </script>
 </body>

@@ -266,21 +266,32 @@ namespace ProgramPlanner.Controllers
                 majorSlots.Add(strArr);
 
             }
-
-<<<<<<< HEAD
-
             ViewBag.MajorSlots = majorSlots;
             ViewBag.AllDirecteds = allDirecteds;
-
-
-=======
-            ViewBag.MajorSlots = majorSlots;
-            ViewBag.AllDirecteds = allDirecteds;
-
->>>>>>> 3be26a1b9a5c5131c271145dc32dde68600faa1c
         }
+        [HttpPost]
+        public ActionResult isRunningInSemester(int semesterID, string courseCode) {
+            // Need to check if that course was running in the same year as the program planner. 
+            int count = 0;
+            var abbr = courseCode.Substring(0, 4);
+            var abbrID = (db.Abbreviations.Where(
+                ar => ar.AbbrevName == abbr).SingleOrDefault()).AbbreviationID;
 
+            var code = Convert.ToInt32(courseCode.Substring(4, 4));     // e.g. 1004
+            var course = db.Courses.Where(
+                c => c.Code == code && 
+                c.AbbreviationID == abbrID).SingleOrDefault();
 
+            if (course != null){
+                count = (db.SemesterCourses.Where(
+                    sc => sc.SemesterID == semesterID && 
+                    sc.CourseID == course.CourseID)).Count();
+            }
+            else {
+                throw new NullReferenceException();
+            }
+            return Json(new { data = count });
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
