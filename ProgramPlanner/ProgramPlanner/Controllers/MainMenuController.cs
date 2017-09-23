@@ -46,7 +46,7 @@ namespace ProgramPlanner.Controllers
         /// </summary>
         private void YearDegreeOptions() {
             // Extract the Associated Year Degrees with the first Degree; 
-            var yearDegrees = db.YearDegrees.Where(yd => yd.DegreeID == db.Degrees.FirstOrDefault().DegreeID);
+            var yearDegrees = db.YearDegrees.Where(yd => yd.DegreeID == db.Degrees.FirstOrDefault().DegreeID).OrderBy(yd => yd.Year);
             ViewBag.YearDegrees = new SelectList(yearDegrees, "YearDegreeID", "Year", 0);
         }
         /// <summary>
@@ -79,8 +79,9 @@ namespace ProgramPlanner.Controllers
         public ActionResult YearDegreeOptions(int degreeID)
         {
             // Find the YearDegrees associated with the particular Degree (degreeID).
-            var yearDegrees = db.YearDegrees.Where(yd => yd.DegreeID == degreeID);
+            var yearDegrees = db.YearDegrees.Where(yd => yd.DegreeID == degreeID).OrderBy(yd => yd.Year);
             var sl = new SelectList(yearDegrees, "YearDegreeID", "Year", 0);
+            
             return Json(sl);
         }
         /// <summary>

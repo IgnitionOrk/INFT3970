@@ -24,9 +24,9 @@ function DegreeOptions() {
     $("#ddlYearDegrees").html("");
     $("#ddlMajors").html("");
     var universityID = $("#ddlUniversities").val();
-    
+
     // Request the data for the drop down list "#ddlDegrees"
-    request("/MainMenu/DegreeOptions", "universityID", universityID, "#ddlDegrees", YearDegreeOptions);
+    request("/MainMenu/DegreeOptions", "universityID", universityID, "#ddlDegrees", YearDegreeOptions)
 }
 // Populates the dropdown list 'ddlYears' with all Degrees associated with the First Degree in 'ddlDegrees'
 // param: degreeID: Will be associated with a particular Degree selected by the user.
@@ -36,7 +36,7 @@ function YearDegreeOptions() {
     var degreeID = $("#ddlDegrees").val();
 
     // Request the data for the drop down list "#ddlYearDegrees"
-    request("/MainMenu/YearDegreeOptions", "degreeID", degreeID, "#ddlYearDegrees", MajorOptions);
+    request("/MainMenu/YearDegreeOptions", "degreeID", degreeID, "#ddlYearDegrees", MajorOptions)
 }
 
 // Populates the dropdown list 'ddlMajors' with all Degrees associated with the First Year in 'ddlYears'
@@ -46,35 +46,31 @@ function MajorOptions() {
     var yearDegreeID = $("#ddlYearDegrees").val();
 
     // Request the data for the drop down list "#ddlMajors"
-    request("/MainMenu/MajorOptions", "yearDegreeID", yearDegreeID, "#ddlMajors", null);
+    request("/MainMenu/MajorOptions", "yearDegreeID", yearDegreeID, "#ddlMajors", null)
 }
 
 // Issues an ajax call to request the data from a particular function (url)
 function request(url, field, id, selector, nextOptionsFunction) {
-    // Create a simply object that stores the field, and id. 
-    try {
-        var dataObj = {};
-        dataObj[field] = id;
-        $.ajax({
-            url: url,
-            cache: false,
-            type: "POST",
-            data: dataObj,
-            success: function (data) {
-                // Save the options in the drop down list (selector). 
-                implement(data, selector);
 
-                // Possibly cascade to the last drop down list for implementing the data.
-                nextOptionsFunction();
-            },
-            error: function () {
-                alert("Could not connect to requested page.");
-            }
-        });
-    }
-    catch (exception) {
-        alert("Could not connect to requested page.");
-    }
+    // Create a simply object that stores the field, and id. 
+    var dataObj = {};
+    dataObj[field] = id;
+    $.ajax({
+        url: url,
+        cache: false,
+        type: "POST",
+        data: dataObj,
+        success: function (data) {
+            // Save the options in the drop down list (selector). 
+            implement(data, selector)
+
+            // Possibly cascade to the last drop down list for implementing the data.
+            nextOptionsFunction();
+        },
+        error: function () {
+            alert("Could not connect to requested page.");
+        }
+    })
 }
 
 // Implements the data for a particular drop down list (selector). 
