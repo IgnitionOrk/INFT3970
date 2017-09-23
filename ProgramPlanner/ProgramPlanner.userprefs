@@ -1,9 +1,37 @@
 ﻿<Properties StartupConfiguration="{762BBC33-10A5-4AE5-9C6E-1E4AB4154B27}|">
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="ProgramPlanner" expanded="True">
+            <Node name="ProgramPlanner" expanded="True">
+              <Node name="App_Data" expanded="True">
+                <Node name="ProgramPlannerContext-20170729114207.mdf" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State name="__root__">
+          <Node name="ProgramPlanner" expanded="True">
+            <Node name="ProgramPlanner" expanded="True">
+              <Node name="ProgramPlanner" expanded="True">
+                <Node name="ProgramPlanner.Models.Course" expanded="True">
+                  <Node name="Course()" selected="True" />
+                </Node>
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.ProgramPlanner PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
 </Properties>
