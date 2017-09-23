@@ -2,16 +2,13 @@
 
 @{
     Layout = null;
-
 }
 
 <!DOCTYPE html>
-<!-- -->
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Uni Plan</title>
-
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Plan.css")
     <link rel="stylesheet" href="~/Content/jquery-ui.min.css">
@@ -20,7 +17,6 @@
     <script src="~/Content/scripts/jquery.js"></script>
     <script src="~/Content/scripts/jquery-ui.min.js"></script>
     <script src="~/Content/scripts/jquery.shapeshift.js"></script>
-
     <div id="headerRow" class="row">
         <div id="imgHeaderContainer" class="col-md-2 col-md-offset-1">
             <img id="imgHeader" src="~/Content/images/adaymaycome.jpg" />
@@ -29,9 +25,7 @@
     </div>
     <!--Row at top that contains the semester heading names -->
     <div id="semesterRow" class="row">
-
     </div>
-
     <div id="mainRow" class="row">
         <!--Main row with most page items-->
         <!--Main menu on right of page -->
@@ -42,24 +36,19 @@
                     <li><a href="#tabs-2">Electives</a></li>
                     <li><a href="#tabs-3">Edit</a></li>
                 </ul>
+
                 <div id="tabs-1">
-                    <!--Directeds tab -->
-                    <div class="draggable directeds">Course 1</div>
-                    <div class="draggable directeds">Course 2</div>
-                    <div class="draggable directeds">Course 3</div>
-                    <div class="draggable directeds">Course 4</div>
+                    <!--Directeds tab -->                   
                 </div>
+
                 <div id="tabs-2">
                     <!--Electives tab -->
                     <div class="ui-widget">
-
                         <!--Search box under electives tab -->
                         <label for="searchBox">Search: </label>
                         <input id="searchBox">
-
                         <!--Enables interactive menu that drops down when clicks -->
                         <div id="accordion">
-
                             @foreach (var item in Model)
                             {
                                 <h3> @Html.DisplayFor(modelItem => item.StudyAreaName)</h3>
@@ -73,68 +62,52 @@
                                                 var courseCode = @Html.DisplayFor(modelItem => course.CourseCode);
                                                 <div id=@courseCode class="draggable electives">@courseCode</div>
                                             }
-
                                         </div>
                                     }
                                 </div>
                             }
                         </div>
-
                     </div>
                 </div>
-
                 <div id="tabs-3">
                     <!--Menu on left of page that has page options for the user -->
                     <div id="optionsMenu">
-
                         <div id="editOption1">
                             <p id="lblNewNumOfSubjects"><b>Number of courses per semester:</b></p>
                             <input type="number" min="1" max="5" value="4" id="newNumOfSubjects" />
                             <input type="button" id="btnNewNumOfSubjects" value="Update" />
                         </div>
-
                         <input type="hidden" name="oldNumOfSubjects" id="oldNumOfSubjects" value="@ViewBag.SubjectsPerSemester" />
                         <input type="hidden" name="unitsPerDegreeOriginal" id="unitsPerDegreeOriginal" value="@ViewBag.UnitsPerDegree" />
                         <input type="hidden" name="unitsPerDegree" id="unitsPerDegree" value="@ViewBag.UnitsPerDegree" />
-
                         <div id="editOption2">
                             <input type="button" id="btnAddCourse" value="Add Course" />
                             <input type="button" id="btnRemoveCourse" value="Remove Last Course" />
                         </div>
-
                         <div id="editOptionDegreeOptional">
-                            <div id="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div>
-                            <div id="degreeOptionalSlot"></div>
+                            <div id="degreeOptionalSlots"></div>
                         </div>
-
                     </div>
-
                     <!--Form for submitting page and saving grid to a user account -->
                     @using (Html.BeginForm())
                     {
                         @Html.AntiForgeryToken()
                         <form class="form-group">
                             <input type="hidden" name="InputData" id="courseInput" />
-                            <input type="submit" value="Index" class="btn btn-default" id="btnPicker" />
+                            <!--<input type="submit" value="Index" class="btn btn-default" id="btnPicker" />-->
                         </form>
                     }
-
-
                 </div>
             </div>
         </div>
-
         <!--Main plan grid -->
         <div id="plan" class="col-md-9">
-
             <div id="semester1Name" class="semesterName col-md-offset-1">Semester 1</div>
             <div id="semester2Name" class="semesterName col-md-offset-1">Semester 2</div>
-
             <div class="row">
                 <div id="semester1Box" class="col-md-offset-1 semesterBox"></div>
                 <div id="semester2Box" class="col-md-offset-1 semesterBox"></div>
             </div>
-
             <div class="row" id="rowYearInnerPlan">
                 <ul id="yearNameColumn" class="col-md-1">
                     @for (var i = 1; i <= @ViewBag.UnitsPerDegree / 80; i++)
@@ -142,9 +115,8 @@
                         <li class="yearNames">Year @i</li>
                     }
                 </ul>
-
+                <!--Creates the course grid for user to drop courses into.-->
                 <div class="col-md-11" id="colInnerPlan">
-
                     <div id="innerPlan">
                         @for (var i = 1; i <= @ViewBag.UnitsPerDegree / 80; i++)
                         {
@@ -154,21 +126,17 @@
                             }
                         }
                     </div>
-
                 </div>
-
             </div>
         </div>
-
     </div>
-
-
-
     <script type="text/javascript">
-        //set-up script
+        // Sets up the grid
         $(function () {
             //sets grid width depending on how many items to be displayed
             var planWidth = 2 * $("#oldNumOfSubjects").val() * 103;
+
+            // Set the width attribute of the class innerPlan to planWidth; 
             $("#innerPlan").css("width", planWidth);
 
             //whole box that contains grid and year/column headings, set height depending on num of years in degree
@@ -177,31 +145,31 @@
 
             $(".semesterBox").css("width", planWidth / 2 + 3);
 
-            //enable grid to work
+            // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
             $('#innerPlan').shapeshift({
                 gutterX: 5,
             });
 
             //set initial values
             var courseText = "";
+
+            // For each course box
             $(".courseBox").each(function () {
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
-
+                
             //tabbed menu
             $(function () {
-                $("#tabs").tabs();
+                $("#tabs").tabs({ heightStyle: "fill", });
             });
 
         });
 
     </script>
-
     <script>
         //every time a box is dropped and dragged, loop through all the boxes and reset the value of the hidden field that stores the
         //html values of all the boxes. when submit button is clicked, that value is sent through to the plancontroller.
-
         $container = $("#innerPlan");
         $container.on("ss-rearranged", function (e, selected) {
             var courseText = "";
@@ -211,7 +179,6 @@
             $("#courseInput").val(courseText);
         });
     </script>
-
     <script>
         //on click to change number of subjects per semester
         $("#btnNewNumOfSubjects").click(function () {
@@ -220,8 +187,10 @@
             var newNumber = $("#newNumOfSubjects").val();
             var difference = newNumber - oldNumber;
 
-            if (difference != 0) {//if a change was actually made
-                //change width to fit new number of courseBoxes
+            // Determines if the input from the user is different from the old number of subjects per semester
+            // in the grid. If the difference is 0; then both the old number of subjects and input were the same and hence we do not 
+            // need to update the grid. 
+            if (difference != 0) {
                 var planWidth = 2 * newNumber * 103;
                 if (newNumber == 1 || newNumber == 2 || newNumber == 3) {
                     planWidth = planWidth + 11;
@@ -280,38 +249,32 @@
 
                 $("#oldNumOfSubjects").val(newNumber);
 
+                // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
                 $('#innerPlan').shapeshift({
                     gutterX: 5,
                 });
             }
-
         });
-
     </script>
-
-
     <script>
         //search box
         $(function () {
             var availableTags = @Html.Raw(Json.Encode(ViewBag.CourseCodeList));
-
             $("#searchBox").autocomplete({
                 source: availableTags
             });
         });
 
         $("#searchBox").on("autocompleteselect", function (event, ui) {
-            //$(".accordions").accordion("active", '.accordions > div:has(#ARCH1001) > h3');
             var courseSelected = "#" + ui.item.value;   //select the course we want
             $("#courseInput").val(courseSelected);
 
-            //outside accordion
+            //outside accordion - search for the one we want and open it (study are accordion)
             var studyArea = $(courseSelected).parent().parent(); //get the study area div
             //get the index of the study area div so that the accordion can use it
             var studyAreaIndex = $('#accordion .accordions').index(studyArea);
             $("#accordion").accordion("option", "active", studyAreaIndex); //activate study area accordion (outside accordion)
-
-
+            //inner accordion, search for the one we want and open it (abbreviation accordion)
             //inner accordion
             var abbr = $(courseSelected).parent();
             var abbrSelector = studyArea.find(".subAccordion");
@@ -327,43 +290,42 @@
             setTimeout(function () {
                 el.css("background", originalColor);
             }, x);
-
-
         });
     </script>
 
     <script>
         //accordian
+        // Study Area will contain a sub-collapsable list of Abbreviations.
         $(function () {
             $("#accordion").accordion({
                 heightStyle: "content",
                 collapsible: true,
                 active: false,
             });
+
+            // Each Abbrevation will contain a sub-list of Courses. 
             $(".accordions").accordion({
                 heightStyle: "content",
                 collapsible: true,
                 active: false,
             });
-
         });
     </script>
 
     <script>
         //drag and drop electives/directeds
         $(function () {
-            $(".draggable").draggable({
-                appendTo: "body",
-                helper: "clone"
-            });
             $(".droppable").droppable({
                 accept: ".draggable",
                 drop: function (event, ui) {
-
                     var approval = true;
-
-                    //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
-                    if ($(this).hasClass("degreeCore")) {
+                    // Index for the divs starts at 1;
+                    if (!isRunningInSemester($(this).index() + 1, $(ui.draggable).text())) {
+                        alert("Course is not being held in that semester. ");
+                        approval = false;
+                    }
+                     //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
+                    else if ($(this).hasClass("degreeCore")) {
                         if (!confirm("You are about to override a core course for your degree. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
                             approval = false;
                         }
@@ -374,56 +336,158 @@
                             approval = false;
                         }
                     }
+                    //if box is a majorslot, check if there's a rule behind it and if the rule is being disobeyed, block transaction
+                    else if ($(this).hasClass("majorslot")) {
+                        //If this gridbox's attribute called 'rule' is merely a year level, we get the first char of it and compare it to the year level of the course that is being dragged 
+                        //onto this gridbox. If they match, the course matches this box's rule and we can continue. Else deny it.
+                        var courseYearLevel = $(ui.draggable).text().substring(4, 5);
+                        if (!$(this).attr("rule").substring(0, 1).localeCompare(courseYearLevel) == 0) {
+                            alert("That slot requires a " + i + "000 level course");
+                            approval = false;
+                        }
+                    }
 
-                    //otherwise continue on with the drop and drag
                     if (approval) {
+                        //otherwise continue on with the drop and drag
                         $(this).html($(ui.draggable).text());
 
-                        //if course dragged is an elective, set target box to green
-                        if (ui.draggable.hasClass("electives")) {
-                            $(this).removeClass("majorCourse");
-                            $(this).removeClass("degreeCore");
-                            $(this).removeClass("majorCore");
+                        // Determine what classes needs their backgrounds updated.
+                        var classes = determineClasses(ui);          
 
-                            $(this).addClass("electiveCourse");
-                        }
-                        //else course dragged is a directed, so set target box to blue
-                        else {
-                            $(this).removeClass("electiveCourse");
-                            $(this).removeClass("degreeCore");
-                            $(this).removeClass("majorCore");
-
-                            $(this).addClass("majorCourse");
-                        }
+                        // Update the background of the classes. 
+                        addBackgroundColour(this, classes);
                     }
                     else {
                         approval = true;
                     }
-
                 }
             });
         });
-    </script>
 
-    <script>
-        //when a courseBox is clicked, send focus to the search box
-        $(".courseBox").click(function () {
-            $("#tabs").tabs({
-                active: 1
+        //
+        function isRunningInSemester(index, courseCode) {
+            var semester;
+            if ((index >= 4 && index <= 8) || (index >= 13 && index <= 16) || (index >= 21 && index <=24)) {
+                semester = 2;
+            }
+            else {
+                semester = 1;
+            }
+
+            $.ajax({
+                url: "/Plan/isRunningInSemester",
+                cache: false,
+                type: "POST",
+                data: { semesterID: semester, courseCode: courseCode },
+                success: function (data) {
+                    count = parseInt(data.data);
+                },
+                error: function () {
+                    alert("Could not request the required information for that course");
+                }
             });
-            $('#searchBox').focus();
+            return count > 0;
+        }
 
+        // Generates a list of classes (as strings) that will need to be updated when the user has dropped
+        // particular courses in particular grid spots.
+        function determineClasses(ui) {
+            var strClasses = [];
+            //if course dragged is an elective, set target box to green (as it will be the last element in the array);
+            if (ui.draggable.hasClass("electives")) {
+                strClasses = ["majorCourse", "degreeCore", "majorCore", "majorslot", "electiveCourse"];
+            }
+            else {
+                //else course dragged is a directed, so set target box to blue (as it will be the last element in the array);
+                strClasses = ["electiveCourse", "degreeCore", "majorCore", "majorslot", "majorCourse"];
+            }
+            return strClasses;
+        }
+
+        // Function to change the background colour of a (div).
+        function addBackgroundColour(selector, classes) {
+            // Changing the background colour  of the (divs) displaying course information. 
+            // The last str in classes will have the class that is added not removed
+            for (var i = 0; i < classes.length - 1; i++) {
+                $(selector).removeClass(classes[i]);
+            }
+            // The last str in the array list will be the added class
+            $(selector).addClass(classes[classes.length - 1]);
+        }
+     
+    </script>
+    <script>
+        //when a courseBox is clicked, send focus to the search box (unless the box is a slot, in which case direct to the appropriate section)
+        $(".courseBox").click(function () {
+
+            //if has children, it's a slot, so do stuff, else just go to search bar
+            if ($(this).children().length > 0) {
+                $("#tabs").tabs({
+                    active: 2
+                });
+                $("#degreeOptionalSlots").children().css("background", "white");
+                //find matching section, highlight it
+                var childButton = $(this).children().first();
+                var tempID = childButton.attr('id').substring(0, 1); //first char is the ID we need
+                var slotContainer = $('#' + tempID + 'optionalDegreeSlotContainer');
+                slotContainer.css("background", "yellow");
+            }
+            else if ($(this).hasClass("majorslot")) {   //if coursebox is for a majorslot, show directed tab  
+
+                //show directed tab
+                $("#tabs").tabs({
+                    active: 0
+                });
+
+                //go through the directedOptions attribute and only display those in the directed tab
+
+                //remove the currently displayed children of the headings of the directed tab
+                $($("#tabs-1").children()).each(function () {
+                    $(this).children().slice(1).remove();
+                });
+
+                var directedOptions = $(this).attr("directedOptions"); //list of directeds this slot can do
+
+                while (directedOptions.length > 0) {    //while there are still courses to be done
+                    var nextCourse = tempList.substring(0, 8);  //get course (8chars long)
+                    var parentDiv = $("#" + nextCourse.substring(4, 5) + "000LevelDirecteds");  //find it's parent, which is a year level heading
+                    parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + nextCourse + '</div>'); //add course to the heading
+                    directedOptions = directedOptions.substring(9); //get next course
+                }
+
+                //added new divs with draggable, so add that functionality to them
+                $(".draggable").draggable({
+                    appendTo: "body",
+                    helper: "clone"
+                });
+
+            }
+            else {  //else coursebox is for any other course, so just display electives when clicked
+
+                $("#tabs").tabs({
+                    active: 1
+                });
+                $('#searchBox').focus();
+
+            }
         });
     </script>
 
+    
     <script>
+        /*
+        Can go in separate script
+
+        **/
         //add new course on click
         $("#btnAddCourse").click(function () {
             $("#innerPlan").append("<div class='courseBox droppable'>Empty Course</div>");
 
-            //fill in extra or less years on the side column
-            $(".yearNames").remove();
+            // +10 represents another course slot for the grid. We are assuming it is 10 not 20. 
             $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) + 10);
+
+            // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
+            $(".yearNames").remove();
             var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
             for (var i = 1; i <= newYears; i++) {
                 $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
@@ -432,29 +496,34 @@
             $('#innerPlan').shapeshift({
                 gutterX: 5,
             });
-
         });
 
         //remove a course on click
         $("#btnRemoveCourse").click(function () {
+
             //only remove a subject if the result will not be less than the min required number of subjects for the course
             if ($("#unitsPerDegreeOriginal").val() < $("#unitsPerDegree").val()) {
                 $(".courseBox").last().remove();
 
                 //fill in extra or less years on the side column
                 $(".yearNames").remove();
+
+                 // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
+                $(".yearNames").remove();
                 $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
+
+                // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
                 var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
                 for (var i = 1; i <= newYears; i++) {
                     $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
                 }
 
+                // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
                 $('#innerPlan').shapeshift({
                     gutterX: 5,
                 });
             }
         });
-
     </script>
 
     <script>
@@ -464,76 +533,38 @@
         var coursesInserted1 = [8, 8, 8, 8, 8, 8];
         var coursesInserted2 = [4, 4, 4, 4, 4, 4];
 
-
-         //get names for appropriate course boxes - degree cores
+        //get names for appropriate course boxes - degree cores
+        //get names for appropriate course boxes - degree cores
         $(function () {
             var semester1Cores = @Html.Raw(Json.Encode(ViewBag.Sem1Cores));
             var semester2Cores = @Html.Raw(Json.Encode(ViewBag.Sem2Cores));
 
-            //loop through all the core courses for the semester, set the correct box to that course
-            for (i = 0; i < semester1Cores.length; i++) {
-
-                var tempCode = semester1Cores[i];               //get the corresponding course
-                var yearLevelWaiting = tempCode.substring(4, 5); //year level we will insert at (row in grid)
-                coursesInserted1[yearLevelWaiting]--;           //so that the next course inserted will be the next box along
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted1[yearLevelWaiting]; //set the correct box set
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                 //change html to new course code
-                targetBox.addClass("degreeCore");
-            }
-
-            //same but for semester 2
-            for (i = 0; i < semester2Cores.length; i++) {
-
-                var tempCode = semester2Cores[i];
-                var yearLevelWaiting = tempCode.substring(4, 5);
-                coursesInserted2[yearLevelWaiting]--;
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted2[yearLevelWaiting];
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                 //change html to new course code
-                targetBox.addClass("degreeCore");
-
-            }
+            addSemesterCourses(semester1Cores, "degreeCore", coursesInserted1);
+            addSemesterCourses(semester2Cores, "degreeCore", coursesInserted2);
         });
+
         //get names for appropriate course boxes - major cores
         $(function () {
-
-             var test1 = @Html.Raw(Json.Encode(ViewBag.Test1));
-             $("#courseInput").val(test1);
-
             var semester1MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem1MajorCores));
             var semester2MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem2MajorCores));
 
-            //loop through all the core courses for the semester, set the correct box to that course
-            for (i = 0; i < semester1MajorCores.length; i++) {
-
-                var tempCode = semester1MajorCores[i];                                          //get the corresponding course
-                var yearLevelWaiting = tempCode.substring(4, 5);                                //year level we will insert at (row in grid)
-                coursesInserted1[yearLevelWaiting]--;                                           //so that the next course inserted will be the next box along
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted1[yearLevelWaiting];     //set the correct box set
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                                                       //change html to new course code
-                targetBox.addClass("majorCore");
-            }
-
-            //same but for semester 2
-            for (i = 0; i < semester2MajorCores.length; i++) {
-
-                var tempCode = semester2MajorCores[i];
-                var yearLevelWaiting = tempCode.substring(4, 5);
-                coursesInserted2[yearLevelWaiting]--;
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted2[yearLevelWaiting];
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html(tempCode);                                                       //change html to new course code
-                targetBox.addClass("majorCore");
-
-            }
+            addSemesterCourses(semester1MajorCores, "majorCore", coursesInserted1);
+            addSemesterCourses(semester2MajorCores, "majorCore", coursesInserted2);
         });
 
+        // Adds the semester courses into the grid for a particular semester.
+        function addSemesterCourses(semesterCourses, targetClass, coursesInserted){
+            //loop through all the core courses for the semester, set the correct box to that course
+            for (i = 0; i < semesterCourses.length; i++) {
+                var tempCode = semesterCourses[i];                                                      //get the corresponding course
+                var yearLevelWaiting = tempCode.substring(4, 5);                                //year level we will insert at (row in grid)
+                coursesInserted[yearLevelWaiting]--;                                           //so that the next course inserted will be the next box along
+                var boxIndex = (yearLevelWaiting * 8) - coursesInserted[yearLevelWaiting];     //set the correct box set
+                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
+                targetBox.html(tempCode);                                                       //change html to new course code
+                targetBox.addClass(targetClass);
+            }
+        }
 
 
         //optional core courses
@@ -542,6 +573,11 @@
             var totalOutput = "";
             //input is loaded in this form: "courseCode1 courseCode2, semesterNumber" and that is looped for each optionalDegreeSlot
             for (i = 0; i < degreeSlots.length; i++) {  //at most usually is 1, more often isn't even triggered
+
+                $("#degreeOptionalSlots").html($("#degreeOptionalSlots").html() +
+                    '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
+
+
                 var courseCodes = degreeSlots[i][0];
                 var semester = degreeSlots[i][1];
 
@@ -558,7 +594,7 @@
                 }
 
                 var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html('<input type="button" class="btnSelectCore" value="Select Core" />');
+                targetBox.html('<input type="button" id="' + i + 'btnGridDegreeSlot" class="btnGridDegreeSlot" value="Select Core" />');
 
                 //find which box it should be
                 //add a button to that box
@@ -566,7 +602,7 @@
                 while (true) {
 
                     nextCourseCode = courseCodes.substring(0, 8);
-                    $("#degreeOptionalSlot").html($("#degreeOptionalSlot").html() + '<input type="button" class="btnDegreeSlot" id="option' + nextCourseCode + '" value="' + nextCourseCode + '" />');
+                    $("#degreeOptionalSlot" + i).html($("#degreeOptionalSlot" + i).html() + '<input type="button" class="btnDegreeSlot" id="' + i + nextCourseCode + '" value="' + nextCourseCode + '" />');
 
                     courseCodes = courseCodes.substring(8);
                     //if courseCodes only contains an empty string, no more courses are remaining to print, so break
@@ -578,17 +614,84 @@
                     }
 
                 }
-
-
-
             }
 
         });
 
+        //when button is clicked, the courseCode is sent to its corresponding box
+        $('#degreeOptionalSlots').on('click', '.btnDegreeSlot', function () {
+            var buttonID = $(this).attr('id');
+            buttonID = buttonID.substring(0, 1); //get first char of id from button, this will enable us to find the matching grid box we need
+            var targetBox = $('#' + buttonID + "btnGridDegreeSlot"); //get grid box that matches to this button
+            targetBox = targetBox.parent().html($(this).val()); //set grid box text to the value of the button clicked and remove button from target so that only box remains
+            $(this).parent().parent().remove(); //remove this from the menu
+        });
 
 
+        //sort out directed courses
+        $(function () {
+            var majorSlots = @Html.Raw(Json.Encode(ViewBag.MajorSlots));
+            var allDirecteds = @Html.Raw(Json.Encode(ViewBag.AllDirecteds));
+            //$("#courseInput").val(majorSlots);
 
+            //for each year level, display a heading for it
+            for (i = 1; i <= 3; i++) {
+                var parentDiv = $("#tabs-1");
+                parentDiv.html(parentDiv.html() + '<div class="directedHeading" id="' + i + '000LevelDirecteds"><b>' + i +'000 Level Courses</b></div>');
+            }
+
+            //loop through allDirecteds and display in menu under directed tab
+            for (i = 0; i < allDirecteds.length; i++) {
+                var parentDiv = $("#" + allDirecteds[i].substring(4, 5) + "000LevelDirecteds");
+                parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + allDirecteds[i] + '</div>');
+            }
+
+            //makes directed courses draggable
+            $(".draggable").draggable({
+                appendTo: "body",
+                helper: "clone"
+            });
+
+
+            //make spots for the majorslots
+            for (i = 0; i < majorSlots.length; i++) {   //foreach majorslot
+
+                var spotFound = false;  //when this majorslot finds a spot in the grid, go to next majorslot
+                var yearLevel = 1;      //start at year level 1
+
+                //soon as a spot is found in the grid, go to next majorslot
+                while (!spotFound) {
+
+                    if (coursesInserted1[yearLevel] > 4) {  //4 or less will push us into 2nd semester
+                        coursesInserted1[yearLevel]--;
+                        var boxIndex = (yearLevel * 8) - coursesInserted1[yearLevel]; //set the correct box in the row
+                        var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
+
+                        var rule = majorSlots[i][0];
+
+                        if (rule.localeCompare("Any") == 0){    //if rule is Any, then let user choose any directed course
+                            targetBox.html("Choose any directed course here");
+                        }
+                        else if (!rule.localeCompare("Nan") == 0){  //if rule is a year level, let user pick a directed course from that year level
+                            targetBox.html("Choose a " + rule + " level directed course here");
+                        }
+                        else {  //rule is complicated, so just display the rule and let user pick the right course
+                            targetBox.html("Directed - click for more details");
+                        }
+                        
+                        targetBox.addClass("majorslot");
+                        targetBox.attr('rule', rule);
+                        targetBox.attr('directedOptions', majorSlots[i][1]);
+                        spotFound = true;
+
+                    }
+                    else {
+                        yearLevel++;
+                    }
+                }
+                spotFound = false;
+            }
+        });
     </script>
-
 </body>
 </html>

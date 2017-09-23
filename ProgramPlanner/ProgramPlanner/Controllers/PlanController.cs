@@ -21,7 +21,7 @@ namespace ProgramPlanner.Controllers
             ViewBag.UnitsPerDegree = 240;
             ViewBag.SubjectsPerSemester = 4;
             getCourseCodes();
-            getDegreeCores(); //doesn't include optional cores yet
+            getDegreeCores();
             getMajorCores();
             getDegreeOptionalSlots();
             return View(db.StudyAreas.ToList());
@@ -32,9 +32,10 @@ namespace ProgramPlanner.Controllers
             ViewBag.UnitsPerDegree = 240;
             ViewBag.SubjectsPerSemester = 4;
             getCourseCodes();
-            getDegreeCores(yearDegreeID); //doesn't include optional cores yet
+            getDegreeCores(yearDegreeID);
             getMajorCores(majorID);
-            getDegreeOptionalSlots(yearDegreeID);    
+            getDegreeOptionalSlots(yearDegreeID);
+            getMajorSlots(majorID);
             return View(db.StudyAreas.ToList());
         }
         /// <summary>
@@ -224,29 +225,72 @@ namespace ProgramPlanner.Controllers
             ViewBag.DegreeSlots = degreeSlots;
         }
 
-        private void getDirectedSlots()
+
+
+        private void getMajorSlots(int majorID)
         {
-            /*
-            //pass in list of directeds
-            int majorID = 2;   //will be passed in from main menu
             var myMajor = db.Majors.Find(majorID);
 
-            List<String> directedSlots = new List<String>();
+            //2d array - each stores an array containing 2 elements:
+            //1st dimension is the rule. 2nd is the list of courses that go in that slot
+            List<string[]> majorSlots = new List<string[]>();
 
-            foreach (var directedSlot in myMajor.MajorSlots)
+            //all directeds for this major
+            List<String> allDirecteds = new List<String>();
 
-            /*
-            foreach (var directedSlot in myMajor.DirectedSlots)
+            foreach (var majorSlot in myMajor.MajorSlots)
             {
-                string temp = "";
-                foreach (var optionalDirected in directedSlot.)
-                {
-                    temp += optionalDirected.Course.CourseCode + " ";
-                }
-                directedSlots.Add(temp);
-            }
+                string[] strArr = new string[2];
 
-            ViewBag.DegreeSlots = directedSlots;*/
+                strArr[0] = majorSlot.Rule; //store the rule
+
+                if (strArr[0].Equals("Any"))
+                {
+                    strArr[1] = ""; 
+                }
+
+                //store all the directeds for this slot
+                foreach (var directed in majorSlot.Directeds)
+                {
+                    string CourseCode = directed.Course.CourseCode;
+
+                    strArr[1] += CourseCode + " "; //because of the way it's passed to javascript, need a non-space or comma delimiter 
+
+                    if (!allDirecteds.Contains(CourseCode)) //if course isn't already in the list of all directeds, add it
+                    {
+                        allDirecteds.Add(CourseCode);
+                    }
+
+                }
+
+                majorSlots.Add(strArr);
+
+            }
+            ViewBag.MajorSlots = majorSlots;
+            ViewBag.AllDirecteds = allDirecteds;
+        }
+        [HttpPost]
+        public ActionResult isRunningInSemester(int semesterID, string courseCode) {
+            // Need to check if that course was running in the same year as the program planner. 
+            int count = 0;
+            var abbr = courseCode.Substring(0, 4);
+            var abbrID = (db.Abbreviations.Where(
+                ar => ar.AbbrevName == abbr).SingleOrDefault()).AbbreviationID;
+
+            var code = Convert.ToInt32(courseCode.Substring(4, 4));     // e.g. 1004
+            var course = db.Courses.Where(
+                c => c.Code == code && 
+                c.AbbreviationID == abbrID).SingleOrDefault();
+
+            if (course != null){
+                count = (db.SemesterCourses.Where(
+                    sc => sc.SemesterID == semesterID && 
+                    sc.CourseID == course.CourseID)).Count();
+            }
+            else {
+                throw new NullReferenceException();
+            }
+            return Json(new { data = count });
         }
 
         [HttpPost]

@@ -109,7 +109,13 @@ h1 {
     top: 0px;
 }
 
+.directedHeading {
+    font-size:18px;
+    margin-bottom:30px;
+}
+
 .directeds {
+    font-size: 14px;
     width: 100px;
     margin-bottom: 2px;
     padding: 2px;
@@ -178,6 +184,13 @@ h4 {
 
 .electiveCourse {
     background: #b4f776;
+}
+
+.majorslot {
+    border: 2px dashed #1da5e1;
+    line-height:16px;
+    font-size:14px;
+    padding-top:10px;
 }
 
 .btnGridDegreeSlot {
