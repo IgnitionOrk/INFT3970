@@ -290,6 +290,7 @@ namespace ProgramPlanner.Controllers
             else {
                 throw new NullReferenceException();
             }
+            Debug.WriteLine("COUNT: " + count);
             return Json(new { data = count });
         }
 
