@@ -123,7 +123,7 @@
                         {
                             for (var y = 1; y <= @ViewBag.SubjectsPerSemester * 2; y++)
                             {
-                                <div class="courseBox droppable potentialElective" data-original="Elective" data-originalClass="potentialElective">Elective</div>
+                                <div class="courseBox droppable potentialElective" data-original="Elective" data-originalClass="potentialElective" data-previousIndex="">Elective</div>
                             }
                         }
                     </div>
@@ -153,9 +153,12 @@
 
             //set initial values
             var courseText = "";
-
             // For each course box
             $(".courseBox").each(function () {
+                // Determining the index at runtime of each particular div tag. 
+                // Used if a drop operation fails the div tag can return to its previous position in the
+                // parent element (#innerPlan);
+                $(this).attr("data-previousIndex", $("#innerPlan").find($(this)).index());
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
@@ -169,43 +172,23 @@
     <script>
         //every time a box is dropped and dragged, loop through all the boxes and reset the value of the hidden field that stores the
         //html values of all the boxes. when submit button is clicked, that value is sent through to the plancontroller.
-        $container = $("#innerPlan");
-        $container.on("ss-rearranged", function (e, selected) {
-<<<<<<< HEAD
+        $("#innerPlan").on("ss-rearranged", function (e, selected) {
             if ($(selected).html().length == 8) {
+                var index = 0;
                 if (isRunning($(selected).index(), $(selected).html())) {
-                    var courseText = "";
-                    $(".courseBox").each(function () {
-                        courseText = courseText + $(this).text() + ",";
-                    });
-                    $("#courseInput").val(courseText);
+                    // Update the index the selected 'course' was dropped into.
+                    $(selected).attr("data-previousIndex", $(selected).index());
                 }
                 else {
                     alert("That course is not being held in the semester.");
                 }
             }
-            else {
-                var courseText = "";
-                $(".courseBox").each(function () {
-                    courseText = courseText + $(this).text() + ",";
-                });
-                $("#courseInput").val(courseText);}
-=======
+     
             var courseText = "";
             $(".courseBox").each(function () {
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
-            /*
-            if ($(selected).html().length == 8) {
-                if (isNotRunning($(selected).index() + 1, $(selected).html())) {
-                    alert("Course not runnng in that semester");
-                }               
-            }*/
-            
-            
-
->>>>>>> 7c87ce7c421e6453df4bc6d0fff64243f3b2e03b
         });
 
         var count = 0;
