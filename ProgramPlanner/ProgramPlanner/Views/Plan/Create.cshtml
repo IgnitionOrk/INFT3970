@@ -123,7 +123,7 @@
                         {
                             for (var y = 1; y <= @ViewBag.SubjectsPerSemester * 2; y++)
                             {
-                                <div class="courseBox droppable">Empty Course</div>
+                                <div class="courseBox droppable potentialElective" data-original="Elective" data-originalClass="potentialElective">Elective</div>
                             }
                         }
                     </div>
@@ -178,12 +178,12 @@
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
-            
+            /*
             if ($(selected).html().length == 8) {
                 if (isNotRunning($(selected).index() + 1, $(selected).html())) {
                     alert("Course not runnng in that semester");
                 }               
-            }
+            }*/
             
             
 
@@ -328,7 +328,7 @@
             $(".droppable").droppable({
                 accept: ".draggable",
                 drop: function (event, ui) {
-                    var approval = true;       
+                    var approval = true;
                     
                     //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
                     if ($(this).hasClass("degreeCore")) {
@@ -344,18 +344,29 @@
                     }
                     //if box is a majorslot, check if there's a rule behind it and if the rule is being disobeyed, block transaction
                     else if ($(this).hasClass("majorslot")) {
-                        //If this gridbox's attribute called 'rule' is merely a year level, we get the first char of it and compare it to the year level of the course that is being dragged 
-                        //onto this gridbox. If they match, the course matches this box's rule and we can continue. Else deny it.
-                        var courseYearLevel = $(ui.draggable).text().substring(4, 5);
-                        if (!$(this).attr("rule").substring(0, 1).localeCompare(courseYearLevel) == 0) {
-                            alert("That slot requires a " + i + "000 level course");
-                            approval = false;
+                        if ($(this).attr("rule").localeCompare("Any") == 0) {
+                            //the rule is any, so allow any directed course and block others
+                            if (!$(ui.draggable).hasClass('directeds')) {
+                                alert("That slot requires a directed course from the directed menu");
+                                approval = false;
+                            }
                         }
+                        else {
+                            //If this gridbox's attribute called 'rule' is merely a year level, we get the first char of it and compare it to the year level of the course that is being dragged 
+                            //onto this gridbox. If they match, the course matches this box's rule and we can continue. Else deny it.
+                            var courseYearLevel = $(ui.draggable).text().substring(4, 5);
+                            if (!$(this).attr("rule").substring(0, 1).localeCompare(courseYearLevel) == 0 || !$(ui.draggable).hasClass('directeds')) {
+                                alert("That slot requires a " + $(this).attr("rule") + " level course from the directed menu");
+                                approval = false;
+                            }
+                        }
+                        
+                        
                     }
 
                     if (approval) {
                         //otherwise continue on with the drop and drag
-                        $(this).html($(ui.draggable).text());
+                        $(this).html($(ui.draggable).text() + "<div class='ui-icon ui-icon-refresh iconRefresh'></div>");
 
                         // Determine what classes needs their backgrounds updated.
                         var classes = determineClasses(ui);          
@@ -403,11 +414,11 @@
             var strClasses = [];
             //if course dragged is an elective, set target box to green (as it will be the last element in the array);
             if (ui.draggable.hasClass("electives")) {
-                strClasses = ["majorCourse", "degreeCore", "majorCore", "majorslot", "electiveCourse"];
+                strClasses = ["majorCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "electiveCourse"];
             }
             else {
                 //else course dragged is a directed, so set target box to blue (as it will be the last element in the array);
-                strClasses = ["electiveCourse", "degreeCore", "majorCore", "majorslot", "majorCourse"];
+                strClasses = ["electiveCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "majorCourse"];
             }
             return strClasses;
         }
@@ -428,8 +439,8 @@
         //when a courseBox is clicked, send focus to the search box (unless the box is a slot, in which case direct to the appropriate section)
         $(".courseBox").click(function () {
 
-            //if has children, it's a slot, so do stuff, else just go to search bar
-            if ($(this).children().length > 0) {
+            //it's a degree core slot, so do stuff, else just go to search bar
+            if ($(this).children().hasClass("btnGridDegreeSlot")) {
                 $("#tabs").tabs({
                     active: 2
                 });
@@ -470,7 +481,7 @@
                 });
 
             }
-            else {  //else coursebox is for any other course, so just display electives when clicked
+            else if ($(this).hasClass("potentialElective")){  //else coursebox is for any other course, so just display electives when clicked
 
                 $("#tabs").tabs({
                     active: 1
@@ -503,6 +514,7 @@
 
             //jquery extension that allows grid functionality
             $('#innerPlan').shapeshift({
+
                 gutterX: 5,
             });
         });
@@ -542,6 +554,8 @@
         var coursesInserted1 = [8, 8, 8, 8, 8, 8];
         var coursesInserted2 = [4, 4, 4, 4, 4, 4];
 
+        var degreeSlots = @Html.Raw(Json.Encode(ViewBag.DegreeSlots)); //used for optional degree core slots
+
         //get names for appropriate course boxes - degree cores
         //get names for appropriate course boxes - degree cores
         $(function () {
@@ -572,57 +586,21 @@
                 var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
                 targetBox.html(tempCode);                                                       //change html to new course code
                 targetBox.addClass(targetClass);
+                targetBox.removeClass("potentialElective");
+                targetBox.attr('data-original', targetBox.html());
+                targetBox.attr('data-originalClass', targetClass);
+                
             }
         }
 
 
         //optional core courses
         $(function () {
-            var degreeSlots = @Html.Raw(Json.Encode(ViewBag.DegreeSlots));
-            var totalOutput = "";
             //input is loaded in this form: "courseCode1 courseCode2, semesterNumber" and that is looped for each optionalDegreeSlot
             for (i = 0; i < degreeSlots.length; i++) {  //at most usually is 1, more often isn't even triggered
 
-                $("#degreeOptionalSlots").html($("#degreeOptionalSlots").html() +
-                    '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
+                createDegreeOptionalSlot(i, false, null);
 
-
-                var courseCodes = degreeSlots[i][0];
-                var semester = degreeSlots[i][1];
-
-                //place a box in the next available space in the right semester
-                var yearLevelWaiting = courseCodes.substring(4, 5);
-                var boxIndex;
-                if (semester == 1) {
-                    coursesInserted1[yearLevelWaiting]--;
-                    boxIndex = (yearLevelWaiting * 8) - coursesInserted1[yearLevelWaiting];
-                }
-                else {
-                    coursesInserted2[yearLevelWaiting]--;
-                    boxIndex = (yearLevelWaiting * 8) - coursesInserted2[yearLevelWaiting];
-                }
-
-                var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
-                targetBox.html('<input type="button" id="' + i + 'btnGridDegreeSlot" class="btnGridDegreeSlot" value="Select Core" />');
-
-                //find which box it should be
-                //add a button to that box
-                var nextCourseCode = "";
-                while (true) {
-
-                    nextCourseCode = courseCodes.substring(0, 8);
-                    $("#degreeOptionalSlot" + i).html($("#degreeOptionalSlot" + i).html() + '<input type="button" class="btnDegreeSlot" id="' + i + nextCourseCode + '" value="' + nextCourseCode + '" />');
-
-                    courseCodes = courseCodes.substring(8);
-                    //if courseCodes only contains an empty string, no more courses are remaining to print, so break
-                    if (courseCodes.localeCompare(" ") == 0) {
-                        break;
-                    }
-                    else {
-                        courseCodes = courseCodes.substring(1); //remove delimiting space character
-                    }
-
-                }
             }
 
         });
@@ -632,9 +610,88 @@
             var buttonID = $(this).attr('id');
             buttonID = buttonID.substring(0, 1); //get first char of id from button, this will enable us to find the matching grid box we need
             var targetBox = $('#' + buttonID + "btnGridDegreeSlot"); //get grid box that matches to this button
-            targetBox = targetBox.parent().html($(this).val()); //set grid box text to the value of the button clicked and remove button from target so that only box remains
+            targetBox = targetBox.parent().html($(this).val() + "<div class='ui-icon ui-icon-refresh iconRefresh'></div>"); //set grid box text to the value of the button clicked and remove button from target so that only box remains
+            targetBox.addClass("degreeCore");
             $(this).parent().parent().remove(); //remove this from the menu
         });
+
+        
+        $('.courseBox').on('click', '.iconRefresh', function () {
+            //reset button on degree optional core courses, when clicked it reset the box and allows the user to re-choose their choice
+            if ($(this).parent().hasClass("degreeCore")) {
+                if (confirm("You are about to reset this box. You will be able to rechoose your selection. Are you sure?")) {
+                    var temp = 0;
+                    temp = + $(this).parent().attr("data-i");
+                    createDegreeOptionalSlot(temp, true, $(this).parent().index() + 1);
+                }
+            }
+            else {  
+                if (confirm("You are about to reset this box. Are you sure?")) {                   
+                    $(this).parent().removeClass("majorCourse");
+                    $(this).parent().removeClass("degreeCore");
+                    $(this).parent().removeClass("electiveCourse");
+                    $(this).parent().addClass($(this).parent().attr('data-originalclass'));
+                    $(this).parent().html($(this).parent().attr('data-original'));
+                    
+                }
+            }
+            
+        });
+
+
+
+        //create a spot in the options menu for the optional core course to be chosen, and set the designated courseBox to be set.
+        //refresh is a boolean, if true, this slot if being refreshed, and if false this slot is being set for the first time
+        function createDegreeOptionalSlot(i, refresh, index) {
+            $("#degreeOptionalSlots").html($("#degreeOptionalSlots").html() +
+                '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
+           
+            var courseCodes = degreeSlots[i][0];
+            var semester = degreeSlots[i][1];
+
+            //place a box in the next available space in the right semester
+            var yearLevelWaiting = courseCodes.substring(4, 5);
+            var boxIndex;
+
+            if (refresh){
+                boxIndex = index;
+            }
+            else {
+                if (semester == 1) {
+                    coursesInserted1[yearLevelWaiting]--;
+                    boxIndex = (yearLevelWaiting * 8) - coursesInserted1[yearLevelWaiting];
+                }
+                else {
+                    coursesInserted2[yearLevelWaiting]--;
+                    boxIndex = (yearLevelWaiting * 8) - coursesInserted2[yearLevelWaiting];
+                }
+            }
+
+
+            var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
+            targetBox.html('<input type="button" id="' + i + 'btnGridDegreeSlot" class="btnGridDegreeSlot" value="Select Core"/>');
+            targetBox.attr("data-i", i);
+            targetBox.removeClass("potentialElective");
+
+            //find which box it should be
+            //add a button to that box
+            var nextCourseCode = "";
+            while (true) {
+
+                nextCourseCode = courseCodes.substring(0, 8);
+                $("#degreeOptionalSlot" + i).html($("#degreeOptionalSlot" + i).html() + '<input type="button" class="btnDegreeSlot" id="' + i + nextCourseCode + '" value="' + nextCourseCode + '" />');
+
+                courseCodes = courseCodes.substring(8);
+                //if courseCodes only contains an empty string, no more courses are remaining to print, so break
+                if (courseCodes.localeCompare(" ") == 0) {
+                    break;
+                }
+                else {
+                    courseCodes = courseCodes.substring(1); //remove delimiting space character
+                }
+
+            }
+        }
 
 
         //sort out directed courses
@@ -687,10 +744,13 @@
                         else {  //rule is complicated, so just display the rule and let user pick the right course
                             targetBox.html("Directed - click for more details");
                         }
-                        
+
                         targetBox.addClass("majorslot");
                         targetBox.attr('rule', rule);
                         targetBox.attr('directedOptions', majorSlots[i][1]);
+                        targetBox.removeClass("potentialElective");
+                        targetBox.attr('data-original', targetBox.html());
+                        targetBox.attr('data-originalClass', "majorslot");
                         spotFound = true;
 
                     }
