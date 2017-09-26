@@ -290,6 +290,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\jquery-email.js" />
     <Content Include="Scripts\jquery-ProgramPlannerDegreeOptions.js" />
     <Content Include="Scripts\jquery-MainMenu.js" />
     <Content Include="Views\ApplicationInsights.config">
@@ -316,6 +317,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Views\Plan\IndexOld.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -370,7 +372,6 @@
     <Content Include="Views\Trimesters\Details.cshtml" />
     <Content Include="Views\Trimesters\Edit.cshtml" />
     <Content Include="Views\Trimesters\Index.cshtml" />
-    <Content Include="Views\Plan\IndexOld.cshtml" />
     <Content Include="Views\Plan\Submit.cshtml" />
     <Content Include="Views\StudyAreas\Create.cshtml" />
     <Content Include="Views\StudyAreas\Delete.cshtml" />

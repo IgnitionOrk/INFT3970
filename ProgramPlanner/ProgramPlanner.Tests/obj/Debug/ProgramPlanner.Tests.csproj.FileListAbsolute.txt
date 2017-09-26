@@ -71,6 +71,7 @@ C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\obj\Debug\ProgramPlanner.Tests.csprojResolveAssemblyReference.cache
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\obj\Debug\ProgramPlanner.Tests.dll
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\obj\Debug\ProgramPlanner.Tests.pdb
+<<<<<<< HEAD
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\Views\ApplicationInsights.config
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\roslyn\csc.exe
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\roslyn\csc.exe.config
@@ -192,3 +193,5 @@ C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\o
 \\Mac\Home\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\obj\Debug\ProgramPlanner.Tests.csprojResolveAssemblyReference.cache
 \\Mac\Home\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\obj\Debug\ProgramPlanner.Tests.dll
 \\Mac\Home\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\obj\Debug\ProgramPlanner.Tests.pdb
+=======
+>>>>>>> 7dbb9100a09f2b8c82d2b0ab3fb6bef09fcace1a

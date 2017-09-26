@@ -271,7 +271,7 @@ namespace ProgramPlanner.Controllers
         }
         [HttpPost]
         public ActionResult isRunningInSemester(int semesterID, string courseCode) {
-            // Need to check if that course was running in the same year as the program planner. 
+            //Need to check if that course was running in the same year as the program planner. 
             int count = 0;
             var abbr = courseCode.Substring(0, 4);
             var abbrID = (db.Abbreviations.Where(
@@ -290,8 +290,8 @@ namespace ProgramPlanner.Controllers
             else {
                 throw new NullReferenceException();
             }
-            Debug.WriteLine("COUNT: " + count);
-            return Json(new { data = count });
+            Debug.WriteLine("COUNT: " + count + " : " + courseCode);
+            return Json(new { iCount = count });
         }
 
         [HttpPost]
