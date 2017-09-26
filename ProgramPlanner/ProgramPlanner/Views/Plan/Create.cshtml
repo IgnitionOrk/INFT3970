@@ -24,8 +24,8 @@
         </div>
         <h1>Various Instructions and pictures shall go here</h1>
     </div>
-    <!--Row at top that contains the semester heading names -->
-    <div id="semesterRow" class="row">
+    <div id="rowSubmit" class="row">
+        <input type="button" id="btnEmailSubmit" class="col-md-1  col-md-offset-10" value="Email Your Plan" />
     </div>
     <div id="mainRow" class="row">
         <!--Main row with most page items-->
@@ -39,7 +39,8 @@
                 </ul>
 
                 <div id="tabs-1">
-                    <!--Directeds tab -->                   
+                    <!--Directeds tab -->  
+                    <img id="imgRefreshDirecteds" src="~/Content/images/Refresh_icon.png"/>
                 </div>
 
                 <div id="tabs-2">
@@ -95,7 +96,6 @@
                         @Html.AntiForgeryToken()
                         <form class="form-group">
                             <input type="hidden" name="InputData" id="courseInput" />
-                            <!--<input type="submit" value="Index" class="btn btn-default" id="btnPicker" />-->
                         </form>
                     }
                 </div>
@@ -129,8 +129,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>        
+    </div>   
+
     <script type="text/javascript">
         // Sets up the grid
         $(function () {
@@ -265,7 +266,15 @@
                 });
             }
         });
+
+        $("#btnEmailSubmit").click(function () {
+            //print an image of the plan div
+            //email it to the user
+        });
+        
+
     </script>
+
     <script>
         //search box
         $(function () {
@@ -329,6 +338,13 @@
                 accept: ".draggable",
                 drop: function (event, ui) {
                     var approval = true;
+
+                    //ensure the course isn't already in the plan
+                    if (courseAlreadyInPlan($(ui.draggable).text())) {
+                        if (!confirm("That course is already in your plan, are you sure you want to add it again?")){   //only allow duplicate if user says it's ok
+                            approval = false;
+                        }
+                    }
                     
                     //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
                     if ($(this).hasClass("degreeCore")) {
@@ -373,6 +389,13 @@
 
                         // Update the background of the classes. 
                         addBackgroundColour(this, classes);
+
+                        //update courseText
+                        var courseText = "";
+                        $(".courseBox").each(function () {
+                            courseText = courseText + $(this).text() + ",";
+                        });
+                        $("#courseInput").val(courseText);
                     }
                     else {
                         approval = true;
@@ -433,6 +456,23 @@
             // The last str in the array list will be the added class
             $(selector).addClass(classes[classes.length - 1]);
         }
+
+        //returns true if the passed courseCode already exists in the plan
+        function courseAlreadyInPlan(courseCode) {
+            
+            var planData = $("#courseInput").val();
+
+            //loop through every value in courseInout
+            while (planData.length > 0) {                
+                var endPos = planData.indexOf(','); //delimited by commas
+                var tempCode = planData.substring(0, endPos); //get next code
+                if (tempCode.localeCompare(courseCode) == 0) {  //if this value equals the passed courseCode, that code exists in the plan already, inform the user                    
+                    return true;
+                }                
+                planData = planData.substring(endPos+1);
+            }
+            return false;
+        }
      
     </script>
     <script>
@@ -459,26 +499,7 @@
                 });
 
                 //go through the directedOptions attribute and only display those in the directed tab
-
-                //remove the currently displayed children of the headings of the directed tab
-                $($("#tabs-1").children()).each(function () {
-                    $(this).children().slice(1).remove();
-                });
-
-                var directedOptions = $(this).attr("directedOptions"); //list of directeds this slot can do
-
-                while (directedOptions.length > 0) {    //while there are still courses to be done
-                    var nextCourse = directedOptions.substring(0, 8);  //get course (8chars long)
-                    var parentDiv = $("#" + nextCourse.substring(4, 5) + "000LevelDirecteds");  //find it's parent, which is a year level heading
-                    parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + nextCourse + '</div>'); //add course to the heading
-                    directedOptions = directedOptions.substring(9); //get next course
-                }
-
-                //added new divs with draggable, so add that functionality to them
-                $(".draggable").draggable({
-                    appendTo: "body",
-                    helper: "clone"
-                });
+                organiseDirectedMenu($(this));
 
             }
             else if ($(this).hasClass("potentialElective")){  //else coursebox is for any other course, so just display electives when clicked
@@ -490,6 +511,36 @@
 
             }
         });
+
+        //refresh button for directed tab - on click, reverts available courses to the original status
+        $('#tabs-1').on('click', '#imgRefreshDirecteds', function () {
+            organiseDirectedMenu($(this));
+        });
+
+
+        //go through the directedOptions attribute and only display those in the directed tab, based on the rule in the provided object
+        function organiseDirectedMenu(obj) {
+            //remove the currently displayed children of the headings of the directed tab
+            $($("#tabs-1").children()).each(function () {
+                $(this).children().slice(1).remove();
+            });
+
+            var directedOptions = obj.attr("directedOptions"); //list of directeds this slot can do
+
+            while (directedOptions.length > 0) {    //while there are still courses to be done
+                var nextCourse = directedOptions.substring(0, 8);  //get course (8chars long)
+                var parentDiv = $("#" + nextCourse.substring(4, 5) + "000LevelDirecteds");  //find it's parent, which is a year level heading
+                parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + nextCourse + '</div>'); //add course to the heading
+                directedOptions = directedOptions.substring(9); //get next course
+            }
+
+            //added new divs with draggable, so add that functionality to them
+            $(".draggable").draggable({
+                appendTo: "body",
+                helper: "clone"
+            });
+        }
+        
     </script>
 
     
@@ -512,11 +563,15 @@
                 $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
             }
 
+            updateBackgroundDiv();
+
             //jquery extension that allows grid functionality
             $('#innerPlan').shapeshift({
-
                 gutterX: 5,
             });
+
+            updateCourseText();
+
         });
 
         //remove a course on click
@@ -539,12 +594,32 @@
                     $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
                 }
 
+                updateBackgroundDiv();
+
                 // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
                 $('#innerPlan').shapeshift({
                     gutterX: 5,
                 });
+
+                updateCourseText();
             }
         });
+
+        function updateCourseText() {
+            //update courseText
+            var courseText = "";
+            $(".courseBox").each(function () {
+                courseText = courseText + $(this).text() + ",";
+            });
+            $("#courseInput").val(courseText);
+        }
+
+        function updateBackgroundDiv() {
+            //whole box that contains grid and year/column headings, set height depending on num of years in degree
+            var yearsInDegree = Math.ceil($("#unitsPerDegree").val() / $("#newNumOfSubjects").val() / 20);
+            var planHeight = yearsInDegree * 107 + 30;
+            $("#plan").css("height", planHeight);
+        }
     </script>
 
     <script>
@@ -623,6 +698,7 @@
                     var temp = 0;
                     temp = + $(this).parent().attr("data-i");
                     createDegreeOptionalSlot(temp, true, $(this).parent().index() + 1);
+                    updateCourseText();
                 }
             }
             else {  
@@ -632,6 +708,7 @@
                     $(this).parent().removeClass("electiveCourse");
                     $(this).parent().addClass($(this).parent().attr('data-originalclass'));
                     $(this).parent().html($(this).parent().attr('data-original'));
+                    updateCourseText();
                     
                 }
             }
@@ -698,7 +775,7 @@
         $(function () {
             var majorSlots = @Html.Raw(Json.Encode(ViewBag.MajorSlots));
             var allDirecteds = @Html.Raw(Json.Encode(ViewBag.AllDirecteds));
-            //$("#courseInput").val(majorSlots);
+            var refreshList = "";   //used for the refresh button
 
             //for each year level, display a heading for it
             for (i = 1; i <= 3; i++) {
@@ -710,7 +787,10 @@
             for (i = 0; i < allDirecteds.length; i++) {
                 var parentDiv = $("#" + allDirecteds[i].substring(4, 5) + "000LevelDirecteds");
                 parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + allDirecteds[i] + '</div>');
+                refreshList = refreshList + allDirecteds[i] + " ";
             }
+
+            $("#imgRefreshDirecteds").attr('directedOptions', refreshList);
 
             //makes directed courses draggable
             $(".draggable").draggable({
@@ -761,6 +841,21 @@
                 spotFound = false;
             }
         });
+
+        
+        $(function () {
+            updateCourseText();
+        });
+
+        function updateCourseText() {
+            //update courseText
+            var courseText = "";
+            $(".courseBox").each(function () {
+                courseText = courseText + $(this).text() + ",";
+            });
+            $("#courseInput").val(courseText);
+        }
+        
     </script>
 </body>
 </html>
