@@ -123,7 +123,7 @@
                         {
                             for (var y = 1; y <= @ViewBag.SubjectsPerSemester * 2; y++)
                             {
-                                <div class="courseBox droppable potentialElective" data-original="Elective" data-originalClass="potentialElective">Elective</div>
+                                <div class="courseBox droppable potentialElective" data-original="Elective" data-originalClass="potentialElective" data-previousIndex="">Elective</div>
                             }
                         }
                     </div>
@@ -154,9 +154,12 @@
 
             //set initial values
             var courseText = "";
-
             // For each course box
             $(".courseBox").each(function () {
+                // Determining the index at runtime of each particular div tag. 
+                // Used if a drop operation fails the div tag can return to its previous position in the
+                // parent element (#innerPlan);
+                $(this).attr("data-previousIndex", $("#innerPlan").find($(this)).index());
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
@@ -165,30 +168,59 @@
             $(function () {
                 $("#tabs").tabs({ heightStyle: "fill", });
             });
-
         });
-
     </script>
     <script>
         //every time a box is dropped and dragged, loop through all the boxes and reset the value of the hidden field that stores the
         //html values of all the boxes. when submit button is clicked, that value is sent through to the plancontroller.
-        $container = $("#innerPlan");
-        $container.on("ss-rearranged", function (e, selected) {
+        $("#innerPlan").on("ss-rearranged", function (e, selected) {
+            if ($(selected).html().length == 8) {
+                var index = 0;
+                if (isRunning($(selected).index(), $(selected).html())) {
+                    // Update the index the selected 'course' was dropped into.
+                    $(selected).attr("data-previousIndex", $(selected).index());
+                }
+                else {
+                    alert("That course is not being held in the semester.");
+                }
+            }
+     
             var courseText = "";
             $(".courseBox").each(function () {
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
-            /*
-            if ($(selected).html().length == 8) {
-                if (isNotRunning($(selected).index() + 1, $(selected).html())) {
-                    alert("Course not runnng in that semester");
-                }               
-            }*/
-            
-            
-
         });
+
+        var count = 0;
+        function isRunning(index, courseCode) {
+            var semester = 1;
+            if ((index >= 3 && index <= 7) || (index >= 12 && index <= 15) || (index >= 20 && index <= 23)) {
+                semester = 2;
+            }
+            else {
+                semester = 1;
+            }
+            $.when(requests(semester, courseCode));
+            alert(typeof count + " Count value: " + count + " index: " + index);
+            // Once the year has been implemented it the boolean will be changed to count === 1. 
+            return count === 1 ;
+        }
+        //
+        function requests(semester, courseCode) {
+            $.ajax({
+                url: "/Plan/isRunningInSemester",
+                cache: false,
+                type: "POST",
+                data: { semesterID: semester, courseCode: courseCode },
+                success: function (data) {
+                    count = Number.parseInt(data.iCount);
+                },
+                error: function () {
+                    alert("Could not request the required information for that course");
+                }
+            });
+        }
     </script>
     <script>
         //on click to change number of subjects per semester
@@ -404,32 +436,7 @@
             });
         });
 
-        //
-        function isNotRunning(index, courseCode) {
-            var semester;
-            var count;
-            if ((index >= 4 && index <= 8) || (index >= 13 && index <= 16) || (index >= 21 && index <=24)) {
-                semester = 2;
-            }
-            else {
-                semester = 1;
-            }
-
-            $.ajax({
-                url: "/Plan/isRunningInSemester",
-                cache: false,
-                type: "POST",
-                data: { semesterID: semester, courseCode: courseCode },
-                success: function (data) {
-                    count = Number.parseInt(data.data);
-                },
-                error: function () {
-                    alert("Could not request the required information for that course");
-                }
-            });
-            alert(Number.isInteger(count));
-            return count == 0;
-        }
+       
 
         // Generates a list of classes (as strings) that will need to be updated when the user has dropped
         // particular courses in particular grid spots.
