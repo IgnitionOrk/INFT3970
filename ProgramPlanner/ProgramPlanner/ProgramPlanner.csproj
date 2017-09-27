@@ -196,6 +196,7 @@
     <Compile Include="Controllers\DegreeCoreSlotsController.cs" />
     <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\DirectedSlotsController.cs" />
+    <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainMenuController.cs" />
     <Compile Include="Controllers\MajorCoresController.cs" />
@@ -253,6 +254,7 @@
     <Compile Include="Models\ProgramPlannerContext.cs" />
     <Compile Include="Models\ProgramStructure.cs" />
     <Compile Include="Models\Replacement.cs" />
+    <Compile Include="Models\Screenshot.cs" />
     <Compile Include="Models\Semester.cs" />
     <Compile Include="Models\SemesterCourse.cs" />
     <Compile Include="Models\StudyArea.cs" />
@@ -265,6 +267,7 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="ProgramPlannerEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Authenication.cs" />
     <Compile Include="Startup.cs" />
@@ -290,6 +293,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\html2canvas.js" />
     <Content Include="Scripts\jquery-email.js" />
     <Content Include="Scripts\jquery-ProgramPlannerDegreeOptions.js" />
     <Content Include="Scripts\jquery-MainMenu.js" />
@@ -478,10 +482,12 @@
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Plan\Create.cshtml" />
     <Content Include="Views\MainMenu\Index.cshtml" />
+    <Content Include="Views\Email\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessLogic\" />
     <Folder Include="obj\Release\" />
+    <Folder Include="Screenshots\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
