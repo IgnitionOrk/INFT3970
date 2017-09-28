@@ -5,7 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Web;
-
+/*
+    Author: Ryan Cunneen
+    Date created: 27-Sep-2017
+    Date Modified: 28-Sep-2017.
+*/
 namespace ProgramPlanner
 {
     public static class ProgramPlannerEmail
@@ -20,11 +24,13 @@ namespace ProgramPlanner
             EnableSsl = true,
             DeliveryMethod = SmtpDeliveryMethod.Network
         };
-
         /// <summary>
-        /// 
+        /// Uploads the screenshot of the program structure to the server, with the student number
+        /// in the file name. This is all program structures are unique. 
         /// </summary>
-        /// <param name="screenshot"></param>
+        /// <param name="screenshot"> The 64 base string of the program structure</param>
+        /// <param name="studentNumber">Unique student number</param>
+        /// <returns>The file path of the location of the newly uploaded screenshot</returns>
         public static string uploadTo(string screenshot, string studentNumber) {
             // String should be the path to the applications own image folder. 
             string filePath = folderPath + studentNumber+"-"+ DateTime.Today.Date.ToString("dd/MM/yyyy").Replace("/", "-").Replace(" ", "-").Replace(":", "") + ".jpg";
@@ -39,7 +45,11 @@ namespace ProgramPlanner
             }
             return filePath;
         }
-
+        /// <summary>
+        /// Emails the screenshot of the program structure to the email provided by the user 'to'.
+        /// </summary>
+        /// <param name="to">Email provided by the user</param>
+        /// <param name="filePath">Location of the screenshot. Must have been issued prior.</param>
         public static void email(string to, string filePath) {
             Bitmap bMap = new Bitmap(filePath);
             MemoryStream stream = new MemoryStream();
@@ -49,12 +59,29 @@ namespace ProgramPlanner
             MailMessage msg = new MailMessage();
             msg.From = new MailAddress(from);
             msg.To.Add(to);
-            msg.Subject = "It worked";
-            msg.Body = "Yeah Boi";
-            msg.Subject = "IT WORK";
+            msg.Subject = "Degree Structure";
+            msg.IsBodyHtml = true;
+            AlternateView bodyView = AlternateView.CreateAlternateViewFromString(htmlBody(), null, "text/html");
+            msg.AlternateViews.Add(bodyView);
             msg.Attachments.Add(new Attachment(stream, "ProgramStructure.jpg"));
 
             smtp.Send(msg);
         }
+        /// <summary>
+        /// Returns a standard html email body.
+        /// </summary>
+        /// <returns></returns>
+        private static string htmlBody()
+        {
+            string body = "<html>";
+            body += "<head><title>Degree Structure</title></head>";
+            body += "<body>";
+            body += "<p>To whom it may concern,<br>";
+            body += "An attachment of the program structure<br>";
+            body += "Kind Regards<br>University of Newcastle</p>";
+            body += "</body>";
+            body += "</html>";
+            return body;
+         }
     }
 }
