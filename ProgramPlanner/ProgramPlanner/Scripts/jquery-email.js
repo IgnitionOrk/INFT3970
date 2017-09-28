@@ -20,11 +20,51 @@ function emailProtocol() {
     }
     else {
         if (confirm("Do you wish to email your program structure?")) {
+            // First we change the text of the courses that have not been assigned.
+            changeText();
+            // Then we take the snap shot of the program structure. 
             screenshot();
+            // revert the text back to normal;
+            revertText();
         }
     }
 }
-
+// Changes the text of the course boxes.
+function changeText() {
+    $(".courseBox").each(function () {
+        if ($(this).text().includes("Elective")) {
+            $(this).text("Empty");
+        }
+        else if ($(this).html().includes("Core")) {
+            $(this).text("Core");
+        }     
+        else if ($(this).text().includes("3000")) {
+            $(this).text("3000 Directed");
+        }
+        else if ($(this).text().includes("directed")) { 
+            $(this).text("Directed");
+        }       
+    });
+}
+// Reverts the text (or html) back to its previous form without losing any functionality of the application. 
+function revertText() {
+    $(".courseBox").each(function () {
+        if ($(this).text().includes("Empty")) {
+            $(this).text("Elective");
+        }
+        else if ($(this).text().includes("Core")) {
+            // Because the button is an core optional course, it has additional functionality, so instead of changing the text
+            // we need to change it back to its originally functionality. 
+            $(this).html('<input type="button" id="' + i + 'btnGridDegreeSlot" class="btnGridDegreeSlot" value="Select Core"/>');
+        }
+        else if ($(this).text().includes("3000")) {
+            $(this).text("Click to choose a 3000 level directed course");
+        }
+        else if ($(this).text().includes("Directed")) {
+            $(this).text("Click to choose any directed course");
+        }
+    });
+}
 
 // Determines if the email the user has given is in an actual and correctly formatted uon email
 // An example of such email might be e.g. c9999999@uon.edu.au;
