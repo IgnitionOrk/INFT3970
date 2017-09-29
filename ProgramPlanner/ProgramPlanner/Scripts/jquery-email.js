@@ -24,14 +24,17 @@ function emailProtocol() {
             changeText();
             // Then we take the snap shot of the program structure. 
             screenshot();
-            // revert the text back to normal;
-            revertText();
+            // revert the text back to default;
+            defaultText();
         }
     }
 }
 // Changes the text of the course boxes.
 function changeText() {
     $(".courseBox").each(function () {
+        // Why not use the hasClass method, this is because if we are checking
+        // if the div hasClass("class"), then all of the divs will be changed including the ones
+        // that have a issued course. Therefore, it is better to check the text. 
         if ($(this).text().includes("Elective")) {
             $(this).text("Empty");
         }
@@ -47,7 +50,7 @@ function changeText() {
     });
 }
 // Reverts the text (or html) back to its previous form without losing any functionality of the application. 
-function revertText() {
+function defaultText() {
     $(".courseBox").each(function () {
         if ($(this).text().includes("Empty")) {
             $(this).text("Elective");
@@ -55,7 +58,7 @@ function revertText() {
         else if ($(this).text().includes("Core")) {
             // Because the button is an core optional course, it has additional functionality, so instead of changing the text
             // we need to change it back to its originally functionality. 
-            $(this).html('<input type="button" id="' + i + 'btnGridDegreeSlot" class="btnGridDegreeSlot" value="Select Core"/>');
+            $(this).html('<input type="button" id="' + $(this).attr("id") + '" class="btnGridDegreeSlot" value="Select Core"/>');
         }
         else if ($(this).text().includes("3000")) {
             $(this).text("Click to choose a 3000 level directed course");
@@ -137,7 +140,6 @@ function contains(email, identifier) {
     else {
         partial = email.substr(sIndex, length);
     }
-
     return partial == cVariable;
 }
 

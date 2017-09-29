@@ -96,4 +96,3 @@ C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.csproj.GenerateResource.Cache
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.dll
 C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.pdb
-C:\Users\rcunn\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner\obj\Debug\ProgramPlanner.csprojResolveAssemblyReference.cache
