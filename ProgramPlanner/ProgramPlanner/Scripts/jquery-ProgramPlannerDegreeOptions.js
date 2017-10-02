@@ -52,7 +52,7 @@ function MajorOptions() {
 // Issues an ajax call to request the data from a particular function (url)
 function request(url, field, id, selector, nextOptionsFunction) {
 
-    // Create a simply object that stores the field, and id. 
+    // Create a simple object that stores the field, and id. 
     var dataObj = {};
     dataObj[field] = id;
     $.ajax({
