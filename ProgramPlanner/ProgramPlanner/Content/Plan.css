@@ -53,6 +53,7 @@ h1 {
 }
 
 #rowYearInnerPlan {
+    background-color: white;
     position: relative;
     top: 5px;
 }
@@ -165,6 +166,11 @@ h4 {
     width: 80%;
     float: left;
 }
+
+#rowSubmit {
+    position: relative;
+} 
+
 
 #optionsMenu {
     height: 100%;
