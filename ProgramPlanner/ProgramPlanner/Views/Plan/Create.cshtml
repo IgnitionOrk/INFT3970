@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProgramPlanner.Models.StudyArea>
+﻿ @model IEnumerable<ProgramPlanner.Models.StudyArea>
 
 @{
     Layout = null;
@@ -74,7 +74,7 @@
                     <div id="optionsMenu">
                         <div id="editOption1">
                             <p id="lblNewNumOfSubjects"><b>Number of courses per semester:</b></p>
-                            <input type="number" min="1" max="5" value="4" id="newNumOfSubjects" />
+                            <input type="number" min="2" max="5" value="4" id="newNumOfSubjects" />
                             <input type="button" id="btnNewNumOfSubjects" value="Update" />
                         </div>
                         <input type="hidden" name="oldNumOfSubjects" id="oldNumOfSubjects" value="@ViewBag.SubjectsPerSemester" />
@@ -199,7 +199,14 @@
         var count;
         function isRunning(index, previousIndex, courseCode) {
             var semester = 1;
-            if ((index > 3 && index <= 7) || (index > 11 && index <= 15) || (index > 19 && index <= 23)) {
+            var subjects = $("#newNumOfSubjects").val();
+            if ((index > (subjects - 1) && index <= ((subjects * 2) - 1))
+                || (index > ((subjects * 3) - 1) && index <= ((subjects * 4) - 1))
+                || (index > ((subjects * 5) - 1) && index <= ((subjects * 6) - 1))
+                || (index > ((subjects * 7) - 1) && index <= ((subjects * 8) - 1))
+                || (index > ((subjects * 9) - 1) && index <= ((subjects * 10) - 1))
+                || (index > ((subjects * 11) - 1) && index <= ((subjects * 12) - 1))
+            ) {
                 semester = 2;
             }
             $.when(requests(index, previousIndex, semester, courseCode));
@@ -521,7 +528,7 @@
             // Determines if the input from the user is different from the old number of subjects per semester
             // in the grid. If the difference is 0; then both the old number of subjects and input were the same and hence we do not 
             // need to update the grid. 
-            if (difference != 0) {
+            if (difference != 0 && newNumber >= 2 && newNumber <= 5) {
                 var planWidth = 2 * newNumber * 103;
                 if (newNumber == 1 || newNumber == 2 || newNumber == 3) {
                     planWidth = planWidth + 11;
