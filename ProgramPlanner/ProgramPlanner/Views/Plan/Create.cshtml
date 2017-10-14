@@ -62,7 +62,7 @@
                                             @foreach (var course in abbr.Courses)
                                             {
                                                 var courseCode = @Html.DisplayFor(modelItem => course.CourseCode);
-                                                <div id=@courseCode class="draggable electives">@courseCode</div>
+                                                <div id=@courseCode class="draggable electives" data-semester="">@courseCode</div>
                                             }
                                         </div>
                                     }
@@ -123,7 +123,7 @@
                         {
                             for (var y = 1; y <= @ViewBag.SubjectsPerSemester * 2; y++)
                             {
-                                <div class="courseBox droppable potentialElective" data-original="Elective" data-originalClass="potentialElective" data-previousIndex="">Elective</div>
+                                <div class="courseBox droppable potentialElective" data-original="Elective" data-originalClass="potentialElective" data-previousIndex="" data-semester="">Elective</div>
                             }
                         }
                     </div>
@@ -171,50 +171,332 @@
         });
     </script>
     <script>
+
         //every time a box is dropped and dragged, loop through all the boxes and reset the value of the hidden field that stores the
         //html values of all the boxes. when submit button is clicked, that value is sent through to the plancontroller.
         $("#innerPlan").on("ss-rearranged", function (e, selected) {
-            if ($(selected).html().length == 8) {
-                var index = 0;
-                if (isRunning($(selected).index(), $(selected).html())) {
-                    // Update the index the selected 'course' was dropped into.
-                    $(selected).attr("data-previousIndex", $(selected).index());
-                }
-                else {
-                    alert("That course is not being held in the semester.");
-                }
+            if ($(selected).html().length == 8 && $(selected).html().localeCompare("Elective") != 0) {
+                isRunning($(selected).index(), $(selected).attr('data-previousIndex'), $(selected).html());                
+            }
+            //if haschild of the iconRefresh, they can also be reset
+            else if ($(selected).html().substring(8).localeCompare('<div class="ui-icon ui-icon-refresh iconRefresh"></div>') == 0) {
+                isRunning($(selected).index(), $(selected).attr('data-previousIndex'), $(selected).html().substring(0,8));   
             }
      
             var courseText = "";
             $(".courseBox").each(function () {
+                $(this).attr("data-previousIndex", $("#innerPlan").find($(this)).index());
                 courseText = courseText + $(this).text() + ",";
             });
             $("#courseInput").val(courseText);
         });
 
-        var count = 0;
-        function isRunning(index, courseCode) {
+        var count;
+        function isRunning(index, previousIndex, courseCode) {
             var semester = 1;
-            if ((index >= 3 && index <= 7) || (index >= 12 && index <= 15) || (index >= 20 && index <= 23)) {
+            if ((index > 3 && index <= 7) || (index > 11 && index <= 15) || (index > 19 && index <= 23)) {
                 semester = 2;
             }
-            else {
-                semester = 1;
-            }
-            $.when(requests(semester, courseCode));
-            alert(typeof count + " Count value: " + count + " index: " + index);
+            $.when(requests(index, previousIndex, semester, courseCode));
+            
             // Once the year has been implemented it the boolean will be changed to count === 1. 
-            return count === 1 ;
+            return count != 1;
         }
         //
-        function requests(semester, courseCode) {
+        function requests(index, previousIndex, semester, courseCode) {
             $.ajax({
                 url: "/Plan/isRunningInSemester",
                 cache: false,
                 type: "POST",
                 data: { semesterID: semester, courseCode: courseCode },
                 success: function (data) {
-                    count = Number.parseInt(data.iCount);
+                    count = data.iCount;
+                    if (count == 0) {    
+
+                        //display a message to the user informing them they cannot move a course there                        
+                        alert(courseCode + " does not run in semester " + semester + ".\nYour selection will be reversed");
+
+                        //get whether index or previousindex is higher - the difference between dragging a box with a higher index to a lower position, and a box with a lower
+                        //index to a higher position - the difference between these two creates different situations
+                        var highest = 0;
+                        var lowest = 0;
+                        if (index > previousIndex){
+                            highest = index;
+                            lowest = previousIndex;
+                        }
+                        else {
+                            highest = previousIndex;
+                            lowest = index;
+                        }
+                         
+                        //if a course is being dragged from a lower position index to a higher one
+                        if (highest == index) {
+                            doSwap(index, previousIndex, true);
+                        }
+                        else {
+
+                            doSwap(previousIndex, index, false);
+                            
+                        }       
+                    }
+                },
+                error: function () {
+                    alert("Could not request the required information for that course");
+                }
+            });
+        }
+
+        function doSwap(highest, lowest, forward) {
+            var tempBoxes = [];
+
+            //store the boxes in an array as objects
+            for (i = lowest; i <= highest; i++) {
+                tempBoxes[i] = $("#innerPlan").children().eq(i);
+            }
+
+            var attrToReplace = ["class", "data-original", "data-originalclass", "data-semester", "data-i", "rule", "directedoptions"];
+
+            //temp data for swap
+            var tempHtml;
+            var tempAttributes = [];
+
+            //get the temp data for the first swap
+            if (forward){
+                tempHtml = tempBoxes[highest].html();
+                for (i = 0; i < attrToReplace.length; i++) {
+                    var attr = tempBoxes[highest].attr(attrToReplace[i]);
+                    if (typeof attr !== typeof undefined && attr !== false) {
+                        tempAttributes[i] = attr;
+                    }
+                    else {
+                        tempAttributes[i] = ""; //doesnt exist
+                    }
+                }
+            }
+            else {
+                tempHtml = tempBoxes[lowest].html();
+                for (i = 0; i < attrToReplace.length; i++) {
+                    var attr = tempBoxes[lowest].attr(attrToReplace[i]);
+                    if (typeof attr !== typeof undefined && attr !== false) {
+                        tempAttributes[i] = attr;
+                    }
+                    else {
+                        tempAttributes[i] = ""; //doesnt exist
+                    }
+                } 
+            }
+            
+            if (forward){
+                //loop through each array element and swap back to the correct courseBox
+                for (i = highest; i > lowest; i--) {
+                    var thisBox = $("#innerPlan").children().eq(i); //get the needed box
+                    thisBox.html(tempBoxes[i - 1].html());          //swap from html of box next to this box
+
+                    for (y = 0; y < attrToReplace.length; y++) {    //get back the needed attributes
+                        var attr = tempBoxes[i - 1].attr(attrToReplace[y]);
+                        if (typeof attr !== typeof undefined && attr !== false) {
+                            thisBox.attr(attrToReplace[y], attr);
+                        }
+                        else {
+                            thisBox.removeAttr(attrToReplace[y]);   //if the box doesn't have this attribute, then delete it as the past box may have had data stored there
+                        }
+
+                    }
+                }
+            }
+            else {
+                //loop through each array element and swap back to the correct courseBox
+                for (i = lowest; i < highest; i++) {
+                    var thisBox = $("#innerPlan").children().eq(i); //get the needed box
+                    thisBox.html(tempBoxes[i + 1].html());          //swap from html of box next to this box
+
+                    for (y = 0; y < attrToReplace.length; y++) {    //get back the needed attributes
+                        var attr = tempBoxes[i + 1].attr(attrToReplace[y]);
+                        if (typeof attr !== typeof undefined && attr !== false) {
+                            thisBox.attr(attrToReplace[y], attr);
+                        }
+                        else {
+                            thisBox.removeAttr(attrToReplace[y]);
+                        }
+
+                    }
+                }
+            }           
+
+            
+            //do temp swap part
+            var tempBox;
+            if (forward){
+                tempBox = $("#innerPlan").children().eq(lowest);
+            }
+            else {
+                tempBox = $("#innerPlan").children().eq(highest);
+            }
+            
+            tempBox.html(tempHtml);
+
+            for (y = 0; y < attrToReplace.length; y++) {
+                if (tempAttributes[y].localeCompare("") != 0) { //if this box has the required attribute, swap it back else delete it
+                    tempBox.attr(attrToReplace[y], tempAttributes[y]);
+                }
+                else {
+                    tempBox.removeAttr(attrToReplace[y])
+                }
+            } 
+        }        
+    </script>
+
+
+    <script>
+        //drag and drop electives/directeds
+        $(function () {
+            $(".droppable").droppable({
+                accept: ".draggable",
+                drop: function (event, ui) {                   
+
+                    //ensure the course isn't already in the plan
+                    if (courseAlreadyInPlan($(ui.draggable).text())) {
+                        if (confirm("That course is already in your plan, are you sure you want to add it again?")) {   //only allow duplicate if user says it's ok
+                            var parent = $(this).parent();
+                            checkIsRunnng(parent.children().index($(this)), $(ui.draggable).text(), $(ui.draggable));
+                        }
+                    }
+                    else {
+                        var parent = $(this).parent();
+                        checkIsRunnng(parent.children().index($(this)), $(ui.draggable).text(), $(ui.draggable));
+                    }  
+                }
+            });
+        });
+
+
+
+        // Generates a list of classes (as strings) that will need to be updated when the user has dropped
+        // particular courses in particular grid spots.
+        function determineClasses(ui) {
+            var strClasses = [];
+            //if course dragged is an elective, set target box to green (as it will be the last element in the array);
+            if (ui.hasClass("electives")) {
+                strClasses = ["majorCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "electiveCourse"];
+            }
+            else {
+                //else course dragged is a directed, so set target box to blue (as it will be the last element in the array);
+                strClasses = ["electiveCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "majorCourse"];
+            }
+            return strClasses;
+        }
+
+        // Function to change the background colour of a (div).
+        function addBackgroundColour(selector, classes) {
+            // Changing the background colour  of the (divs) displaying course information. 
+            // The last str in classes will have the class that is added not removed
+            for (var i = 0; i < classes.length - 1; i++) {
+                $(selector).removeClass(classes[i]);
+            }
+            // The last str in the array list will be the added class
+            $(selector).addClass(classes[classes.length - 1]);
+        }
+
+        //returns true if the passed courseCode already exists in the plan
+        function courseAlreadyInPlan(courseCode) {
+
+            var planData = $("#courseInput").val();
+
+            //loop through every value in courseInout
+            while (planData.length > 0) {
+                var endPos = planData.indexOf(','); //delimited by commas
+                var tempCode = planData.substring(0, endPos); //get next code
+                if (tempCode.localeCompare(courseCode) == 0) {  //if this value equals the passed courseCode, that code exists in the plan already, inform the user                    
+                    return true;
+                }
+                planData = planData.substring(endPos + 1);
+            }
+            return false;
+        }
+
+        var count2;
+        function checkIsRunnng(index, courseCode, dragged) {
+            var semester = 1;
+            if ((index > 3 && index <= 7) || (index > 11 && index <= 15) || (index > 19 && index <= 23)) {
+                semester = 2;
+            }
+            $.when(requests2(index, semester, courseCode, dragged));
+
+            // Once the year has been implemented it the boolean will be changed to count === 1. 
+            return count2 != 1;
+        }
+        
+        function requests2(index, semester, courseCode, dragged) {
+            $.ajax({
+                url: "/Plan/isRunningInSemester",
+                cache: false,
+                type: "POST",
+                data: { semesterID: semester, courseCode: courseCode },
+                success: function (data) {
+                    count2 = data.iCount;
+                    if (count2 == 0) {
+                        alert("That course doesn't run in that semester");
+                    }
+                    else {
+                        var thisBox = $("#innerPlan").children().eq(index);
+
+                        var approval = true;
+                        //must stay as seperate if statement series
+                        //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
+                        if (thisBox.hasClass("degreeCore")) {
+                            if (!confirm("You are about to override a core course for your degree. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
+                                approval = false;
+                            }
+                        }
+                        //if box that is being dragged onto is a major core, let user know that is a bad idea, block them if they want to
+                        else if (thisBox.hasClass("majorCore")) {
+                            if (!confirm("You are about to override a core course for your major. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
+                                approval = false;
+                            }
+                        }
+                        //if box is a majorslot, check if there's a rule behind it and if the rule is being disobeyed, block transaction
+                        else if (thisBox.hasClass("majorslot")) {
+                            if (thisBox.attr("rule").localeCompare("Any") == 0) {
+                                //the rule is any, so allow any directed course and block others
+                                if (!dragged.hasClass('directeds')) {
+                                    alert("That slot requires a directed course from the directed menu");
+                                    approval = false;
+                                }
+                            }
+                            else {
+                                //If this gridbox's attribute called 'rule' is merely a year level, we get the first char of it and compare it to the year level of the course that is being dragged 
+                                //onto this gridbox. If they match, the course matches this box's rule and we can continue. Else deny it.
+                                var courseYearLevel = dragged.text().substring(4, 5);
+                                if (!thisBox.attr("rule").substring(0, 1).localeCompare(courseYearLevel) == 0 || !dragged.hasClass('directeds')) {
+                                    alert("That slot requires a " + thisBox.attr("rule") + " level course from the directed menu");
+                                    approval = false;
+                                }
+                            }
+
+
+                        }
+
+                        if (approval) {
+                            //otherwise continue on with the drop and drag
+                            thisBox.html(dragged.text() + "<div class='ui-icon ui-icon-refresh iconRefresh'></div>");
+
+                            // Determine what classes needs their backgrounds updated.
+                            var classes = determineClasses(dragged);
+
+                            // Update the background of the classes. 
+                            addBackgroundColour(thisBox, classes);
+
+                            //update courseText
+                            var courseText = "";
+                            $(".courseBox").each(function () {
+                                courseText = courseText + thisBox.text() + ",";
+                            });
+                            $("#courseInput").val(courseText);
+                        }
+                        else {
+                            approval = true;
+                        }
+                    }
                 },
                 error: function () {
                     alert("Could not request the required information for that course");
@@ -222,6 +504,7 @@
             });
         }
     </script>
+
     <script>
         //on click to change number of subjects per semester
         $("#btnNewNumOfSubjects").click(function () {
@@ -364,125 +647,6 @@
     </script>
 
     <script>
-        //drag and drop electives/directeds
-        $(function () {
-            $(".droppable").droppable({
-                accept: ".draggable",
-                drop: function (event, ui) {
-                    var approval = true;
-
-                    //ensure the course isn't already in the plan
-                    if (courseAlreadyInPlan($(ui.draggable).text())) {
-                        if (!confirm("That course is already in your plan, are you sure you want to add it again?")){   //only allow duplicate if user says it's ok
-                            approval = false;
-                        }
-                    }
-                    
-                    //if box that is being dragged onto is a degree core, let user know that is a bad idea, block them if they want to
-                    if ($(this).hasClass("degreeCore")) {
-                        if (!confirm("You are about to override a core course for your degree. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
-                            approval = false;
-                        }
-                    }
-                    //if box that is being dragged onto is a major core, let user know that is a bad idea, block them if they want to
-                    else if ($(this).hasClass("majorCore")) {
-                        if (!confirm("You are about to override a core course for your major. We only recommend this if you have recognition of prior learning for this course. Do you wish to continue?")) {
-                            approval = false;
-                        }
-                    }
-                    //if box is a majorslot, check if there's a rule behind it and if the rule is being disobeyed, block transaction
-                    else if ($(this).hasClass("majorslot")) {
-                        if ($(this).attr("rule").localeCompare("Any") == 0) {
-                            //the rule is any, so allow any directed course and block others
-                            if (!$(ui.draggable).hasClass('directeds')) {
-                                alert("That slot requires a directed course from the directed menu");
-                                approval = false;
-                            }
-                        }
-                        else {
-                            //If this gridbox's attribute called 'rule' is merely a year level, we get the first char of it and compare it to the year level of the course that is being dragged 
-                            //onto this gridbox. If they match, the course matches this box's rule and we can continue. Else deny it.
-                            var courseYearLevel = $(ui.draggable).text().substring(4, 5);
-                            if (!$(this).attr("rule").substring(0, 1).localeCompare(courseYearLevel) == 0 || !$(ui.draggable).hasClass('directeds')) {
-                                alert("That slot requires a " + $(this).attr("rule") + " level course from the directed menu");
-                                approval = false;
-                            }
-                        }
-                        
-                        
-                    }
-
-                    if (approval) {
-                        //otherwise continue on with the drop and drag
-                        $(this).html($(ui.draggable).text() + "<div class='ui-icon ui-icon-refresh iconRefresh'></div>");
-
-                        // Determine what classes needs their backgrounds updated.
-                        var classes = determineClasses(ui);          
-
-                        // Update the background of the classes. 
-                        addBackgroundColour(this, classes);
-
-                        //update courseText
-                        var courseText = "";
-                        $(".courseBox").each(function () {
-                            courseText = courseText + $(this).text() + ",";
-                        });
-                        $("#courseInput").val(courseText);
-                    }
-                    else {
-                        approval = true;
-                    }
-                }
-            });
-        });
-
-       
-
-        // Generates a list of classes (as strings) that will need to be updated when the user has dropped
-        // particular courses in particular grid spots.
-        function determineClasses(ui) {
-            var strClasses = [];
-            //if course dragged is an elective, set target box to green (as it will be the last element in the array);
-            if (ui.draggable.hasClass("electives")) {
-                strClasses = ["majorCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "electiveCourse"];
-            }
-            else {
-                //else course dragged is a directed, so set target box to blue (as it will be the last element in the array);
-                strClasses = ["electiveCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "majorCourse"];
-            }
-            return strClasses;
-        }
-
-        // Function to change the background colour of a (div).
-        function addBackgroundColour(selector, classes) {
-            // Changing the background colour  of the (divs) displaying course information. 
-            // The last str in classes will have the class that is added not removed
-            for (var i = 0; i < classes.length - 1; i++) {
-                $(selector).removeClass(classes[i]);
-            }
-            // The last str in the array list will be the added class
-            $(selector).addClass(classes[classes.length - 1]);
-        }
-
-        //returns true if the passed courseCode already exists in the plan
-        function courseAlreadyInPlan(courseCode) {
-            
-            var planData = $("#courseInput").val();
-
-            //loop through every value in courseInout
-            while (planData.length > 0) {                
-                var endPos = planData.indexOf(','); //delimited by commas
-                var tempCode = planData.substring(0, endPos); //get next code
-                if (tempCode.localeCompare(courseCode) == 0) {  //if this value equals the passed courseCode, that code exists in the plan already, inform the user                    
-                    return true;
-                }                
-                planData = planData.substring(endPos+1);
-            }
-            return false;
-        }
-     
-    </script>
-    <script>
         //when a courseBox is clicked, send focus to the search box (unless the box is a slot, in which case direct to the appropriate section)
         $(".courseBox").click(function () {
 
@@ -537,7 +701,7 @@
             while (directedOptions.length > 0) {    //while there are still courses to be done
                 var nextCourse = directedOptions.substring(0, 8);  //get course (8chars long)
                 var parentDiv = $("#" + nextCourse.substring(4, 5) + "000LevelDirecteds");  //find it's parent, which is a year level heading
-                parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + nextCourse + '</div>'); //add course to the heading
+                parentDiv.html(parentDiv.html() + '<div class="draggable directeds" data-semester="">' + nextCourse + '</div>'); //add course to the heading
                 directedOptions = directedOptions.substring(9); //get next course
             }
 
@@ -639,13 +803,12 @@
         var degreeSlots = @Html.Raw(Json.Encode(ViewBag.DegreeSlots)); //used for optional degree core slots
 
         //get names for appropriate course boxes - degree cores
-        //get names for appropriate course boxes - degree cores
         $(function () {
             var semester1Cores = @Html.Raw(Json.Encode(ViewBag.Sem1Cores));
             var semester2Cores = @Html.Raw(Json.Encode(ViewBag.Sem2Cores));
 
-            addSemesterCourses(semester1Cores, "degreeCore", coursesInserted1);
-            addSemesterCourses(semester2Cores, "degreeCore", coursesInserted2);
+            addSemesterCourses(semester1Cores, "degreeCore", coursesInserted1, 1);
+            addSemesterCourses(semester2Cores, "degreeCore", coursesInserted2, 2);
         });
 
         //get names for appropriate course boxes - major cores
@@ -653,25 +816,25 @@
             var semester1MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem1MajorCores));
             var semester2MajorCores = @Html.Raw(Json.Encode(ViewBag.Sem2MajorCores));
 
-            addSemesterCourses(semester1MajorCores, "majorCore", coursesInserted1);
-            addSemesterCourses(semester2MajorCores, "majorCore", coursesInserted2);
+            addSemesterCourses(semester1MajorCores, "majorCore", coursesInserted1, 1);
+            addSemesterCourses(semester2MajorCores, "majorCore", coursesInserted2, 2);
         });
 
         // Adds the semester courses into the grid for a particular semester.
-        function addSemesterCourses(semesterCourses, targetClass, coursesInserted){
+        function addSemesterCourses(semesterCourses, targetClass, coursesInserted, semesterNumber){
             //loop through all the core courses for the semester, set the correct box to that course
             for (i = 0; i < semesterCourses.length; i++) {
-                var tempCode = semesterCourses[i];                                                      //get the corresponding course
+                var tempCode = semesterCourses[i];                                              //get the corresponding course
                 var yearLevelWaiting = tempCode.substring(4, 5);                                //year level we will insert at (row in grid)
-                coursesInserted[yearLevelWaiting]--;                                           //so that the next course inserted will be the next box along
-                var boxIndex = (yearLevelWaiting * 8) - coursesInserted[yearLevelWaiting];     //set the correct box set
+                coursesInserted[yearLevelWaiting]--;                                            //so that the next course inserted will be the next box along
+                var boxIndex = (yearLevelWaiting * 8) - coursesInserted[yearLevelWaiting];      //set the correct box set
                 var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
                 targetBox.html(tempCode);                                                       //change html to new course code
                 targetBox.addClass(targetClass);
                 targetBox.removeClass("potentialElective");
                 targetBox.attr('data-original', targetBox.html());
                 targetBox.attr('data-originalClass', targetClass);
-                
+                targetBox.attr('data-semester', semesterNumber);
             }
         }
 
@@ -793,7 +956,7 @@
             //loop through allDirecteds and display in menu under directed tab
             for (i = 0; i < allDirecteds.length; i++) {
                 var parentDiv = $("#" + allDirecteds[i].substring(4, 5) + "000LevelDirecteds");
-                parentDiv.html(parentDiv.html() + '<div class="draggable directeds">' + allDirecteds[i] + '</div>');
+                parentDiv.html(parentDiv.html() + '<div class="draggable directeds" data-semester="">' + allDirecteds[i] + '</div>');
                 refreshList = refreshList + allDirecteds[i] + " ";
             }
 
