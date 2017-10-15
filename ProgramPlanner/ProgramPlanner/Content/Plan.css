@@ -1,5 +1,12 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,700');
+
+body {
     padding-top: 30px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
 }
 
 #plan_all {
@@ -42,7 +49,7 @@ h1 {
 
 #yearNameColumn {
     top: 0px;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .yearNames {
@@ -53,7 +60,6 @@ h1 {
 }
 
 #rowYearInnerPlan {
-    background-color: white;
     position: relative;
     top: 5px;
 }
@@ -81,7 +87,12 @@ h1 {
     width: 96px;
     background-color: aliceblue;
     text-align: center;
+<<<<<<< HEAD
     line-height: 96px;    
+=======
+    line-height: 96px;
+    cursor: pointer;
+>>>>>>> ccf00344eedfeacb0d93d2c0553851541f5f9d0a
 }
 
 #semester1Box {
@@ -127,6 +138,7 @@ h1 {
 
 .directeds {
     font-size: 14px;
+    cursor: pointer;
     width: 100px;
     margin-bottom: 2px;
     padding: 2px;
@@ -134,8 +146,13 @@ h1 {
     z-index: 2;
 }
 
+    .electives:hover, .directeds:hover {
+        background-color: #BCE0FF;
+    }
+
 .electives {
     margin-bottom: 2px;
+    cursor: pointer;
     padding: 2px;
     background-color: aliceblue;
     width: 100px;
@@ -186,12 +203,16 @@ h4 {
     height: 100%;
 }
 
+.draggable {
+    cursor:move;
+}
+
 .degreeCore {
     background: #ffe175;
 }
 
 .majorCore {
-    background: #1da5e1;
+    background: #6FC5EB;
 }
 
 .majorCourse {
@@ -199,7 +220,7 @@ h4 {
 }
 
 .electiveCourse {
-    background: #b4f776;
+    background: #C8F99B;
 }
 
 .emptyCourse {

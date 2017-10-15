@@ -5,7 +5,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <link rel="stylesheet" type="text/css" href="..//Content/style.css"/>
-    <title>Plan your degree</title>
+    @{
+        ViewBag.Title = "Plan Your Program";
+    }
 </head>
 <body>
     <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -46,7 +48,7 @@
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input id="btnPlanner" type="button" value="Program Planner" class="btn btn-default" />
+                    <input id="btnPlanner" type="button" value="Submit" class="btn btn-default" />
                 </div>
             </div>
         </div>

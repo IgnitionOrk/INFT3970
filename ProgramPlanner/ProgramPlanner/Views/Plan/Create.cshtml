@@ -120,8 +120,8 @@
                     }
                 </ul>
                 <!--Creates the course grid for user to drop courses into.-->
-                <div class="col-md-11" id="colInnerPlan">
-                    <div id="innerPlan">
+                <div id="colInnerPlan">
+                    <div id="innerPlan" class="col-md-11">
                         @for (var i = 1; i <= @ViewBag.UnitsPerDegree / 80; i++)
                         {
                             for (var y = 1; y <= @ViewBag.SubjectsPerSemester * 2; y++)
@@ -652,7 +652,7 @@
                 x = 2000,
                 originalColor = el.css("background");
 
-            el.css("background", "yellow");
+            el.css("background", "#F8DE5C");
             setTimeout(function () {
                 el.css("background", originalColor);
             }, x);
@@ -692,7 +692,7 @@
                 var childButton = $(this).children().first();
                 var tempID = childButton.attr('id').substring(0, 1); //first char is the ID we need
                 var slotContainer = $('#' + tempID + 'optionalDegreeSlotContainer');
-                slotContainer.css("background", "yellow");
+                slotContainer.css("background", "#F8DE5C");
             }
             else if ($(this).hasClass("majorslot")) {   //if coursebox is for a majorslot, show directed tab  
 
