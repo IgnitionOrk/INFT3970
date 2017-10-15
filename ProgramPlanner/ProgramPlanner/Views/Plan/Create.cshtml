@@ -72,6 +72,11 @@
                 <div id="tabs-3">
                     <!--Menu on left of page that has page options for the user -->
                     <div id="optionsMenu">
+                        <h3 id="optionsMenuHeading">Options Menu</h3>
+                        <div id="editOption0">
+                            <p id="lblEmpty">Drag this onto a box if you don't want to do a course during that time slot:</p>
+                            <div class="draggable empty">Empty</div>
+                        </div>
                         <div id="editOption1">
                             <p id="lblNewNumOfSubjects"><b>Number of courses per semester:</b></p>
                             <input type="number" min="2" max="5" value="4" id="newNumOfSubjects" />
@@ -81,7 +86,7 @@
                         <input type="hidden" name="unitsPerDegreeOriginal" id="unitsPerDegreeOriginal" value="@ViewBag.UnitsPerDegree" />
                         <input type="hidden" name="unitsPerDegree" id="unitsPerDegree" value="@ViewBag.UnitsPerDegree" />
                         <div id="editOption2">
-                            <input type="button" id="btnAddCourse" value="Add Course" />
+                            <input type="button" id="btnAddCourse" value="Add Empty Course" />
                             <input type="button" id="btnRemoveCourse" value="Remove Last Course" />
                         </div>
                         <div id="editOptionDegreeOptional">
@@ -362,12 +367,30 @@
     <script>
         //drag and drop electives/directeds
         $(function () {
+
             $(".droppable").droppable({
                 accept: ".draggable",
-                drop: function (event, ui) {                   
+                drop: function (event, ui) {
+                    if ($(ui.draggable).text().localeCompare("Empty") == 0) {
+                        if (confirm("Are you sure you want to override this box?")){
+                            //otherwise continue on with the drop and drag
+                            $(this).html($(ui.draggable).text() + "<div class='ui-icon ui-icon-refresh iconRefresh'></div>");
 
-                    //ensure the course isn't already in the plan
-                    if (courseAlreadyInPlan($(ui.draggable).text())) {
+                            // Determine what classes needs their backgrounds updated.
+                            var classes = determineClasses($(ui.draggable));
+
+                            // Update the background of the classes. 
+                            addBackgroundColour($(this), classes);
+
+                            //update courseText
+                            var courseText = "";
+                            $(".courseBox").each(function () {
+                                courseText = courseText + $(this).text() + ",";
+                            });
+                            $("#courseInput").val(courseText);
+                        }
+                    }
+                    else if (courseAlreadyInPlan($(ui.draggable).text())) {                 //ensure the course isn't already in the plan
                         if (confirm("That course is already in your plan, are you sure you want to add it again?")) {   //only allow duplicate if user says it's ok
                             var parent = $(this).parent();
                             checkIsRunnng(parent.children().index($(this)), $(ui.draggable).text(), $(ui.draggable));
@@ -389,11 +412,15 @@
             var strClasses = [];
             //if course dragged is an elective, set target box to green (as it will be the last element in the array);
             if (ui.hasClass("electives")) {
-                strClasses = ["majorCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "electiveCourse"];
+                strClasses = ["majorCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "emptyCourse", "electiveCourse"];
+            }
+            else if (ui.hasClass("directeds")){
+                //else course dragged is a directed, so set target box to blue (as it will be the last element in the array);
+                strClasses = ["electiveCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "emptyCourse", "majorCourse"];
             }
             else {
-                //else course dragged is a directed, so set target box to blue (as it will be the last element in the array);
-                strClasses = ["electiveCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "majorCourse"];
+                //dragged course is an empty course
+                strClasses = ["electiveCourse", "potentialElective", "degreeCore", "majorCore", "majorslot", "majorCourse", "emptyCourse"];
             }
             return strClasses;
         }
@@ -755,29 +782,32 @@
 
             //only remove a subject if the result will not be less than the min required number of subjects for the course
             if ($("#unitsPerDegreeOriginal").val() < $("#unitsPerDegree").val()) {
-                $(".courseBox").last().remove();
+                if (confirm("Are you sure you want to remove the last course from your degree? This cannot be undone.")) {
+                    $(".courseBox").last().remove();
 
-                //fill in extra or less years on the side column
-                $(".yearNames").remove();
+                    //fill in extra or less years on the side column
+                    $(".yearNames").remove();
 
-                 // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
-                $(".yearNames").remove();
-                $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
+                    // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
+                    $(".yearNames").remove();
+                    $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
 
-                // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
-                var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
-                for (var i = 1; i <= newYears; i++) {
-                    $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
+                    // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
+                    var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
+                    for (var i = 1; i <= newYears; i++) {
+                        $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
+                    }
+
+                    updateBackgroundDiv();
+
+                    // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
+                    $('#innerPlan').shapeshift({
+                        gutterX: 5,
+                    });
+
+                    updateCourseText();
                 }
-
-                updateBackgroundDiv();
-
-                // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
-                $('#innerPlan').shapeshift({
-                    gutterX: 5,
-                });
-
-                updateCourseText();
+                
             }
         });
 
@@ -881,6 +911,7 @@
                     $(this).parent().removeClass("majorCourse");
                     $(this).parent().removeClass("degreeCore");
                     $(this).parent().removeClass("electiveCourse");
+                    $(this).parent().removeClass("emptyCourse");
                     $(this).parent().addClass($(this).parent().attr('data-originalclass'));
                     $(this).parent().html($(this).parent().attr('data-original'));
                     updateCourseText();
