@@ -16,11 +16,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
-	font-weight: 700;
+    font-weight: 700;
+    color: #666666;
 }
 
-
-p { 
+p, a, li{ 
 	padding: 0; 
 	margin-bottom: 12px; 
     font-family: 'Raleway', sans-serif;
@@ -103,12 +103,13 @@ a:focus {
 /* Bootstrap Modification */
 
 .navbar-inverse {
-	background: transparent;
-	border: transparent;
+    background: #E8E8E8;
+    border-color: #080808;
 }
 
-img {
-	padding-bottom: 10px;
+.navbar-collapse.collapse.in {
+    background: #E8E8E8;
+    border: transparent;
 }
 
 /* FORM CONFIGURATION */
@@ -159,8 +160,8 @@ input {
 }
 
 .btn-white {
-	background: white;
-	color: #2f2f2f;
+    background: #E8E8E8;
+    color: #2f2f2f;
 }
 
 .btn-white:hover {
