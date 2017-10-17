@@ -1,5 +1,12 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,700');
+
+body {
     padding-top: 30px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
 }
 
 #plan_all {
@@ -42,7 +49,7 @@ h1 {
 
 #yearNameColumn {
     top: 0px;
-    padding-left: 20px;
+    padding-left: 10px;
 }
 
 .yearNames {
@@ -53,7 +60,6 @@ h1 {
 }
 
 #rowYearInnerPlan {
-    background-color: white;
     position: relative;
     top: 5px;
 }
@@ -61,7 +67,6 @@ h1 {
 #mainRow {
     position: relative;
 }
-
 
 #plan {
     position: relative;
@@ -82,8 +87,12 @@ h1 {
     width: 96px;
     background-color: aliceblue;
     text-align: center;
+<<<<<<< HEAD
+    line-height: 96px;    
+=======
     line-height: 96px;
-    
+    cursor: pointer;
+>>>>>>> ccf00344eedfeacb0d93d2c0553851541f5f9d0a
 }
 
 #semester1Box {
@@ -103,7 +112,6 @@ h1 {
     float: left;
 }
 
-
 #planMenu {
     position: relative;
     height: 500px;
@@ -115,8 +123,22 @@ h1 {
     margin-bottom:30px;
 }
 
+.empty {
+    font-size: 14px;
+    width: 100px;
+    margin-bottom: 2px;
+    padding: 2px;
+    padding-left:30px;
+    background-color: aliceblue;
+    z-index: 2;
+    position:absolute;
+    left: 190px;
+    top:40px;
+}
+
 .directeds {
     font-size: 14px;
+    cursor: pointer;
     width: 100px;
     margin-bottom: 2px;
     padding: 2px;
@@ -124,8 +146,13 @@ h1 {
     z-index: 2;
 }
 
+    .electives:hover, .directeds:hover {
+        background-color: #BCE0FF;
+    }
+
 .electives {
     margin-bottom: 2px;
+    cursor: pointer;
     padding: 2px;
     background-color: aliceblue;
     width: 100px;
@@ -176,12 +203,16 @@ h4 {
     height: 100%;
 }
 
+.draggable {
+    cursor:move;
+}
+
 .degreeCore {
     background: #ffe175;
 }
 
 .majorCore {
-    background: #1da5e1;
+    background: #6FC5EB;
 }
 
 .majorCourse {
@@ -189,7 +220,11 @@ h4 {
 }
 
 .electiveCourse {
-    background: #b4f776;
+    background: #C8F99B;
+}
+
+.emptyCourse {
+    background: aliceblue;
 }
 
 .majorslot {
@@ -208,23 +243,45 @@ h4 {
     width: 100%;
 }
 
+#optionsMenuHeading {
+    width: 150px;
+    margin-top: 10px;
+    font-size: 20px;
+    left: 70px;
+    position: relative;
+    
+}
+
+#lblEmpty {
+    width:180px;
+}
+
+#editOption0 {
+    position: relative;
+    top: 10px;
+    padding-top:20px;
+    border-top: dashed 1px;
+    border-bottom: dashed 1px;
+    height: 105px;
+}
+
 #editOption1 {
     position:relative;
-    top:15px;
+    top:40px;
     border-bottom:dashed 1px;
     height:80px;
 }
 
 #editOption2 {
     position: relative;
-    top: 50px;
+    top: 80px;
     height:65px;
     border-bottom: dashed 1px;
 }
 
 #editOptionDegreeOptional {
     position:relative;
-    top:50px;
+    top:80px;
 }
 
 .optionalDegreeSlotContainer {
@@ -274,14 +331,12 @@ h4 {
 }
 
 #btnAddCourse{
-    width:140px;
+    width:143px;
 }
 
 #btnRemoveCourse {
-    width: 140px;
-    text-align: center;
-    padding-left:0px;
-    padding-right:0px;
+    width: 143px;
+    text-align:center;
 }
 
 .iconRefresh {
