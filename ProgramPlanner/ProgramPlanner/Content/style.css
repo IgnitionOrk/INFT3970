@@ -188,6 +188,7 @@ input {
 
 	/* Modal Content */
 	.modal-content {
+        text-align:center;
 	  z-index: 99999;
 	  position: relative;
 	  background-color: #fefefe;
@@ -235,10 +236,10 @@ input {
 	  z-index: 999;
 	}
 
-	.modal-body {
-		padding: 12px 16px;
-	  	z-index: 999;
-	}
+.modal-body {
+    padding: 12px 16px;
+    z-index: 999;
+}
 
 	/* Modal Form */
 
@@ -246,7 +247,7 @@ input {
 	    width: 100%;
 	    padding: 12px 20px;
 	    margin: 8px 0;
-	    display: inline-block;
+	    display: inline;
 	    border: 1px solid #ccc;
 	    border-radius: 4px;
 	    box-sizing: border-box;
@@ -561,6 +562,7 @@ input {
 /* Modal Form */
 
 .modal-form input[type=text], select {
+    text-align: center;
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -593,4 +595,9 @@ input {
     background-color: #f2f2f2;
     padding: 20px;
     z-index: 999;
+}
+
+
+#myBtn {
+    text-align:center;
 }
