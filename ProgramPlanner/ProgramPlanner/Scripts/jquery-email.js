@@ -173,12 +173,18 @@ function upload(screenshot) {
 // @param sc: 'Screenshot' of the elements inside the div tag 'plan'
 // @param to: Email provided by the user.
 function request(sc, to) {
+
     $.ajax({
         type: "POST",
         url: "/Email/Upload",
         cache: false,
         data: { "screenshot": sc, "to": to },
         dataType: "json",
+        async: true,
+        timeout: 400000,
+        beforeSend: function () {
+            loadingScreen();
+        },
         success: function (data) {
             var saved = Boolean(data.saved);
             if (saved === true) {
@@ -192,4 +198,8 @@ function request(sc, to) {
             alert("Could not connect to requested page.");
         }
     });
+}
+
+function loadingScreen() {
+    document.getElementById("loader").style.display = "block";
 }

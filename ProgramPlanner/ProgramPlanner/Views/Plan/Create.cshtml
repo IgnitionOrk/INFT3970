@@ -86,6 +86,7 @@
                         <input type="hidden" name="unitsPerDegreeOriginal" id="unitsPerDegreeOriginal" value="@ViewBag.UnitsPerDegree" />
                         <input type="hidden" name="unitsPerDegree" id="unitsPerDegree" value="@ViewBag.UnitsPerDegree" />
                         <div id="editOption2">
+                            <p>Courses will either be added or removed from the end of your program structure.</p>   
                             <input type="button" id="btnAddCourse" value="Add Empty Course" />
                             <input type="button" id="btnRemoveCourse" value="Remove Last Course" />
                         </div>
@@ -147,20 +148,16 @@
                           <h2 align="center">Send your program plan to yourself</h2>
                       </div>
                       <div class="modal-body">
-                          <p align="center">Fill out the form below to get your program plan sent to you</p>
+                          <div id="loader" style="display:none">Hello</div>
+                          <p align="center">Fill out the form below to get your program plan sent to you. Use your student email e.g. c9999999@uon.edu.au</p>
                           <div class="modal-form">
-                              <form onsubmit="submission()">
-                                  <label for="fname">First Name</label>
-                                  <input type="text" id="fname" name="firstname" placeholder="Your first name">
-
-                                  <label for="firstEmail">Email</label>
-                                  <input type="text" id="firstEmail" name="email" placeholder="you@domain.com">
-                                  
-                                  <label for="confirmationEmail">Please Confirm Your Email</label>
-                                  <input type="text" id="confirmationEmail" name="email" placeholder="you@domain.com">
-
-                                  <input type="submit" id="emailBtn" value="Submit">
-                              </form>
+                            <label for="fname">First Name</label>
+                            <input type="text" id="fname" name="firstname" placeholder="Your first name">
+                            <label for="firstEmail">Email</label>
+                            <input type="text" id="firstEmail" name="email" placeholder="you@domain.com">
+                            <label for="confirmationEmail">Please Confirm Your Email</label>
+                            <input type="text" id="confirmationEmail" name="email" placeholder="you@domain.com">
+                            <input type="submit" id="emailBtn" value="Submit">
                           </div>
                       </div>
                   </div>
@@ -954,7 +951,7 @@
         //refresh is a boolean, if true, this slot if being refreshed, and if false this slot is being set for the first time
         function createDegreeOptionalSlot(i, refresh, index) {
             $("#degreeOptionalSlots").html($("#degreeOptionalSlots").html() +
-                '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
+                '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot, by clicking on either of the courses provided below:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
            
             var courseCodes = degreeSlots[i][0];
             var semester = degreeSlots[i][1];
@@ -1120,10 +1117,6 @@
                 if (event.target == modal) {
                     modal.style.display = "none";
                 }
-            }
-
-            function submission() {
-                alert("Thank you for submitting your information! We will send you your program plan shortly.");
             }
     </script>
 </footer>
