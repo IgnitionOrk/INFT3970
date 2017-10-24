@@ -87,12 +87,7 @@ h1 {
     width: 96px;
     background-color: aliceblue;
     text-align: center;
-<<<<<<< HEAD
     line-height: 96px;    
-=======
-    line-height: 96px;
-    cursor: pointer;
->>>>>>> ccf00344eedfeacb0d93d2c0553851541f5f9d0a
 }
 
 #semester1Box {
@@ -231,7 +226,8 @@ h4 {
     border: 2px dashed #1da5e1;
     line-height:16px;
     font-size:14px;
-    padding-top:10px;
+    padding-top:6px;
+    padding-right:1px;
 }
 
 .potentialElective {
@@ -359,4 +355,58 @@ h4 {
     top:500px;
     left:30px;
     z-index:1;
+}
+
+#legend {
+    left: 30px;
+    top: 8px;
+    width: 310px;
+    height: 42px;
+    position: relative;
+    border: 1px dashed #808080;
+}
+
+#legendTitle {
+    position:relative;
+    left:10px;
+    top:10px;
+}
+
+.legendOuter {
+    position: absolute;
+    top: 0px;
+    width: 70px;
+    text-align: center;
+    height: 50px;
+}
+
+#legendOuterCore {
+    left:70px;
+}
+
+#legendOuterMajor {
+    left: 80px;
+}
+
+#legendOuterElective {
+    left: 80px;
+}
+
+.legendColour{
+    height:28px;
+    line-height:28px;
+    position:relative;
+    top:6px;
+}
+
+#legendCore {
+    background: #ffe175;
+}
+
+#legendMajor {
+    background: #6FC5EB;
+}
+
+#legendElective {
+    background: #C8F99B;
 }
