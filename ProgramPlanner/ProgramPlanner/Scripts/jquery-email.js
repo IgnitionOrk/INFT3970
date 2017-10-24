@@ -3,9 +3,30 @@
 // Date Created: 27-Sep-2017
 // Date Modified: 27-Sep-2017
 document.getElementById("emailBtn").addEventListener("click", emailProtocol);
+// Get the modal
+var modal = document.getElementById('myModal');
 
+// Get the button that opens the modal
+document.getElementById("myBtn").addEventListener("click", function () {
+    modal.style.display = "block";
+    // Hide the loading
+    loadingScreen("hide");
+});
+
+// When the user clicks on the span id = closeModal, it will close the form. 
+document.getElementById("closeModal").addEventListener("click", function () {
+    modal.style.display = "none";
+});
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 // A set of email protocols that must be passed before the user may be allowed to receive the program structure email. 
 function emailProtocol() {
+
     var email = document.getElementById("firstEmail");
     var conEmail = document.getElementById("confirmationEmail");
     var emailBtn = document.getElementById("emailBtn");
@@ -179,17 +200,66 @@ function request(sc, to) {
         cache: false,
         data: { "screenshot": sc, "to": to },
         dataType: "json",
+        async: true,
+        timeout: 400000,
+        beforeSend: function () {
+            // display the loading display
+            loadingScreen("display");
+        },
         success: function (data) {
-            var saved = Boolean(data.saved);
-            if (saved === true) {
-                alert("Email has been sent.");
+            try {
+                // Why using the saved attribute? If something went wrong at the backend,
+                // the frontend won't know about it, so we tell the backend to send a boolean value
+                // that determines if all went well. 
+                var saved = Boolean(data.saved);
+                if (saved === true) {
+                    // Close the loading screen.
+                    loadingScreen("close");
+                }
+                else {
+                    // Display an error as the email could not be sent. 
+                    loadingScreen("error");
+                }
             }
-            else {
-                alert("Email could not be sent.");
+            catch(e){
+                loadingScreen("error");
             }
         },
         error: function () {
             alert("Could not connect to requested page.");
         }
     });
+}
+// Determines what particular scenario the loading screen should respond to.
+function loadingScreen(action) {
+    switch (action) {
+        case "display":
+            $("#loader").show();
+            $("#loader").html("");
+            $("#loader").addClass("loadingAnimation");
+            $("#fname").prop('disabled', true);
+            $("#firstEmail").prop('disabled', true);
+            $("#confirmationEmail").prop('disabled', true);
+            $("#submit").prop('disabled', true);
+            break;
+        case "close":
+            $("#loader").removeClass("loadingAnimation");
+            $("#loader").html("&#9989 Your email has been sent.");
+            $("#fname").prop('disabled', false);
+            $("#firstEmail").prop('disabled', false);
+            $("#confirmationEmail").prop('disabled', false);
+            $("#submit").prop('disabled', false);
+            break;
+        case "error":
+            $("#loader").removeClass("loadingAnimation");
+            $("#loader").html("&#10060 Oops! Your email could not be sent.");
+            $("#fname").prop('disabled', false);
+            $("#firstEmail").prop('disabled', false);
+            $("#confirmationEmail").prop('disabled', false);
+            $("#submit").prop('disabled', false);
+            break;
+        case "hide":
+            $("#loader").hide();
+            break;
+    }
 }
