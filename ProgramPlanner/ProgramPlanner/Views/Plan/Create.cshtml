@@ -1143,7 +1143,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Plan.css")
     <link rel="stylesheet" href="~/Content/jquery-ui.min.css">
-    <!--<link rel="stylesheet" type="text/css" href="..//Content/style.css" />-->
+    <link rel="stylesheet" type="text/css" href="../Content/style.css" />
     <script src="~/Scripts/html2canvas.js" type="text/javascript"></script>
 </head>
 <body>
@@ -1154,7 +1154,7 @@
         <div id="imgHeaderContainer" class="col-md-2 col-md-offset-1">
             <img id="imgHeader" src="~/Content/images/adaymaycome.jpg" />
         </div>
-        <h1>Various Instructions and pictures shall go here</h1>
+        <h1>My Uni Planner</h1>
     </div>
     <div id="mainRow" class="row">
         <!--Main row with most page items-->
@@ -1205,7 +1205,7 @@
                     <div id="optionsMenu">
                         <h3 id="optionsMenuHeading">Options Menu</h3>
                         <div id="editOption0">
-                            <p id="lblEmpty">Drag this onto a box if you don't want to do a course during that time slot:</p>
+                            <p id="lblEmpty">Drag this 'Empty' label onto a box if you don't want to do a course then:</p>
                             <div class="draggable empty">Empty</div>
                         </div>
                         <div id="editOption1">
@@ -1217,7 +1217,7 @@
                         <input type="hidden" name="unitsPerDegreeOriginal" id="unitsPerDegreeOriginal" value="@ViewBag.UnitsPerDegree" />
                         <input type="hidden" name="unitsPerDegree" id="unitsPerDegree" value="@ViewBag.UnitsPerDegree" />
                         <div id="editOption2">
-                            <p>Courses will either be added or removed from the end of your program structure.</p>   
+                            <p id="editOption2Text">Courses will either be added or removed from the end slot of your program structure.</p>   
                             <input type="button" id="btnAddCourse" value="Add Empty Course" />
                             <input type="button" id="btnRemoveCourse" value="Remove Last Course" />
                         </div>

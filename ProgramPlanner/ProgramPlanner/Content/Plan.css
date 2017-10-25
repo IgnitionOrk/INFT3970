@@ -368,6 +368,11 @@ body {
     padding-top: 30px;
 }
 
+h3{
+    position:relative;
+    top:-2px;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -601,6 +606,7 @@ h4 {
 .btnGridDegreeSlot {
     height: 100%;
     width: 100%;
+    padding:0px;
 }
 
 #optionsMenuHeading {
@@ -614,34 +620,40 @@ h4 {
 
 #lblEmpty {
     width:180px;
+    font-size:14px;
 }
 
 #editOption0 {
     position: relative;
     top: 10px;
-    padding-top:20px;
+    padding-top:10px;
     border-top: dashed 1px;
     border-bottom: dashed 1px;
-    height: 105px;
+    height: 130px;
 }
 
 #editOption1 {
     position:relative;
-    top:40px;
+    top:30px;
     border-bottom:dashed 1px;
-    height:80px;
+    height:110px;
 }
 
 #editOption2 {
     position: relative;
-    top: 80px;
-    height:65px;
+    top: 40px;
+    height:140px;
     border-bottom: dashed 1px;
 }
 
+#editOption2Text {
+    font-size:14px;
+    text-align:center;
+}
+
 #editOptionDegreeOptional {
-    position:relative;
-    top:80px;
+    position: relative;
+    top: 30px;
 }
 
 .optionalDegreeSlotContainer {
@@ -667,6 +679,7 @@ h4 {
     width:90px;
     margin:2px;
     position:relative;
+    padding:0px;
 }
 
 #lblNewNumOfSubjects {
@@ -674,6 +687,7 @@ h4 {
     width: 224px;
     text-align: left;
     margin: 0 auto;
+    font-size:14px;
 }
 
 #newNumOfSubjects {
@@ -681,6 +695,8 @@ h4 {
     top: 10px;
     position: relative;
     width: 60px;
+    font-size: 14px;
+    padding:10px;
 }
 
 #btnNewNumOfSubjects {
@@ -688,15 +704,19 @@ h4 {
     left: 90px;
     position: relative;
     width: 60px;
+    font-size:14px;
+    padding:0px;
 }
 
 #btnAddCourse{
     width:143px;
+    padding:0px;
 }
 
 #btnRemoveCourse {
     width: 143px;
     text-align:center;
+    padding:0px;
 }
 
 .iconRefresh {
@@ -721,6 +741,10 @@ h4 {
     z-index:1;
 }
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 9217433784e955f97089065421d78ea852ec9f2d
 #legend {
     left: 30px;
     top: 8px;
