@@ -357,7 +357,6 @@ h4 {
     z-index:1;
 }
 
-<<<<<<< HEAD
 #legend {
     left: 30px;
     top: 8px;
@@ -411,7 +410,7 @@ h4 {
 #legendElective {
     background: #C8F99B;
 }
-=======
+
 .loadingAnimation {
     border: 5px solid #f3f3f3;
     border-radius: 50%;
@@ -441,4 +440,3 @@ h4 {
         transform: rotate(360deg);
     }
 }
->>>>>>> ad85c18bcbb1ab50d6f1b727a524225598029fc4
