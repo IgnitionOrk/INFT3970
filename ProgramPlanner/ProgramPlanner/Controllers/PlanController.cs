@@ -32,6 +32,13 @@ namespace ProgramPlanner.Controllers
             Setup.InitializeCourseCode(db);
             ViewBag.UnitsPerDegree = 240;
             ViewBag.SubjectsPerSemester = 4;
+            YearDegree tempDegree = db.YearDegrees.Find(yearDegreeID);
+            ViewBag.DegreeName = tempDegree.Degree.DegreeName + " " + tempDegree.Year;
+            ViewBag.MajorName = db.Majors.Find(majorID).MajorName;
+
+            int uniID = tempDegree.Degree.UniversityID;
+            ViewBag.UniName = db.Universities.Find(uniID).UniName;
+
             getCourseCodes();
             getDegreeCores(yearDegreeID);
             getMajorCores(majorID);

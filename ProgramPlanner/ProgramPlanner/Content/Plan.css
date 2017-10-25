@@ -1,12 +1,13 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,700');
 
 body {
-    padding-top: 30px;
+    padding-top: 0px;
+    padding-left:20px;
 }
 
 h3{
     position:relative;
-    top:-2px;
+    top:-4px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -19,16 +20,24 @@ h1, h2, h3, h4, h5, h6 {
     left: 50px;
 }
 
-#headerRow {
-    margin-bottom: 30px;
+#headerRow2 {
+    position:absolute;
+    top:90px;
+    left:293px;
+    font-size:20px;
 }
 
 h1 {
-    line-height: 90px;
+    position:relative;
+    top:45px;
+    
 }
 
 #imgHeader {
-    width: 50%;
+    width:170px;
+    position:relative;
+    left:10px;
+    top:-10px;
 }
 
 .rowName {
@@ -183,10 +192,14 @@ h1 {
     top: 10px;
     height: 400px;
     overflow-y: auto;
+    padding-top:10px;
+    padding-bottom:10px;
 }
 
 .accordions {
-    padding: 0px !important;
+    padding-top: 0 !important;
+    padding-left: 10px !important;
+    padding-bottom: 10px !important;
 }
 
 h4 {
@@ -377,16 +390,12 @@ h4 {
     z-index:1;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9217433784e955f97089065421d78ea852ec9f2d
 #legend {
-    left: 30px;
-    top: 8px;
+    left: 36px;
+    top: 680px;
     width: 310px;
     height: 42px;
-    position: relative;
+    position: absolute;
     border: 1px dashed #808080;
 }
 
@@ -463,4 +472,10 @@ h4 {
     100% {
         transform: rotate(360deg);
     }
+}
+
+#searchBox{
+    padding:0px;
+    margin-bottom:0px;
+    min-height:30px;
 }
