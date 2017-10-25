@@ -34,7 +34,7 @@ function emailProtocol() {
         alert("You need to enter your student email.");
     }
     else if (email.value !== conEmail.value) {
-        alert("Emails do not match.");
+        alert("Emails do not match.");  
     }
     else {
         if (confirm("Do you wish to email your program structure?")) {
