@@ -1,19 +1,13 @@
-<<<<<<< HEAD
-﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,700');
-
-body {
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,700'); body {
     padding-top: 0px;
-    padding-left:20px;
+    padding-left: 20px;
 }
 
-<<<<<<< HEAD
-h3{
-    position:relative;
-    top:-4px;
+h3 {
+    position: relative;
+    top: -4px;
 }
 
-=======
->>>>>>> bc490402bd5c2b96eee732d38ccbebe8533dd3e0
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -25,23 +19,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #headerRow2 {
-    position:absolute;
-    top:90px;
-    left:293px;
-    font-size:20px;
+    position: absolute;
+    top: 90px;
+    left: 293px;
+    font-size: 20px;
 }
 
 h1 {
-    position:relative;
-    top:45px;
-    
+    position: relative;
+    top: 45px;
 }
 
 #imgHeader {
-    width:170px;
-    position:relative;
-    left:10px;
-    top:-10px;
+    width: 170px;
+    position: relative;
+    left: 10px;
+    top: -10px;
 }
 
 .rowName {
@@ -105,12 +98,7 @@ h1 {
     width: 96px;
     background-color: aliceblue;
     text-align: center;
-<<<<<<< HEAD
-    line-height: 96px;    
-=======
     line-height: 96px;
-    cursor: pointer;
->>>>>>> ccf00344eedfeacb0d93d2c0553851541f5f9d0a
 }
 
 #semester1Box {
@@ -137,384 +125,8 @@ h1 {
 }
 
 .directedHeading {
-    font-size:18px;
-    margin-bottom:30px;
-}
-
-.empty {
-    font-size: 14px;
-    width: 100px;
-    margin-bottom: 2px;
-    padding: 2px;
-    padding-left:30px;
-    background-color: aliceblue;
-    z-index: 2;
-    position:absolute;
-    left: 190px;
-    top:40px;
-}
-
-.directeds {
-    font-size: 14px;
-    cursor: pointer;
-    width: 100px;
-    margin-bottom: 2px;
-    padding: 2px;
-    background-color: aliceblue;
-    z-index: 2;
-}
-
-    .electives:hover, .directeds:hover {
-        background-color: #BCE0FF;
-    }
-
-.electives {
-    margin-bottom: 2px;
-    cursor: pointer;
-    padding: 2px;
-    background-color: aliceblue;
-    width: 100px;
-    z-index: 2;
-}
-
-.subAccordion {
-    width: 80%;
-    float: left;
-    height: 100%;
-}
-
-#tabs {
-    height: 500px;
-}
-
-#tabs-2 {
-    padding: 10px;
-}
-
-#tabs-3 {
-    overflow-y: scroll;
-    
-}
-
-#accordion {
-    position: relative;
-    top: 10px;
-    height: 400px;
-    overflow-y: auto;
-    padding-top:10px;
-    padding-bottom:10px;
-}
-
-.accordions {
-    padding-top: 0 !important;
-    padding-left: 10px !important;
-    padding-bottom: 10px !important;
-}
-
-h4 {
-    width: 80%;
-    float: left;
-}
-
-#rowSubmit {
-    position: relative;
-} 
-
-
-#optionsMenu {
-    height: 100%;
-}
-
-.draggable {
-    cursor:move;
-}
-
-.degreeCore {
-    background: #ffe175;
-}
-
-.majorCore {
-    background: #6FC5EB;
-}
-
-.majorCourse {
-    background: #1da5e1;
-}
-
-.electiveCourse {
-    background: #C8F99B;
-}
-
-.emptyCourse {
-    background: aliceblue;
-}
-
-.majorslot {
-    border: 2px dashed #1da5e1;
-    line-height:16px;
-    font-size:14px;
-    padding-top:10px;
-}
-
-.potentialElective {
-    border: 2px dashed #b4f776;
-}
-
-.btnGridDegreeSlot {
-    height: 100%;
-    width: 100%;
-}
-
-#optionsMenuHeading {
-    width: 150px;
-    margin-top: 10px;
-    font-size: 20px;
-    left: 70px;
-    position: relative;
-    
-}
-
-#lblEmpty {
-    width:180px;
-}
-
-#editOption0 {
-    position: relative;
-    top: 10px;
-    padding-top:20px;
-    border-top: dashed 1px;
-    border-bottom: dashed 1px;
-    height: 105px;
-}
-
-#editOption1 {
-    position:relative;
-    top:40px;
-    border-bottom:dashed 1px;
-    height:80px;
-}
-
-#editOption2 {
-    position: relative;
-    top: 80px;
-    height:65px;
-    border-bottom: dashed 1px;
-}
-
-#editOptionDegreeOptional {
-    position:relative;
-    top:80px;
-}
-
-.optionalDegreeSlotContainer {
-    position: relative;
-    padding-bottom: 50px;
-    padding-top: 30px;
-    border-bottom: dashed 1px;
-}
-
-.lblEditOptionDegreeOptional {
-    text-align:center;
-}
-
-.degreeOptionalSlot {
-    position:relative;
-    top:10px;
-    margin: 0 auto;
-    width: 96px;
-    height:100%;
-}
-
-.btnDegreeSlot {
-    width:90px;
-    margin:2px;
-    position:relative;
-}
-
-#lblNewNumOfSubjects {
-    position: relative;
-    width: 224px;
-    text-align: left;
-    margin: 0 auto;
-}
-
-#newNumOfSubjects {
-    left: 90px;
-    top: 10px;
-    position: relative;
-    width: 60px;
-}
-
-#btnNewNumOfSubjects {
-    top: 10px;
-    left: 90px;
-    position: relative;
-    width: 60px;
-}
-
-#btnAddCourse{
-    width:143px;
-}
-
-#btnRemoveCourse {
-    width: 143px;
-    text-align:center;
-}
-
-.iconRefresh {
-    position: absolute !important;
-    bottom: 8px;
-    right: 5px;
-    cursor: pointer;
-}
-
-#imgRefreshDirecteds {
-    position: absolute;
-    right: 35px;
-    top: 62px;
-    width: 25px;
-    cursor: pointer;
-}
-
-#btnEmailSubmit{
-    position:relative;
-    top:500px;
-    left:30px;
-    z-index:1;
-}
-=======
-﻿@import url('https://fonts.googleapis.com/css?family=Montserrat:400,400i,600,700');
-
-body {
-    padding-top: 0px;
-    padding-left:20px;
-}
-
-h3{
-    position:relative;
-    top:-4px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 400;
-}
-
-#plan_all {
-    position: relative;
-    left: 50px;
-}
-
-#headerRow2 {
-    position:absolute;
-    top:90px;
-    left:293px;
-    font-size:20px;
-}
-
-h1 {
-    position:relative;
-    top:45px;
-    
-}
-
-#imgHeader {
-    width:170px;
-    position:relative;
-    left:10px;
-    top:-10px;
-}
-
-.rowName {
-    line-height: 100px;
-}
-
-.semesterName {
-    top: 5px;
-    text-align: center;
-    position: relative;
-    width: 90px;
-    float: left;
-    z-index: 1;
-}
-
-#semester1Name {
-    left: 155px;
-}
-
-#semester2Name {
-    left: 365px;
-}
-
-#yearNameColumn {
-    top: 0px;
-    padding-left: 10px;
-}
-
-.yearNames {
-    position: relative;
-    line-height: 105px;
-    list-style: none;
     font-size: 18px;
-}
-
-#rowYearInnerPlan {
-    position: relative;
-    top: 5px;
-}
-
-#mainRow {
-    position: relative;
-}
-
-#plan {
-    position: relative;
-    padding: 0px;
-}
-
-#innerPlan {
-    position: relative;
-}
-
-#colInnerPlan {
-    padding: 0px;
-}
-
-.courseBox {
-    position: absolute;
-    height: 96px;
-    width: 96px;
-    background-color: aliceblue;
-    text-align: center;
-    line-height: 96px;    
-}
-
-#semester1Box {
-    position: absolute;
-    height: 100%;
-    background-color: #fffbef;
-}
-
-#semester2Box {
-    position: absolute;
-    height: 100%;
-    background-color: #e7ffca;
-    left: 400px;
-}
-
-.semesterBox {
-    float: left;
-}
-
-#planMenu {
-    position: relative;
-    height: 500px;
-    top: 0px;
-}
-
-.directedHeading {
-    font-size:18px;
-    margin-bottom:30px;
+    margin-bottom: 30px;
 }
 
 .empty {
@@ -522,12 +134,12 @@ h1 {
     width: 100px;
     margin-bottom: 2px;
     padding: 2px;
-    padding-left:30px;
+    padding-left: 30px;
     background-color: aliceblue;
     z-index: 2;
-    position:absolute;
+    position: absolute;
     left: 190px;
-    top:40px;
+    top: 40px;
 }
 
 .directeds {
@@ -569,7 +181,6 @@ h1 {
 
 #tabs-3 {
     overflow-y: scroll;
-    
 }
 
 #accordion {
@@ -577,8 +188,8 @@ h1 {
     top: 10px;
     height: 400px;
     overflow-y: auto;
-    padding-top:10px;
-    padding-bottom:10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .accordions {
@@ -594,7 +205,7 @@ h4 {
 
 #rowSubmit {
     position: relative;
-} 
+}
 
 
 #optionsMenu {
@@ -602,7 +213,7 @@ h4 {
 }
 
 .draggable {
-    cursor:move;
+    cursor: move;
 }
 
 .degreeCore {
@@ -627,10 +238,10 @@ h4 {
 
 .majorslot {
     border: 2px dashed #1da5e1;
-    line-height:16px;
-    font-size:14px;
-    padding-top:6px;
-    padding-right:1px;
+    line-height: 16px;
+    font-size: 14px;
+    padding-top: 6px;
+    padding-right: 1px;
 }
 
 .potentialElective {
@@ -640,7 +251,7 @@ h4 {
 .btnGridDegreeSlot {
     height: 100%;
     width: 100%;
-    padding:0px;
+    padding: 0px;
 }
 
 #optionsMenuHeading {
@@ -649,45 +260,44 @@ h4 {
     font-size: 20px;
     left: 70px;
     position: relative;
-    
 }
 
 #lblEmpty {
-    width:180px;
-    font-size:14px;
+    width: 180px;
+    font-size: 14px;
 }
 
 #editOption0 {
     position: relative;
     top: 10px;
-    padding-top:10px;
+    padding-top: 10px;
     border-top: dashed 1px;
     border-bottom: dashed 1px;
     height: 130px;
 }
 
 #editOption1 {
-    position:relative;
-    top:30px;
-    border-bottom:dashed 1px;
-    height:110px;
+    position: relative;
+    top: 30px;
+    border-bottom: dashed 1px;
+    height: 110px;
 }
 
 #editOption2 {
     position: relative;
-    top: 40px;
-    height:140px;
+    top: 60px;
+    height: 75px;
     border-bottom: dashed 1px;
 }
 
 #editOption2Text {
-    font-size:14px;
-    text-align:center;
+    font-size: 14px;
+    text-align: center;
 }
 
 #editOptionDegreeOptional {
     position: relative;
-    top: 30px;
+    top: 60px;
 }
 
 .optionalDegreeSlotContainer {
@@ -698,22 +308,22 @@ h4 {
 }
 
 .lblEditOptionDegreeOptional {
-    text-align:center;
+    text-align: center;
 }
 
 .degreeOptionalSlot {
-    position:relative;
-    top:10px;
+    position: relative;
+    top: 10px;
     margin: 0 auto;
     width: 96px;
-    height:100%;
+    height: 100%;
 }
 
 .btnDegreeSlot {
-    width:90px;
-    margin:2px;
-    position:relative;
-    padding:0px;
+    width: 90px;
+    margin: 2px;
+    position: relative;
+    padding: 0px;
 }
 
 #lblNewNumOfSubjects {
@@ -721,7 +331,7 @@ h4 {
     width: 224px;
     text-align: left;
     margin: 0 auto;
-    font-size:14px;
+    font-size: 14px;
 }
 
 #newNumOfSubjects {
@@ -730,7 +340,7 @@ h4 {
     position: relative;
     width: 60px;
     font-size: 14px;
-    padding:10px;
+    padding: 10px;
 }
 
 #btnNewNumOfSubjects {
@@ -738,19 +348,19 @@ h4 {
     left: 90px;
     position: relative;
     width: 60px;
-    font-size:14px;
-    padding:0px;
+    font-size: 14px;
+    padding: 0px;
 }
 
-#btnAddCourse{
-    width:142px;
-    padding:0px;
+#btnAddCourse {
+    width: 142px;
+    padding: 0px;
 }
 
 #btnRemoveCourse {
     width: 142px;
-    text-align:center;
-    padding:0px;
+    text-align: center;
+    padding: 0px;
 }
 
 .iconRefresh {
@@ -768,11 +378,11 @@ h4 {
     cursor: pointer;
 }
 
-#btnEmailSubmit{
-    position:relative;
-    top:500px;
-    left:30px;
-    z-index:1;
+#btnEmailSubmit {
+    position: relative;
+    top: 500px;
+    left: 30px;
+    z-index: 1;
 }
 
 #legend {
@@ -785,9 +395,9 @@ h4 {
 }
 
 #legendTitle {
-    position:relative;
-    left:10px;
-    top:10px;
+    position: relative;
+    left: 10px;
+    top: 10px;
 }
 
 .legendOuter {
@@ -799,7 +409,7 @@ h4 {
 }
 
 #legendOuterCore {
-    left:70px;
+    left: 70px;
 }
 
 #legendOuterMajor {
@@ -810,11 +420,11 @@ h4 {
     left: 80px;
 }
 
-.legendColour{
-    height:28px;
-    line-height:28px;
-    position:relative;
-    top:6px;
+.legendColour {
+    height: 28px;
+    line-height: 28px;
+    position: relative;
+    top: 6px;
 }
 
 #legendCore {
@@ -858,20 +468,9 @@ h4 {
         transform: rotate(360deg);
     }
 }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> bc490402bd5c2b96eee732d38ccbebe8533dd3e0
 
-#searchBox{
-    padding:0px;
-    margin-bottom:0px;
-    min-height:30px;
-<<<<<<< HEAD
+#searchBox {
+    padding: 0px;
+    margin-bottom: 0px;
+    min-height: 30px;
 }
-=======
-}
-=======
->>>>>>> origin/master
->>>>>>> cfa0ca4eccfb6f492dbadda928152fe6785ffd13
->>>>>>> bc490402bd5c2b96eee732d38ccbebe8533dd3e0
