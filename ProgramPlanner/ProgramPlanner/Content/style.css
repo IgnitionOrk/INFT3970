@@ -455,8 +455,9 @@ input {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
     width: 300px;
-    left:300px; 
-    top:40px;
+    left:605px; 
+    top:20px;
+    margin-bottom:50px;
 }
 
     #myBtn:hover {

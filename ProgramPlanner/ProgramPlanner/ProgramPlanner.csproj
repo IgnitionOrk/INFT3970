@@ -206,6 +206,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OptionalCoreCoursesController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
+    <Compile Include="Controllers\PM_HomeController.cs" />
     <Compile Include="Controllers\ProgramDirectedsController.cs" />
     <Compile Include="Controllers\ProgramElectivesController.cs" />
     <Compile Include="Controllers\ProgramMajorsController.cs" />

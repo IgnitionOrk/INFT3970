@@ -20,11 +20,12 @@
     <script src="~/Content/scripts/jquery-ui.min.js"></script>
     <script src="~/Content/scripts/jquery.shapeshift.js"></script>
     <div id="headerRow" class="row">
-        <div id="imgHeaderContainer" class="col-md-2 col-md-offset-1">
-            <img id="imgHeader" src="~/Content/images/adaymaycome.jpg" />
+        <div id="imgHeaderContainer" class="col-md-2">
+            <img id="imgHeader" src="~/Content/images/logo.png" />
         </div>
-        <h1>My Uni Planner</h1>
+        <h1 class="col-md-10">@ViewBag.DegreeName</h1>       
     </div>
+    <h3 class="row" id="headerRow2">@ViewBag.MajorName at the @ViewBag.UniName</h3>
     <div id="mainRow" class="row">
         <!--Main row with most page items-->
         <!--Main menu on right of page -->
@@ -133,11 +134,13 @@
                     </div>
                 </div>
             </div>
+
+            <!--CTA button / Modal-->
+            <button id="myBtn"><h3>Send Program Plan</h3></button>
+
         </div>
         <div id="div-email" class="row">
-          <ul style="list-style: none">
-              <!--CTA button / Modal-->
-              <button id="myBtn"><h3>Send Program Plan</h3></button>
+          <ul style="list-style: none">              
               <!-- The Modal -->
               <div id="myModal" class="modal" style="z-index:99999;">
                   <!-- Modal content -->
@@ -169,7 +172,7 @@
         <div id="legendOuterCore" class="legendOuter"><div id="legendCore" class="legendColour"/>Core</div>
         <div id="legendOuterMajor" class="legendOuter"><div id="legendMajor" class="legendColour"/>Major</div>
         <div id="legendOuterElective" class="legendOuter"><div id="legendElective" class="legendColour"/>Elective</div>
-    </div>
+    </div>   
 
     <script src="~/Scripts/jquery-email.js"></script>
     <script type="text/javascript">
@@ -812,34 +815,40 @@
 
             //only remove a subject if the result will not be less than the min required number of subjects for the course
             if ($("#unitsPerDegreeOriginal").val() < $("#unitsPerDegree").val()) {
-                if (confirm("Are you sure you want to remove the last course from your degree? This cannot be undone.")) {
-                    $(".courseBox").last().remove();
-
-                    //fill in extra or less years on the side column
-                    $(".yearNames").remove();
-
-                    // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
-                    $(".yearNames").remove();
-                    $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
-
-                    // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
-                    var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
-                    for (var i = 1; i <= newYears; i++) {
-                        $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
-                    }
-
-                    updateBackgroundDiv();
-
-                    // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
-                    $('#innerPlan').shapeshift({
-                        gutterX: 5,
-                    });
-
-                    updateCourseText();
+                if ($("#innerPlan").children().last().html().localeCompare("Empty Course") == 0) {
+                    removeLastCourse();
                 }
-                
+                else if (confirm("Are you sure you want to remove the last course from your degree? This cannot be undone.")) {
+                    removeLastCourse();
+                }               
             }
         });
+
+        function removeLastCourse() {
+            $(".courseBox").last().remove();
+
+            //fill in extra or less years on the side column
+            $(".yearNames").remove();
+
+            // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
+            $(".yearNames").remove();
+            $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
+
+            // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
+            var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
+            for (var i = 1; i <= newYears; i++) {
+                $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
+            }
+
+            updateBackgroundDiv();
+
+            // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
+            $('#innerPlan').shapeshift({
+                gutterX: 5,
+            });
+
+            updateCourseText();
+        }
 
         function updateCourseText() {
             //update courseText
