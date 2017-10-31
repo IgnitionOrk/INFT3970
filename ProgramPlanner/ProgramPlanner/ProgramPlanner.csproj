@@ -190,37 +190,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Controllers\AbbreviationsController.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CoursesController.cs" />
-    <Compile Include="Controllers\DegreeCoresController.cs" />
-    <Compile Include="Controllers\DegreeCoreSlotsController.cs" />
-    <Compile Include="Controllers\DegreesController.cs" />
-    <Compile Include="Controllers\DirectedSlotsController.cs" />
     <Compile Include="Controllers\EmailController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainMenuController.cs" />
-    <Compile Include="Controllers\MajorCoresController.cs" />
-    <Compile Include="Controllers\MajorsController.cs" />
-    <Compile Include="Controllers\MajorSlotsController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\OptionalCoreCoursesController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
-    <Compile Include="Controllers\ProgramDirectedsController.cs" />
-    <Compile Include="Controllers\ProgramElectivesController.cs" />
-    <Compile Include="Controllers\ProgramMajorsController.cs" />
-    <Compile Include="Controllers\ProgramOptionalCoreCoursesController.cs" />
-    <Compile Include="Controllers\ProgramStructuresController.cs" />
-    <Compile Include="Controllers\ReplacementsController.cs" />
-    <Compile Include="Controllers\SemesterCoursesController.cs" />
-    <Compile Include="Controllers\SemestersController.cs" />
     <Compile Include="Controllers\Setup.cs" />
-    <Compile Include="Controllers\StudyAreasController.cs" />
-    <Compile Include="Controllers\TrimesterCoursesController.cs" />
-    <Compile Include="Controllers\TrimestersController.cs" />
-    <Compile Include="Controllers\UniversitiesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\YearDegreesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -270,36 +244,51 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="ProgramPlannerEmail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\Authenication.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet-ProgramPlanner-20170724023334.mdf" />
-    <Content Include="App_Data\aspnet-ProgramPlanner-20170724023334_log.ldf">
-      <DependentUpon>aspnet-ProgramPlanner-20170724023334.mdf</DependentUpon>
-    </Content>
     <Content Include="App_Data\ProgramPlannerContext-20170729114207.mdf" />
     <Content Include="App_Data\ProgramPlannerContext-20170729114207_log.ldf">
       <DependentUpon>ProgramPlannerContext-20170729114207.mdf</DependentUpon>
     </Content>
     <Content Include="bin\ProgramPlanner.dll" />
     <Content Include="bin\ProgramPlanner.pdb" />
+    <Content Include="Content\bootstrap-home.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\custom-animations-home.css" />
+    <Content Include="Content\custom-animations.css" />
     <Content Include="Content\Plan.css" />
+    <Content Include="Content\style-home.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\graph.png" />
+    <Content Include="Images\header.jpg" />
+    <Content Include="Images\shot01.png" />
+    <Content Include="Images\shot02.png" />
+    <Content Include="Images\shot03.png" />
+    <Content Include="Images\shot04.png" />
+    <Content Include="Index.html" />
+    <Content Include="Scripts\bootstrap-home.min.js" />
     <Content Include="Scripts\html2canvas.js" />
+    <Content Include="Scripts\ie10-viewport-bug-workaround-home.js" />
+    <Content Include="Scripts\ie10-viewport-bug-workaround.js" />
     <Content Include="Scripts\jquery-email.js" />
+    <Content Include="Scripts\jquery-home.min.js" />
     <Content Include="Scripts\jquery-ProgramPlannerDegreeOptions.js" />
     <Content Include="Scripts\jquery-MainMenu.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.unveilEffects-home.js" />
+    <Content Include="Scripts\jquery.unveilEffects.js" />
+    <Content Include="Scripts\retina-1.1.0.js" />
     <Content Include="Views\ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -309,6 +298,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -323,7 +313,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Views\Plan\IndexOld.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -334,21 +326,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
@@ -357,133 +334,9 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Majors\Create.cshtml" />
-    <Content Include="Views\Majors\Delete.cshtml" />
-    <Content Include="Views\Majors\Details.cshtml" />
-    <Content Include="Views\Majors\Edit.cshtml" />
-    <Content Include="Views\Majors\Index.cshtml" />
-    <Content Include="Views\OptionalCoreCourses\Create.cshtml" />
-    <Content Include="Views\OptionalCoreCourses\Delete.cshtml" />
-    <Content Include="Views\OptionalCoreCourses\Details.cshtml" />
-    <Content Include="Views\OptionalCoreCourses\Edit.cshtml" />
-    <Content Include="Views\OptionalCoreCourses\Index.cshtml" />
-    <Content Include="Views\TrimesterCourses\Create.cshtml" />
-    <Content Include="Views\TrimesterCourses\Delete.cshtml" />
-    <Content Include="Views\TrimesterCourses\Details.cshtml" />
-    <Content Include="Views\TrimesterCourses\Edit.cshtml" />
-    <Content Include="Views\TrimesterCourses\Index.cshtml" />
-    <Content Include="Views\Trimesters\Create.cshtml" />
-    <Content Include="Views\Trimesters\Delete.cshtml" />
-    <Content Include="Views\Trimesters\Details.cshtml" />
-    <Content Include="Views\Trimesters\Edit.cshtml" />
-    <Content Include="Views\Trimesters\Index.cshtml" />
     <Content Include="Views\Plan\Submit.cshtml" />
-    <Content Include="Views\StudyAreas\Create.cshtml" />
-    <Content Include="Views\StudyAreas\Delete.cshtml" />
-    <Content Include="Views\StudyAreas\Details.cshtml" />
-    <Content Include="Views\StudyAreas\Edit.cshtml" />
-    <Content Include="Views\StudyAreas\Index.cshtml" />
-    <Content Include="Views\Degrees\Create.cshtml" />
-    <Content Include="Views\Degrees\Delete.cshtml" />
-    <Content Include="Views\Degrees\Details.cshtml" />
-    <Content Include="Views\Degrees\Edit.cshtml" />
-    <Content Include="Views\Degrees\Index.cshtml" />
-    <Content Include="Views\Courses\Create.cshtml" />
-    <Content Include="Views\Courses\Delete.cshtml" />
-    <Content Include="Views\Courses\Details.cshtml" />
-    <Content Include="Views\Courses\Edit.cshtml" />
-    <Content Include="Views\Courses\Index.cshtml" />
-    <Content Include="Views\Abbreviations\Create.cshtml" />
-    <Content Include="Views\Abbreviations\Delete.cshtml" />
-    <Content Include="Views\Abbreviations\Details.cshtml" />
-    <Content Include="Views\Abbreviations\Edit.cshtml" />
-    <Content Include="Views\Abbreviations\Index.cshtml" />
-    <Content Include="Views\Semesters\Create.cshtml" />
-    <Content Include="Views\Semesters\Delete.cshtml" />
-    <Content Include="Views\Semesters\Details.cshtml" />
-    <Content Include="Views\Semesters\Edit.cshtml" />
-    <Content Include="Views\Semesters\Index.cshtml" />
-    <Content Include="Views\SemesterCourses\Create.cshtml" />
-    <Content Include="Views\SemesterCourses\Delete.cshtml" />
-    <Content Include="Views\SemesterCourses\Details.cshtml" />
-    <Content Include="Views\SemesterCourses\Edit.cshtml" />
-    <Content Include="Views\SemesterCourses\Index.cshtml" />
-    <Content Include="Views\YearDegrees\Create.cshtml" />
-    <Content Include="Views\YearDegrees\Delete.cshtml" />
-    <Content Include="Views\YearDegrees\Details.cshtml" />
-    <Content Include="Views\YearDegrees\Edit.cshtml" />
-    <Content Include="Views\YearDegrees\Index.cshtml" />
-    <Content Include="Views\Universities\Create.cshtml" />
-    <Content Include="Views\Universities\Delete.cshtml" />
-    <Content Include="Views\Universities\Details.cshtml" />
-    <Content Include="Views\Universities\Edit.cshtml" />
-    <Content Include="Views\Universities\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
-    <Content Include="Views\ProgramStructures\Create.cshtml" />
-    <Content Include="Views\ProgramStructures\Delete.cshtml" />
-    <Content Include="Views\ProgramStructures\Details.cshtml" />
-    <Content Include="Views\ProgramStructures\Edit.cshtml" />
-    <Content Include="Views\ProgramStructures\Index.cshtml" />
-    <Content Include="Views\ProgramElectives\Create.cshtml" />
-    <Content Include="Views\ProgramElectives\Delete.cshtml" />
-    <Content Include="Views\ProgramElectives\Details.cshtml" />
-    <Content Include="Views\ProgramElectives\Edit.cshtml" />
-    <Content Include="Views\ProgramElectives\Index.cshtml" />
-    <Content Include="Views\ProgramMajors\Create.cshtml" />
-    <Content Include="Views\ProgramMajors\Delete.cshtml" />
-    <Content Include="Views\ProgramMajors\Details.cshtml" />
-    <Content Include="Views\ProgramMajors\Edit.cshtml" />
-    <Content Include="Views\ProgramMajors\Index.cshtml" />
-    <Content Include="Views\ProgramOptionalCoreCourses\Create.cshtml" />
-    <Content Include="Views\ProgramOptionalCoreCourses\Delete.cshtml" />
-    <Content Include="Views\ProgramOptionalCoreCourses\Details.cshtml" />
-    <Content Include="Views\ProgramOptionalCoreCourses\Edit.cshtml" />
-    <Content Include="Views\ProgramOptionalCoreCourses\Index.cshtml" />
-    <Content Include="Views\Replacements\Create.cshtml" />
-    <Content Include="Views\Replacements\Delete.cshtml" />
-    <Content Include="Views\Replacements\Details.cshtml" />
-    <Content Include="Views\Replacements\Edit.cshtml" />
-    <Content Include="Views\Replacements\Index.cshtml" />
-    <Content Include="Views\PM_Home\Index.cshtml" />
-    <Content Include="Views\MajorCores\Create.cshtml" />
-    <Content Include="Views\MajorCores\Delete.cshtml" />
-    <Content Include="Views\MajorCores\Details.cshtml" />
-    <Content Include="Views\MajorCores\Edit.cshtml" />
-    <Content Include="Views\MajorCores\Index.cshtml" />
-    <Content Include="Views\DegreeCores\Create.cshtml" />
-    <Content Include="Views\DegreeCores\Delete.cshtml" />
-    <Content Include="Views\DegreeCores\Details.cshtml" />
-    <Content Include="Views\DegreeCores\Edit.cshtml" />
-    <Content Include="Views\DegreeCores\Index.cshtml" />
-    <Content Include="Views\DegreeCoreSlots\Create.cshtml" />
-    <Content Include="Views\DegreeCoreSlots\Delete.cshtml" />
-    <Content Include="Views\DegreeCoreSlots\Details.cshtml" />
-    <Content Include="Views\DegreeCoreSlots\Edit.cshtml" />
-    <Content Include="Views\DegreeCoreSlots\Index.cshtml" />
-    <Content Include="Views\ProgramDirecteds\Create.cshtml" />
-    <Content Include="Views\ProgramDirecteds\Delete.cshtml" />
-    <Content Include="Views\ProgramDirecteds\Details.cshtml" />
-    <Content Include="Views\ProgramDirecteds\Edit.cshtml" />
-    <Content Include="Views\ProgramDirecteds\Index.cshtml" />
-    <Content Include="Views\DirectedSlots\Create.cshtml" />
-    <Content Include="Views\DirectedSlots\Delete.cshtml" />
-    <Content Include="Views\DirectedSlots\Details.cshtml" />
-    <Content Include="Views\DirectedSlots\Edit.cshtml" />
-    <Content Include="Views\DirectedSlots\Index.cshtml" />
-    <Content Include="Views\MajorSlots\Create.cshtml" />
-    <Content Include="Views\MajorSlots\Delete.cshtml" />
-    <Content Include="Views\MajorSlots\Details.cshtml" />
-    <Content Include="Views\MajorSlots\Edit.cshtml" />
-    <Content Include="Views\MajorSlots\Index.cshtml" />
-    <Content Include="Views\Users\Register.cshtml" />
-    <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Plan\Create.cshtml" />
     <Content Include="Views\MainMenu\Index.cshtml" />
-    <Content Include="Views\Email\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessLogic\" />
@@ -491,7 +344,9 @@
     <Folder Include="Screenshots\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
