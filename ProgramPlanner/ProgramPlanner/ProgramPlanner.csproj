@@ -194,18 +194,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MainMenuController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
-<<<<<<< HEAD
-=======
-    <Compile Include="Controllers\PM_HomeController.cs" />
-    <Compile Include="Controllers\ProgramDirectedsController.cs" />
-    <Compile Include="Controllers\ProgramElectivesController.cs" />
-    <Compile Include="Controllers\ProgramMajorsController.cs" />
-    <Compile Include="Controllers\ProgramOptionalCoreCoursesController.cs" />
-    <Compile Include="Controllers\ProgramStructuresController.cs" />
-    <Compile Include="Controllers\ReplacementsController.cs" />
-    <Compile Include="Controllers\SemesterCoursesController.cs" />
-    <Compile Include="Controllers\SemestersController.cs" />
->>>>>>> 3f48acb254cbc3112345fccafbb84322f79611c6
     <Compile Include="Controllers\Setup.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -349,9 +337,10 @@
     <Content Include="Views\Plan\Submit.cshtml" />
     <Content Include="Views\Plan\Create.cshtml" />
     <Content Include="Views\MainMenu\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BusinessLogic\" />
     <Folder Include="obj\Release\" />
     <Folder Include="Screenshots\" />
   </ItemGroup>
