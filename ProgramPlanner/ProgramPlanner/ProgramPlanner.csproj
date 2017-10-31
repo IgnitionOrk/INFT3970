@@ -337,9 +337,10 @@
     <Content Include="Views\Plan\Submit.cshtml" />
     <Content Include="Views\Plan\Create.cshtml" />
     <Content Include="Views\MainMenu\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BusinessLogic\" />
     <Folder Include="obj\Release\" />
     <Folder Include="Screenshots\" />
   </ItemGroup>
