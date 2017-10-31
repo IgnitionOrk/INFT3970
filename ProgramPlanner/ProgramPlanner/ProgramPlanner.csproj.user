@@ -25,7 +25,12 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
+<<<<<<< HEAD
           <StartPageUrl>Index.html</StartPageUrl>
+=======
+          <StartPageUrl>
+          </StartPageUrl>
+>>>>>>> 3f48acb254cbc3112345fccafbb84322f79611c6
           <StartAction>SpecificPage</StartAction>
           <AspNetDebugging>True</AspNetDebugging>
           <SilverlightDebugging>False</SilverlightDebugging>

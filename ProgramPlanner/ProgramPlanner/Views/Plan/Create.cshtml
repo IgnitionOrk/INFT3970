@@ -12,7 +12,7 @@
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/Plan.css")
     <link rel="stylesheet" href="~/Content/jquery-ui.min.css">
-    <link rel="stylesheet" type="text/css" href="../Content/style.css" />
+    <link rel="stylesheet" type="text/css" href="..//Content/style.css" />
     <script src="~/Scripts/html2canvas.js" type="text/javascript"></script>
 </head>
 <body>
@@ -20,11 +20,12 @@
     <script src="~/Content/scripts/jquery-ui.min.js"></script>
     <script src="~/Content/scripts/jquery.shapeshift.js"></script>
     <div id="headerRow" class="row">
-        <div id="imgHeaderContainer" class="col-md-2 col-md-offset-1">
-            <img id="imgHeader" src="~/Content/images/adaymaycome.jpg" />
+        <div id="imgHeaderContainer" class="col-md-2">
+            <img id="imgHeader" src="~/Content/images/logo.png" />
         </div>
-        <h1>My Uni Planner</h1>
+        <h1 class="col-md-10">@ViewBag.DegreeName</h1>       
     </div>
+    <h3 class="row" id="headerRow2">@ViewBag.MajorName at the @ViewBag.UniName</h3>
     <div id="mainRow" class="row">
         <!--Main row with most page items-->
         <!--Main menu on right of page -->
@@ -74,7 +75,7 @@
                     <div id="optionsMenu">
                         <h3 id="optionsMenuHeading">Options Menu</h3>
                         <div id="editOption0">
-                            <p id="lblEmpty">Drag this 'Empty' label onto a box if you don't want to do a course then:</p>
+                            <p id="lblEmpty">Drag this onto a box if you don't want to do a course during that time slot:</p>
                             <div class="draggable empty">Empty</div>
                         </div>
                         <div id="editOption1">
@@ -86,7 +87,6 @@
                         <input type="hidden" name="unitsPerDegreeOriginal" id="unitsPerDegreeOriginal" value="@ViewBag.UnitsPerDegree" />
                         <input type="hidden" name="unitsPerDegree" id="unitsPerDegree" value="@ViewBag.UnitsPerDegree" />
                         <div id="editOption2">
-                            <p id="editOption2Text">Courses will either be added or removed from the end slot of your program structure.</p>   
                             <input type="button" id="btnAddCourse" value="Add Empty Course" />
                             <input type="button" id="btnRemoveCourse" value="Remove Last Course" />
                         </div>
@@ -133,29 +133,37 @@
                     </div>
                 </div>
             </div>
+
+            <!--CTA button / Modal-->
+            <button id="myBtn"><h3>Send Program Plan</h3></button>
+
         </div>
         <div id="div-email" class="row">
-          <ul style="list-style: none">
-              <!--CTA button / Modal-->
-              <button id="myBtn"><h3>Send Program Plan</h3></button>
+          <ul style="list-style: none">              
               <!-- The Modal -->
               <div id="myModal" class="modal" style="z-index:99999;">
                   <!-- Modal content -->
                   <div class="modal-content" style="z-index:99999;">
                       <div class="modal-header">
-                          <span id="closeModal" class="close">&times;</span>
+                          <span class="close">&times;</span>
+
                           <h2 align="center">Send your program plan to yourself</h2>
                       </div>
-                      <div align="center" class="modal-body">
+                      <div class="modal-body">
+                          <p align="center">Fill out the form below to get your program plan sent to you</p>
                           <div class="modal-form">
-                            <label for="fname">First Name</label>
-                            <input type="text" id="fname" name="firstname" placeholder="Your first name">
-                            <label for="firstEmail">Email</label>
-                            <input type="text" id="firstEmail" name="email" placeholder="you@domain.com">
-                            <label for="confirmationEmail">Please Confirm Your Email</label>
-                            <input type="text" id="confirmationEmail" name="email" placeholder="you@domain.com">
-                            <input type="submit" id="emailBtn" value="Submit">
-                            <div id="loader" style="display:none">Hello</div>
+                              <form onsubmit="submission()">
+                                  <label for="fname">First Name</label>
+                                  <input type="text" id="fname" name="firstname" placeholder="Your first name">
+
+                                  <label for="firstEmail">Email</label>
+                                  <input type="text" id="firstEmail" name="email" placeholder="you@domain.com">
+                                  
+                                  <label for="confirmationEmail">Please Confirm Your Email</label>
+                                  <input type="text" id="confirmationEmail" name="email" placeholder="you@domain.com">
+
+                                  <input type="submit" id="emailBtn" value="Submit">
+                              </form>
                           </div>
                       </div>
                   </div>
@@ -169,8 +177,7 @@
         <div id="legendOuterCore" class="legendOuter"><div id="legendCore" class="legendColour"/>Core</div>
         <div id="legendOuterMajor" class="legendOuter"><div id="legendMajor" class="legendColour"/>Major</div>
         <div id="legendOuterElective" class="legendOuter"><div id="legendElective" class="legendColour"/>Elective</div>
-    </div>
-
+    </div>   
     <script src="~/Scripts/jquery-email.js"></script>
     <script type="text/javascript">
         // Sets up the grid
@@ -715,14 +722,15 @@
             //it's a degree core slot, so do stuff, else just go to search bar
             if ($(this).children().hasClass("btnGridDegreeSlot")) {
                 $("#tabs").tabs({
-                    active: 2
-                });
+                    active: 2,                    
+                });                
                 $("#degreeOptionalSlots").children().css("background", "white");
                 //find matching section, highlight it
                 var childButton = $(this).children().first();
                 var tempID = childButton.attr('id').substring(0, 1); //first char is the ID we need
                 var slotContainer = $('#' + tempID + 'optionalDegreeSlotContainer');
                 slotContainer.css("background", "#F8DE5C");
+                $("#tabs-3").scrollTop($("#degreeOptionalSlots").offset().top);
             }
             else if ($(this).hasClass("majorslot")) {   //if coursebox is for a majorslot, show directed tab  
 
@@ -812,34 +820,40 @@
 
             //only remove a subject if the result will not be less than the min required number of subjects for the course
             if ($("#unitsPerDegreeOriginal").val() < $("#unitsPerDegree").val()) {
-                if (confirm("Are you sure you want to remove the last course from your degree? This cannot be undone.")) {
-                    $(".courseBox").last().remove();
-
-                    //fill in extra or less years on the side column
-                    $(".yearNames").remove();
-
-                    // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
-                    $(".yearNames").remove();
-                    $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
-
-                    // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
-                    var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
-                    for (var i = 1; i <= newYears; i++) {
-                        $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
-                    }
-
-                    updateBackgroundDiv();
-
-                    // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
-                    $('#innerPlan').shapeshift({
-                        gutterX: 5,
-                    });
-
-                    updateCourseText();
+                if ($("#innerPlan").children().last().html().localeCompare("Empty Course") == 0) {
+                    removeLastCourse();
                 }
-                
+                else if (confirm("Are you sure you want to remove the last course from your degree? This cannot be undone.")) {
+                    removeLastCourse();
+                }               
             }
         });
+
+        function removeLastCourse() {
+            $(".courseBox").last().remove();
+
+            //fill in extra or less years on the side column
+            $(".yearNames").remove();
+
+            // -10 represents removing a course slot for the grid. We are assuming it is 10 not 20.
+            $(".yearNames").remove();
+            $("#unitsPerDegree").val(parseInt($("#unitsPerDegree").val()) - 10);
+
+            // Chances are we are adding an additional year to the course structure. Simply adjusts the headings for years. 
+            var newYears = Math.ceil($("#unitsPerDegree").val() / (($("#newNumOfSubjects").val() * 20)));
+            for (var i = 1; i <= newYears; i++) {
+                $("#yearNameColumn").append(" <li class='yearNames  '>Year " + i + "</li>");
+            }
+
+            updateBackgroundDiv();
+
+            // jQuery plugin which can arrange a collection of elements into a grid while also providing drag and drop functionality.
+            $('#innerPlan').shapeshift({
+                gutterX: 5,
+            });
+
+            updateCourseText();
+        }
 
         function updateCourseText() {
             //update courseText
@@ -957,7 +971,7 @@
         //refresh is a boolean, if true, this slot if being refreshed, and if false this slot is being set for the first time
         function createDegreeOptionalSlot(i, refresh, index) {
             $("#degreeOptionalSlots").html($("#degreeOptionalSlots").html() +
-                '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot, by clicking on either of the courses provided below:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
+                '<div id="' + i + 'optionalDegreeSlotContainer" class="optionalDegreeSlotContainer"><div class="lblEditOptionDegreeOptional">You must choose one of the following courses to complete in this time slot:</div><div class="degreeOptionalSlot" id="degreeOptionalSlot' + i + '"></div></div>');
            
             var courseCodes = degreeSlots[i][0];
             var semester = degreeSlots[i][1];
@@ -984,6 +998,8 @@
             var targetBox = $(".courseBox:nth-child(" + boxIndex + ")");
             targetBox.html('<input type="button" id="' + i + 'btnGridDegreeSlot" class="btnGridDegreeSlot" value="Select Core"/>');
             targetBox.attr("data-i", i);
+            targetBox.attr("data-original", targetBox.html());
+            targetBox.attr("data-originalclass", "gridDegreeSlot");
             targetBox.removeClass("potentialElective");
 
             //find which box it should be
@@ -1093,6 +1109,41 @@
         }
         
     </script>
-    <footer></footer>
 </body>
+<footer>
+    <script>
+            // Get the modal
+            var modal = document.getElementById('myModal');
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+            var btn2 = document.getElementById("myBtn2");
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+            btn2.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            function submission() {
+                alert("Thank you for submitting your information! We will send you your program plan shortly.");
+            }
+    </script>
+</footer>
 </html>
