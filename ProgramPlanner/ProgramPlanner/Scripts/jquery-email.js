@@ -184,5 +184,4 @@ function loadingScreen(action) {
             $("#loader").hide();
             break;
     }
->>>>>>> origin/master
 }

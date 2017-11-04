@@ -273,7 +273,6 @@
     <Content Include="Images\shot02.png" />
     <Content Include="Images\shot03.png" />
     <Content Include="Images\shot04.png" />
-    <Content Include="Index.html" />
     <Content Include="Scripts\bootstrap-home.min.js" />
     <Content Include="Scripts\html2canvas.js" />
     <Content Include="Scripts\ie10-viewport-bug-workaround-home.js" />

@@ -589,3 +589,13 @@ input {
 #myBtn {
     text-align: center;
 }
+
+.body-content{
+    position:relative;
+    top:20px;
+}
+
+.navbar-brand{
+    position:relative;
+    top:10px;
+}

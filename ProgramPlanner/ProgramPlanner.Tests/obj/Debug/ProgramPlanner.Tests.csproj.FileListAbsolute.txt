@@ -1,5 +1,3 @@
-C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\EntityFramework.dll
-C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\EntityFramework.xml
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\Views\ApplicationInsights.config
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\roslyn\csc.exe
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\roslyn\csc.exe.config
@@ -30,6 +28,7 @@ C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\b
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\ProgramPlanner.Tests.dll.config
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\ProgramPlanner.Tests.dll
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\ProgramPlanner.Tests.pdb
+C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\EntityFramework.dll
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\Microsoft.Web.Infrastructure.dll
@@ -51,6 +50,7 @@ C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\b
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\Microsoft.Owin.Security.Cookies.dll
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\ProgramPlanner.pdb
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\ProgramPlanner.dll.config
+C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\EntityFramework.xml
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Folklaw\Documents\GitHub\INFT3970\ProgramPlanner\ProgramPlanner.Tests\bin\Debug\System.Web.Helpers.xml

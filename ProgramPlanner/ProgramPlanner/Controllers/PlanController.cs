@@ -35,7 +35,6 @@ namespace ProgramPlanner.Controllers
             YearDegree tempDegree = db.YearDegrees.Find(yearDegreeID);
             ViewBag.DegreeName = tempDegree.Degree.DegreeName + " " + tempDegree.Year;
             ViewBag.MajorName = db.Majors.Find(majorID).MajorName;
-
             int uniID = tempDegree.Degree.UniversityID;
             ViewBag.UniName = db.Universities.Find(uniID).UniName;
 
