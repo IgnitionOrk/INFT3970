@@ -28,9 +28,8 @@ function emailProtocol() {
     var email = document.getElementById("firstEmail");
     var conEmail = document.getElementById("confirmationEmail");
     var emailBtn = document.getElementById("emailBtn");
-    /*
     if (email.value === "" || conEmail.value === "") {
-        alert("You need to enter your student email.");
+        alert("You need to enter your email.");
     }
     else if (email.value !== conEmail.value) {
         alert("Emails do not match.");  
@@ -45,7 +44,7 @@ function emailProtocol() {
             // revert the text back to default;
             defaultText();
         }
-    }*/
+    }
 }
 // Changes the text of the course boxes.
 function changeText() {
