@@ -19,16 +19,16 @@ document.getElementById("closeModal").addEventListener("click", function () {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 };
 // A set of email protocols that must be passed before the user may be allowed to receive the program structure email. 
 function emailProtocol() {
-
     var email = document.getElementById("firstEmail");
     var conEmail = document.getElementById("confirmationEmail");
     var emailBtn = document.getElementById("emailBtn");
+    /*
     if (email.value === "" || conEmail.value === "") {
         alert("You need to enter your student email.");
     }
@@ -44,7 +44,7 @@ function emailProtocol() {
             // revert the text back to default;
             defaultText();
         }
-    }
+    }*/
 }
 // Changes the text of the course boxes.
 function changeText() {
@@ -108,19 +108,20 @@ function screenshot() {
 // @param screenshot: 'Screenshot' of the elements inside the div tag 'plan'
 function upload(screenshot) {
     var sc = screenshot.replace(/^data:image\/(png|jpg);base64,/, "");
+    var name = document.getElementById("fname").value;
     var to = document.getElementById("firstEmail").value;
-    request(sc, to);
+    request(sc, name ,to);
 }
 
 // Performs an ajax request to upload the 'screenshot'. 
 // @param sc: 'Screenshot' of the elements inside the div tag 'plan'
 // @param to: Email provided by the user.
-function request(sc, to) {
+function request(sc, name, to) {
     $.ajax({
         type: "POST",
         url: "/Email/Upload",
         cache: false,
-        data: { "screenshot": sc, "to": to },
+        data: { "screenshot": sc,"name":name, "to": to },
         dataType: "json",
         async: true,
         timeout: 400000,
@@ -184,5 +185,4 @@ function loadingScreen(action) {
             $("#loader").hide();
             break;
     }
->>>>>>> origin/master
 }

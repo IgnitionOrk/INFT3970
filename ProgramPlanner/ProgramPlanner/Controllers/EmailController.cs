@@ -15,7 +15,7 @@ namespace ProgramPlanner.Controllers
         // @param screenshot: a 64 base string containing important information of the screenshot.
         // @param to: Email provided by the user, that has been determine to be in the correct formatting. 
         [HttpPost]
-        public ActionResult Upload(string screenshot, string to)
+        public ActionResult Upload(string screenshot,string name, string to)
         {
             bool pSaved = false;
             try
@@ -27,7 +27,7 @@ namespace ProgramPlanner.Controllers
                 string filePath = ProgramPlannerEmail.uploadTo(screenshot, studentNumber);
 
                 // Email the program structure to the user, using the filePath to find the jpeg. 
-                ProgramPlannerEmail.email(to, filePath);
+                ProgramPlannerEmail.email(to, name,filePath);
                 pSaved = true;
             }
             catch(Exception e)

@@ -57,7 +57,7 @@ namespace ProgramPlanner
         /// </summary>
         /// <param name="to">Email provided by the user</param>
         /// <param name="filePath">Location of the screenshot. Must have been issued prior.</param>
-        public static void email(string to, string filePath) {
+        public static void email(string to, string name, string filePath) {
             Bitmap bMap = new Bitmap(filePath);
             MemoryStream stream = new MemoryStream();
             bMap.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -68,7 +68,7 @@ namespace ProgramPlanner
             msg.To.Add(to);
             msg.Subject = "Degree Structure";
             msg.IsBodyHtml = true;
-            AlternateView bodyView = AlternateView.CreateAlternateViewFromString(htmlBody(), null, "text/html");
+            AlternateView bodyView = AlternateView.CreateAlternateViewFromString(htmlBody(name), null, "text/html");
             msg.AlternateViews.Add(bodyView);
             msg.Attachments.Add(new Attachment(stream, "ProgramStructure.jpg"));
 
@@ -78,14 +78,14 @@ namespace ProgramPlanner
         /// Returns a standard html email body.
         /// </summary>
         /// <returns></returns>
-        private static string htmlBody()
+        private static string htmlBody(string name)
         {
             string body = "<html>";
             body += "<head><title>Degree Structure</title></head>";
             body += "<body>";
-            body += "<p>To whom it may concern,<br>";
-            body += "An attachment of the program structure<br>";
-            body += "Kind Regards<br>University of Newcastle</p>";
+            body += "<p>Hello <b>"+name+"</b>,<br>";
+            body += "See the attachment for you university plan<br>";
+            body += "Kind Regards<br>My Uni Planner</p>";
             body += "</body>";
             body += "</html>";
             return body;

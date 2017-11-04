@@ -298,7 +298,6 @@ namespace ProgramPlanner.Controllers
             else {
                 throw new NullReferenceException();
             }
-            Debug.WriteLine("COUNT: " + count + " : " + courseCode);
             return Json(new { iCount = count });
         }
 
