@@ -31,7 +31,7 @@ namespace ProgramPlanner.Controllers
         /// </summary>
         private void UniversityOptions() {
             // Extract all the Universities in the database.
-            ViewBag.Universities = new SelectList(db.Universities, "UniversityID", "UniName");
+            ViewBag.Universities = new SelectList(db.Universities, "UniversityID", "UniName", 0);
         }
         /// <summary>
         /// 
@@ -39,7 +39,7 @@ namespace ProgramPlanner.Controllers
         private void DegreeOptions() {
             // Extract the degrees from the database for the first University. 
             var degrees = db.Degrees.Where(y => y.UniversityID == db.Universities.FirstOrDefault().UniversityID);
-            ViewBag.Degrees = new SelectList(degrees, "UniversityID", "DegreeName", 0);
+            ViewBag.Degrees = new SelectList(degrees, "DegreeID", "DegreeName", 0);
         }
         /// <summary>
         /// 
@@ -67,7 +67,7 @@ namespace ProgramPlanner.Controllers
         {
             // Find all the Degrees associated with a University
             var uDegrees = db.Degrees.Where(degree => degree.UniversityID == universityID);
-            SelectList sl = new SelectList(uDegrees, "DegreeID", "DegreeName");
+            SelectList sl = new SelectList(uDegrees, "DegreeID", "DegreeName", 0);
             return Json(sl);
         }
         /// <summary>
@@ -96,7 +96,7 @@ namespace ProgramPlanner.Controllers
             var yDegree = db.YearDegrees.FirstOrDefault(yd => yd.YearDegreeID == yearDegreeID);
             // Find the majors that were held for that particular Year Degree. 
             var dMajors = db.Majors.Where(major => major.YearDegreeID == yDegree.YearDegreeID);
-            SelectList sl = new SelectList(dMajors, "MajorID", "MajorName");
+            SelectList sl = new SelectList(dMajors, "MajorID", "MajorName", 0);
             return Json(sl);
         }
     }

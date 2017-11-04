@@ -19,7 +19,7 @@ document.getElementById("closeModal").addEventListener("click", function () {
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function (event) {
-    if (event.target == modal) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 };
@@ -29,7 +29,7 @@ function emailProtocol() {
     var conEmail = document.getElementById("confirmationEmail");
     var emailBtn = document.getElementById("emailBtn");
     if (email.value === "" || conEmail.value === "") {
-        alert("You need to enter your student email.");
+        alert("You need to enter your email.");
     }
     else if (email.value !== conEmail.value) {
         alert("Emails do not match.");  
@@ -108,19 +108,20 @@ function screenshot() {
 // @param screenshot: 'Screenshot' of the elements inside the div tag 'plan'
 function upload(screenshot) {
     var sc = screenshot.replace(/^data:image\/(png|jpg);base64,/, "");
+    var name = document.getElementById("fname").value;
     var to = document.getElementById("firstEmail").value;
-    request(sc, to);
+    request(sc, name ,to);
 }
 
 // Performs an ajax request to upload the 'screenshot'. 
 // @param sc: 'Screenshot' of the elements inside the div tag 'plan'
 // @param to: Email provided by the user.
-function request(sc, to) {
+function request(sc, name, to) {
     $.ajax({
         type: "POST",
         url: "/Email/Upload",
         cache: false,
-        data: { "screenshot": sc, "to": to },
+        data: { "screenshot": sc,"name":name, "to": to },
         dataType: "json",
         async: true,
         timeout: 400000,
