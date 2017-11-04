@@ -1,8 +1,8 @@
 // Author: Ryan Cunneen
 // Date Created: 27-Sep-2017
 // Date Modified: 27-Sep-2017
-document.getElementById("emailBtn").addEventListener("click", emailProtocol);
 // Get the modal
+document.getElementById("emailBtn").addEventListener("click", emailProtocol);
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
@@ -37,6 +37,7 @@ function emailProtocol() {
     }
     else {
         if (confirm("Do you wish to email your program structure?")) {
+            
             // First we change the text of the courses that have not been assigned.
             changeText();
             // Then we take the snap shot of the program structure. 
@@ -141,6 +142,7 @@ function request(sc, name, to) {
                 }
                 else {
                     // Display an error as the email could not be sent. 
+                    alert("here");
                     loadingScreen("error");
                 }
             }
@@ -182,6 +184,7 @@ function loadingScreen(action) {
             $("#submit").prop('disabled', false);
             break;
         case "hide":
+            $("#loader").removeClass("loadingAnimation");   
             $("#loader").hide();
             break;
     }
