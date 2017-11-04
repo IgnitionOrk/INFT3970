@@ -145,24 +145,22 @@
                   <!-- Modal content -->
                   <div class="modal-content" style="z-index:99999;">
                       <div class="modal-header">
-                          <span class="close">&times;</span>
+                          <span id="closeModal" class="close">&times;</span>
 
                           <h2 align="center">Send your program plan to yourself</h2>
                       </div>
                       <div class="modal-body">
                           <p align="center">Fill out the form below to get your program plan sent to you</p>
                           <div class="modal-form">
-                              <form onsubmit="submission()">
+                              <form>
                                   <label for="fname">First Name</label>
                                   <input type="text" id="fname" name="firstname" placeholder="Your first name">
-
                                   <label for="firstEmail">Email</label>
-                                  <input type="text" id="firstEmail" name="email" placeholder="you@domain.com">
-                                  
+                                  <input type="text" id="firstEmail" name="email" placeholder="you@domain.com">                                
                                   <label for="confirmationEmail">Please Confirm Your Email</label>
                                   <input type="text" id="confirmationEmail" name="email" placeholder="you@domain.com">
-
-                                  <input type="submit" id="emailBtn" value="Submit">
+                                  <div id="loader"></div>
+                                  <input type="button" id="emailBtn" value="Send" />
                               </form>
                           </div>
                       </div>
@@ -1139,10 +1137,6 @@
             if (event.target == modal) {
                 modal.style.display = "none";
             }
-        }
-
-        function submission() {
-            alert("Thank you for submitting your information! We will send you your program plan shortly.");
         }
     </script>
 </footer>

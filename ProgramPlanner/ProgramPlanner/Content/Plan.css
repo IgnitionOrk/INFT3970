@@ -440,9 +440,11 @@ h4 {
 }
 
 .loadingAnimation {
-    border: 5px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 5px solid #3498db;
+    margin-left: auto;
+    margin-right: auto;
+    border: 5px solid #f3f3f3;      /*Length of the bar*/
+    border-radius: 500px;                 
+    border-top: 5px solid #3498db;  /**Thickness of the loading bar*/
     width: 30px;
     height: 30px;
     -webkit-animation: spin 2s linear infinite;
