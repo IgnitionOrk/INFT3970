@@ -34,6 +34,9 @@ function emailProtocol() {
     else if (email.value !== conEmail.value) {
         alert("Emails do not match.");  
     }
+    else if (document.getElementById("fname").value ==="") {
+        alert("Please enter your name.");
+    }
     else {
         if (confirm("Do you wish to email your program structure?")) {
             
@@ -141,7 +144,6 @@ function request(sc, name, to) {
                 }
                 else {
                     // Display an error as the email could not be sent. 
-                    alert("here");
                     loadingScreen("error");
                 }
             }
@@ -159,7 +161,7 @@ function loadingScreen(action) {
     switch (action) {
         case "display":
             $("#loader").show();
-            $("#loader").html("");
+            $("#loader").html("Your email is being sent. Please wait.");
             $("#loader").addClass("loadingAnimation");
             $("#fname").prop('disabled', true);
             $("#firstEmail").prop('disabled', true);
