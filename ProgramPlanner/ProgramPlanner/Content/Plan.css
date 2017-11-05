@@ -439,16 +439,10 @@ h4 {
     background: #C8F99B;
 }
 
+
 .loadingAnimation {
-    margin-left: auto;
-    margin-right: auto;
-    border: 5px solid #f3f3f3;      /*Length of the bar*/
-    border-radius: 50%;                 
-    border-top: 5px solid #3498db;  /**Thickness of the loading bar*/
-    width: 30px;
-    height: 30px;
-    -webkit-animation: spin 2s linear infinite;
-    animation: spin 2s linear infinite;
+    margin: auto;
+    border-radius: 100px;
 }
 
 @-webkit-keyframes spin {
