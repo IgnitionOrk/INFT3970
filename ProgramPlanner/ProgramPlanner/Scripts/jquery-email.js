@@ -2,8 +2,17 @@
 // Date Created: 27-Sep-2017
 // Date Modified: 27-Sep-2017
 // Get the modal
-document.getElementById("emailBtn").addEventListener("click", emailProtocol);
+var placeholder = "you@domain.com";
 var modal = document.getElementById('myModal');
+
+// Function will be immediately called when the page loads. 
+window.onload = function(){
+    document.getElementById("confirmationEmail").placeholder = placeholder;
+    document.getElementById("firstEmail").placeholder = placeholder;
+};
+
+// Event listener for when the user clicks the email button. 
+document.getElementById("emailBtn").addEventListener("click", emailProtocol);
 
 // Get the button that opens the modal
 document.getElementById("myBtn").addEventListener("click", function () {
@@ -25,21 +34,51 @@ window.onclick = function (event) {
 };
 // A set of email protocols that must be passed before the user may be allowed to receive the program structure email. 
 function emailProtocol() {
-    var email = document.getElementById("firstEmail");
-    var conEmail = document.getElementById("confirmationEmail");
-    var emailBtn = document.getElementById("emailBtn");
-    if (email.value === "" || conEmail.value === "") {
-        alert("You need to enter your email.");
-    }
-    else if (email.value !== conEmail.value) {
-        alert("Emails do not match.");  
-    }
-    else if (document.getElementById("fname").value ==="") {
-        alert("Please enter your name.");
-    }
-    else {
-        if (confirm("Do you wish to email your program structure?")) {
-            
+    try {
+        // Solution for re was found at https://stackoverflow.com/questions/46155/how-to-validate-email-address-in-javascript;
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var email = document.getElementById("firstEmail");
+        var conEmail = document.getElementById("confirmationEmail");
+        var redBorder = "thin solid #ff0000";
+        if (document.getElementById("fname").value === "") {
+            $("#loader").html("&#10071Please enter your name.");
+            $("#loader").show();
+            document.getElementById("fname").focus();
+            document.getElementById("loader").style.border = redBorder;
+        }
+        else if (email.value === "") {
+            $("#loader").html("&#10071Please enter your desired email.");
+            $("#loader").show();
+            email.focus();
+            document.getElementById("loader").style.border = redBorder;
+        }
+        else if (conEmail.value === "") {
+            $("#loader").html("&#10071Please enter the confirmation email.");
+            $("#loader").show();
+            conEmail.focus();
+            document.getElementById("loader").style.border = redBorder;
+        }
+        else if (!re.test(email.value)) {
+            $("#loader").html("&#10071Your email is not in the correct format.");
+            $("#loader").show();
+            email.focus();
+            document.getElementById("loader").style.border = redBorder;
+        }
+        else if (!re.test(conEmail.value)) {
+            $("#loader").html("&#10071Confirmation email is not in the correct format.");
+            $("#loader").show();
+            conEmail.focus();
+            document.getElementById("loader").style.border = redBorder;
+        }
+        else if (email.value !== conEmail.value) {
+            $("#loader").html("&#10071Unfortunately, those emails do not match.");
+            $("#loader").show();
+            email.focus();
+            conEmail.focus();
+            document.getElementById("loader").style.border = redBorder;
+        }
+        else {
+            document.getElementById("loader").style.border = "";
             // First we change the text of the courses that have not been assigned.
             changeText();
             // Then we take the snap shot of the program structure. 
@@ -47,6 +86,10 @@ function emailProtocol() {
             // revert the text back to default;
             defaultText();
         }
+    }
+    catch (e) {
+        $("#loader").html("&#10071Oops something went wrong. Please try again later.");
+        $("#loader").show();
     }
 }
 // Changes the text of the course boxes.
@@ -162,14 +205,14 @@ function loadingScreen(action) {
         case "display":
             $("#loader").show();
             $("#loader").html("Your email is being sent. Please wait.");
-            $("#loader").addClass("loadingAnimation");
+            $("#loader").addClass("messageStyle");
             $("#fname").prop('disabled', true);
             $("#firstEmail").prop('disabled', true);
             $("#confirmationEmail").prop('disabled', true);
             $("#submit").prop('disabled', true);
             break;
         case "close":
-            $("#loader").removeClass("loadingAnimation");
+            $("#loader").removeClass("messageStyle");
             $("#loader").html("&#9989 Your email has been sent.");
             $("#fname").prop('disabled', false);
             $("#firstEmail").prop('disabled', false);
@@ -177,7 +220,7 @@ function loadingScreen(action) {
             $("#submit").prop('disabled', false);
             break;
         case "error":
-            $("#loader").removeClass("loadingAnimation");
+            $("#loader").removeClass("messageStyle");
             $("#loader").html("&#10060 Oops! Your email could not be sent.");
             $("#fname").prop('disabled', false);
             $("#firstEmail").prop('disabled', false);
@@ -185,7 +228,7 @@ function loadingScreen(action) {
             $("#submit").prop('disabled', false);
             break;
         case "hide":
-            $("#loader").removeClass("loadingAnimation");   
+            $("#loader").removeClass("messageStyle");   
             $("#loader").hide();
             break;
     }
