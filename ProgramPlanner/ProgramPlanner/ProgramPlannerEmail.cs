@@ -40,7 +40,6 @@ namespace ProgramPlanner
             filePath += "-Date-" + DateTime.Today.ToString("dd-MM-yyyy").Replace(" ", "-");
             filePath += "-Time-"+DateTime.Now.ToString("hh:mm:ss").Replace(":", "-");
             filePath += format;
-            Debug.WriteLine("filePath: "+filePath);
             using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
                 using (BinaryWriter bw = new BinaryWriter(fs))

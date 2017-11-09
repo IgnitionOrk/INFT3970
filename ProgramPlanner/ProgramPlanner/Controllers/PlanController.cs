@@ -17,27 +17,15 @@ namespace ProgramPlanner.Controllers
         private ProgramPlannerContext db = new ProgramPlannerContext();
 
         // GET: Plan
-        public ActionResult Index() {
+        public ActionResult Create([Bind(Include = "yearDegreeID, majorID")] int yearDegreeID, int majorID)
+        {
             Setup.InitializeCourseCode(db);
             ViewBag.UnitsPerDegree = 240;
             ViewBag.SubjectsPerSemester = 4;
-            getCourseCodes();
-            getDegreeCores();
-            getMajorCores();
-            getDegreeOptionalSlots();
-            return View(db.StudyAreas.ToList());
-        }
-        // GET: Plan
-        public ActionResult Create([Bind(Include ="yearDegreeID, majorID")] int yearDegreeID, int majorID)  {
-            Setup.InitializeCourseCode(db);
-            ViewBag.UnitsPerDegree = 240;
-            ViewBag.SubjectsPerSemester = 4;
-            YearDegree tempDegree = db.YearDegrees.Find(yearDegreeID);
-            ViewBag.DegreeName = tempDegree.Degree.DegreeName + " " + tempDegree.Year;
+            int uniID = db.YearDegrees.Find(yearDegreeID).Degree.UniversityID;
             ViewBag.MajorName = db.Majors.Find(majorID).MajorName;
-            int uniID = tempDegree.Degree.UniversityID;
+            ViewBag.DegreeName = db.YearDegrees.Find(yearDegreeID).Degree.DegreeName;
             ViewBag.UniName = db.Universities.Find(uniID).UniName;
-
             getCourseCodes();
             getDegreeCores(yearDegreeID);
             getMajorCores(majorID);
@@ -48,10 +36,12 @@ namespace ProgramPlanner.Controllers
         /// <summary>
         /// 
         /// </summary>
-        private void getCourseCodes() {
+        private void getCourseCodes()
+        {
             //courses to be searched for in the search box
             var courseCodes = new List<String>();
-            foreach (var item in db.Courses){
+            foreach (var item in db.Courses)
+            {
                 courseCodes.Add(item.CourseCode);
             }
             ViewBag.CourseCodeList = courseCodes;
@@ -59,21 +49,27 @@ namespace ProgramPlanner.Controllers
         /// <summary>
         /// 
         /// </summary>
-        private void getDegreeCores() {
+        private void getDegreeCores()
+        {
             //pass in list of degree cores based on semester
             int yearDegreeID = 5;   //will be passed in from main menu
             var myYearDegree = db.YearDegrees.Find(yearDegreeID);
             var semester1Cores = new List<String>();
             var semester2Cores = new List<String>();
-            foreach (var item in myYearDegree.DegreeCores) {
+            foreach (var item in myYearDegree.DegreeCores)
+            {
                 IQueryable<SemesterCourse> temp = db.SemesterCourses.Where(i => i.CourseID == item.CourseID);
-                foreach (var semCourse in temp){
+                foreach (var semCourse in temp)
+                {
                     //make sure the semester course we are dealing with is the one matching our yeardegree
-                    if (semCourse.Year == myYearDegree.Year) {
-                        if (semCourse.SemesterID == 1) {
+                    if (semCourse.Year == myYearDegree.Year)
+                    {
+                        if (semCourse.SemesterID == 1)
+                        {
                             semester1Cores.Add(item.Course.CourseCode);
                         }
-                        else{
+                        else
+                        {
                             semester2Cores.Add(item.Course.CourseCode);
                         }
                     }
@@ -93,15 +89,20 @@ namespace ProgramPlanner.Controllers
             var myYearDegree = db.YearDegrees.Find(yearDegreeID);
             var semester1Cores = new List<String>();
             var semester2Cores = new List<String>();
-            foreach (var item in myYearDegree.DegreeCores){
+            foreach (var item in myYearDegree.DegreeCores)
+            {
                 IQueryable<SemesterCourse> temp = db.SemesterCourses.Where(i => i.CourseID == item.CourseID);
-                foreach (var semCourse in temp){
+                foreach (var semCourse in temp)
+                {
                     //make sure the semester course we are dealing with is the one matching our yeardegree
-                    if (semCourse.Year == myYearDegree.Year){
-                        if (semCourse.SemesterID == 1){
+                    if (semCourse.Year == myYearDegree.Year)
+                    {
+                        if (semCourse.SemesterID == 1)
+                        {
                             semester1Cores.Add(item.Course.CourseCode);
                         }
-                        else{
+                        else
+                        {
                             semester2Cores.Add(item.Course.CourseCode);
                         }
                     }
@@ -113,18 +114,23 @@ namespace ProgramPlanner.Controllers
         /// <summary>
         /// 
         /// </summary>
-        private void getMajorCores() {
+        private void getMajorCores()
+        {
             //pass in list of major cores based on semester
             int majorID = 2;   //will be passed in from main menu
             var myMajor = db.Majors.Find(majorID);
             var semester1MajorCores = new List<String>();
             var semester2MajorCores = new List<String>();
-            foreach (var item in myMajor.MajorCores){
+            foreach (var item in myMajor.MajorCores)
+            {
                 IQueryable<SemesterCourse> temp = db.SemesterCourses.Where(i => i.CourseID == item.CourseID);
-                foreach (var semCourse in temp){
+                foreach (var semCourse in temp)
+                {
                     //make sure the semester course we are dealing with is the one matching our major's yeardegree
-                    if (semCourse.Year == myMajor.YearDegree.Year){
-                        if (semCourse.SemesterID == 1){
+                    if (semCourse.Year == myMajor.YearDegree.Year)
+                    {
+                        if (semCourse.SemesterID == 1)
+                        {
                             semester1MajorCores.Add(item.Course.CourseCode);
                         }
                         else
@@ -138,24 +144,30 @@ namespace ProgramPlanner.Controllers
             ViewBag.Sem2MajorCores = semester2MajorCores;
         }
 
-       /// <summary>
-       /// 
-       /// </summary>
-       /// <param name="majorID"></param>
-        private void getMajorCores(int majorID){
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="majorID"></param>
+        private void getMajorCores(int majorID)
+        {
             ViewBag.Test1 = majorID;
             var myMajor = db.Majors.Find(majorID);
             var semester1MajorCores = new List<String>();
             var semester2MajorCores = new List<String>();
-            foreach (var item in myMajor.MajorCores) {
+            foreach (var item in myMajor.MajorCores)
+            {
                 IQueryable<SemesterCourse> temp = db.SemesterCourses.Where(i => i.CourseID == item.CourseID);
-                foreach (var semCourse in temp)   {
+                foreach (var semCourse in temp)
+                {
                     //make sure the semester course we are dealing with is the one matching our major's yeardegree
-                    if (semCourse.Year == myMajor.YearDegree.Year) {
-                        if (semCourse.SemesterID == 1){
+                    if (semCourse.Year == myMajor.YearDegree.Year)
+                    {
+                        if (semCourse.SemesterID == 1)
+                        {
                             semester1MajorCores.Add(item.Course.CourseCode);
                         }
-                        else {
+                        else
+                        {
                             semester2MajorCores.Add(item.Course.CourseCode);
                         }
                     }
@@ -165,21 +177,25 @@ namespace ProgramPlanner.Controllers
             ViewBag.Sem2MajorCores = semester2MajorCores;
         }
 
-        private void getDegreeOptionalSlots() {
+        private void getDegreeOptionalSlots()
+        {
             //pass in list of degree cores based on semester
             int yearDegreeID = 5;   //will be passed in from main menu
             var myYearDegree = db.YearDegrees.Find(yearDegreeID);
             var degreeSlots = new List<string[]>();
 
-            foreach (var coreSlot in myYearDegree.DegreeCoreSlots) {
+            foreach (var coreSlot in myYearDegree.DegreeCoreSlots)
+            {
                 //get all the course codes for this slot and add them to the first element of the string array
                 string[] strArr = new string[2];
                 Course firstCourse = null; //course we get semester from
                 Boolean firstCodeRetrieved = false;
-                foreach (var optionalCore in coreSlot.OptionalCoreCourses){
+                foreach (var optionalCore in coreSlot.OptionalCoreCourses)
+                {
                     strArr[0] += optionalCore.Course.CourseCode + " ";
                     //if code we are getting semester from hasn't been fetched yet, get it now
-                    if (!firstCodeRetrieved) {
+                    if (!firstCodeRetrieved)
+                    {
                         firstCourse = optionalCore.Course;
                         firstCodeRetrieved = true;
                     }
@@ -187,16 +203,18 @@ namespace ProgramPlanner.Controllers
 
                 //get the semester for the first item in the array, we will use that
                 IQueryable<SemesterCourse> tempSemCourse = db.SemesterCourses.Where(i => i.CourseID == firstCourse.CourseID);
-                foreach (var semCourse in tempSemCourse)   {
+                foreach (var semCourse in tempSemCourse)
+                {
                     //make sure the semester course we are dealing with is the one matching our major's yeardegree
-                    if (semCourse.Year == myYearDegree.Year) {
+                    if (semCourse.Year == myYearDegree.Year)
+                    {
                         strArr[1] = semCourse.SemesterID.ToString();
                     }
                 }
                 degreeSlots.Add(strArr);
             }
             ViewBag.DegreeSlots = degreeSlots;
-        } 
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -205,15 +223,18 @@ namespace ProgramPlanner.Controllers
         {
             var myYearDegree = db.YearDegrees.Find(yearDegreeID);
             var degreeSlots = new List<string[]>();
-            foreach (var coreSlot in myYearDegree.DegreeCoreSlots) {
+            foreach (var coreSlot in myYearDegree.DegreeCoreSlots)
+            {
                 //get all the course codes for this slot and add them to the first element of the string array
-                string[] strArr = new string[2];      
+                string[] strArr = new string[2];
                 Course firstCourse = null; //course we get semester from
                 Boolean firstCodeRetrieved = false;
-                foreach (var optionalCore in coreSlot.OptionalCoreCourses)  {
+                foreach (var optionalCore in coreSlot.OptionalCoreCourses)
+                {
                     strArr[0] += optionalCore.Course.CourseCode + " ";
                     //if code we are getting semester from hasn't been fetched yet, get it now
-                    if (!firstCodeRetrieved) {
+                    if (!firstCodeRetrieved)
+                    {
                         firstCourse = optionalCore.Course;
                         firstCodeRetrieved = true;
                     }
@@ -221,9 +242,11 @@ namespace ProgramPlanner.Controllers
 
                 //get the semester for the first item in the array, we will use that
                 IQueryable<SemesterCourse> tempSemCourse = db.SemesterCourses.Where(i => i.CourseID == firstCourse.CourseID);
-                foreach (var semCourse in tempSemCourse)  {
+                foreach (var semCourse in tempSemCourse)
+                {
                     //make sure the semester course we are dealing with is the one matching our major's yeardegree
-                    if (semCourse.Year == myYearDegree.Year)   {
+                    if (semCourse.Year == myYearDegree.Year)
+                    {
                         strArr[1] = semCourse.SemesterID.ToString();
                     }
                 }
@@ -253,7 +276,7 @@ namespace ProgramPlanner.Controllers
 
                 if (strArr[0].Equals("Any"))
                 {
-                    strArr[1] = ""; 
+                    strArr[1] = "";
                 }
 
                 //store all the directeds for this slot
@@ -277,7 +300,8 @@ namespace ProgramPlanner.Controllers
             ViewBag.AllDirecteds = allDirecteds;
         }
         [HttpPost]
-        public ActionResult isRunningInSemester(int semesterID, string courseCode) {
+        public ActionResult isRunningInSemester(int semesterID, string courseCode)
+        {
             //Need to check if that course was running in the same year as the program planner. 
             int count = 0;
             var abbr = courseCode.Substring(0, 4);
@@ -286,25 +310,20 @@ namespace ProgramPlanner.Controllers
 
             var code = Convert.ToInt32(courseCode.Substring(4, 4));     // e.g. 1004
             var course = db.Courses.Where(
-                c => c.Code == code && 
+                c => c.Code == code &&
                 c.AbbreviationID == abbrID).SingleOrDefault();
 
-            if (course != null){
+            if (course != null)
+            {
                 count = (db.SemesterCourses.Where(
-                    sc => sc.SemesterID == semesterID && 
+                    sc => sc.SemesterID == semesterID &&
                     sc.CourseID == course.CourseID)).Count();
             }
-            else {
+            else
+            {
                 throw new NullReferenceException();
             }
             return Json(new { iCount = count });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Index([Bind(Include = "InputData")]Plan plan) {
-            string blah = plan.InputData;
-            return View();
         }
     }
 }
