@@ -34,11 +34,6 @@ window.onclick = function (event) {
 };
 // A set of email protocols that must be passed before the user may be allowed to receive the program structure email. 
 function emailProtocol() {
-
-    var value = document.getElementById("headerRow2").innerText; 
-    alert(value)
-
-
     // Solution for re was found at https://stackoverflow.com/questions/46155/how-to-validate-email-address-in-javascript;
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var email = document.getElementById("firstEmail");

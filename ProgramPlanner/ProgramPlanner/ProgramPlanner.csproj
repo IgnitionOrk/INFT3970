@@ -345,7 +345,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\Release\" />
-    <Folder Include="Screenshots\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
